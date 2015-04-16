@@ -5,30 +5,68 @@ import java.util.List;
 
 public class Map
 {
-	private List<Integer> levelArray;
+	private Map map;
 	private String fileName;
 	
-	public List<Integer> getLevel()
+	public Map getLevel()
 	{
-		return levelArray;
+		return map;
 	}
 	
+	/**
+	 * This method uses the LoadGame class to load the game using the
+	 * given levelName parameter to find which level to load.
+	 * 
+	 * @param levelName
+	 * 		Name of the level to load
+	 * @return
+	 * 		True if the level was loaded correctly
+	 * 		False if error occured and level was not loaded
+	 */
 	public boolean loadLevel(String levelName)
 	{
 		return false;
 	}
 	
+	/**
+	 * This method will save the level using the SaveGame class using the given
+	 * levelName parameter to set the name of the level.
+	 * @param levelName
+	 * 		The name of the level to be saved
+	 * @return
+	 * 		True if the level is saved correctly
+	 * 		False if the level was not saved correctly due to an error
+	 */
 	public boolean saveLevel(String levelName)
 	{
 		return false;
 	}
 	
-	public int getValue(Point p)
+	/**
+	 * This method will return the Block at the given point if possible
+	 * @param p
+	 * 		the coordinate of the block to be retrieved
+	 * @return
+	 * 		the Block object at the given point p
+	 * 		null if the coordinate is out of bounds
+	 */
+	public Block getValue(Point p)
 	{
-		return 0;
+		return null;
 	}
 	
-	public boolean setValue(Point p, int x)
+	/**
+	 * This method will set the given Block b at the given Point p
+	 * 
+	 * @param p
+	 * 		coordinate of where the block will be placed
+	 * @param b
+	 * 		the Block object which will be placed at point p
+	 * @return
+	 * 		True if the block was placed successfully
+	 * 		False if the point was out of bounds or occured
+	 */
+	public boolean setValue(Point p, Block b)
 	{
 		return false;
 	}
