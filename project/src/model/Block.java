@@ -4,6 +4,7 @@ import java.awt.Image;
 
 public abstract class Block
 {
+	// comment
 	private boolean solidState;
 	private boolean animated;
 	private Image texture;
