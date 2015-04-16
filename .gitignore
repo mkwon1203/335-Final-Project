@@ -12,7 +12,7 @@
 hs_err_pid*
 
 # Temp files
-~$*  # microsoft word temps
+~*
 
 #Eclipse ignores
 *.pydevproject
