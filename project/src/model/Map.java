@@ -5,12 +5,17 @@ import java.util.List;
 
 public class Map
 {
-	private Map map;
+	private Block[][] levelArray;
 	private String fileName;
 	
-	public Map getLevel()
+	/**
+	 * This method returns the 2D array representing the tiles on the map
+	 * @return
+	 * 		2D array of Blocks 
+	 */
+	public Block[][] getLevel()
 	{
-		return map;
+		return levelArray;
 	}
 	
 	/**
