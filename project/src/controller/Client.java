@@ -1,6 +1,7 @@
 package controller;
 
 import view.MainView;
+import model.*;
 
 public class Client implements Runnable {
 	
@@ -10,8 +11,9 @@ public class Client implements Runnable {
 	
 	public static void main(String[]args){
 		
-		new Client();
-		
+		//new Client();
+		Map map = new Map("res/levels/example.lvl");
+		System.out.println(map);
 	}
 	
 	public Client(){
