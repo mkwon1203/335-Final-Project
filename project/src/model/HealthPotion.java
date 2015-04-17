@@ -10,6 +10,6 @@ public class HealthPotion extends Potion
 	
 	public void useItem(Character ch)
 	{
-		
+		// use ch's setHealth method and add to it
 	}
 }

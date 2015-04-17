@@ -15,5 +15,20 @@ public abstract class Item
 		texture = textureInput;
 	}
 	
+	public String getDescription()
+	{
+		return description;
+	}
+	
+	public Image getTexture()
+	{
+		return texture;
+	}
+	
+	public int getCost()
+	{
+		return cost;
+	}
+	
 	public abstract void useItem(Character ch);
 }
