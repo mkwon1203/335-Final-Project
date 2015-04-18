@@ -5,11 +5,6 @@ import java.awt.Point;
 
 public class Knight extends Character {
 
-	private String myName;
-	private String myType;
-	private int myHealth;
-	private int myStrength;
-	private Point myPoint;
 
 	public Knight(String name, String type, int health, int strength,
 			Point position) {
