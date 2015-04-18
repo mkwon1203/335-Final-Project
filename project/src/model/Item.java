@@ -2,15 +2,27 @@ package model;
 
 import java.awt.Image;
 
-public abstract class Item {
+public abstract class Item implements Comparable<Item>{
 	private int cost;
+	private String name;
 	private String description;
 	private Image texture;
 
-	public Item(int costInput, String descriptionInput, Image textureInput) {
+	public Item(int costInput, String nameInput, String descriptionInput, Image textureInput) {
 		cost = costInput;
+		name = nameInput;
 		description = descriptionInput;
 		texture = textureInput;
+	}
+	
+	public int getCost()
+	{
+		return cost;
+	}
+	
+	public String getName()
+	{
+		return name;
 	}
 	
 	public String getDescription()
@@ -23,10 +35,11 @@ public abstract class Item {
 		return texture;
 	}
 	
-	public int getCost()
-	{
-		return cost;
-	}
+	public abstract boolean useItem(Character ch);
 	
-	public abstract void useItem(Character ch);
+	// comparing is done with the name of the item
+	public int compareTo(Item other)
+	{
+		return name.compareTo(other.getName());
+	}
 }

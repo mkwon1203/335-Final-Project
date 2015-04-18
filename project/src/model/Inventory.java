@@ -12,9 +12,15 @@ public class Inventory
 		items = new ArrayList<Item>();
 	}
 	
+	// note, list of items is always kept in sorted order
 	public List<Item> getItems()
 	{
 		return items;
+	}
+	
+	public int getSize()
+	{
+		return items.size();
 	}
 	
 	public void addItem(Item toAdd)
@@ -22,8 +28,8 @@ public class Inventory
 		items.add(toAdd);
 	}
 	
-	public void removeItem(Item toRemove)
+	public boolean removeItem(Item toRemove)
 	{
-		
+		return items.remove(toRemove);
 	}
 }

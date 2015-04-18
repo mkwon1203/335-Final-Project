@@ -5,11 +5,11 @@ public class AttackUp extends Buff
 	public AttackUp()
 	{
 		// placeholder valuse
-		super(1, "Attack up buff item", null);
+		super(1, "Attack Up", "attack up description", null);
 	}
 
 	@Override
-	public void useItem(Character ch)
+	public boolean useItem(Character ch)
 	{
 		// use ch's setAttack method
 	}

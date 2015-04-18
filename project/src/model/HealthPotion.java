@@ -5,10 +5,10 @@ public class HealthPotion extends Potion
 	public HealthPotion()
 	{
 		// placeholder values
-		super(1, "Health potion", null);
+		super(1, "Health Potion", "Health potion description", null);
 	}
 	
-	public void useItem(Character ch)
+	public boolean useItem(Character ch)
 	{
 		// use ch's setHealth method and add to it
 	}

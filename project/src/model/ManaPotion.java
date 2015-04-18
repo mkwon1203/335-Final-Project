@@ -6,11 +6,11 @@ public class ManaPotion extends Potion
 	public ManaPotion()
 	{
 		// placeholder values
-		super(1, "Mana potion", null);
+		super(1, "Mana Potion", "Mana potion description", null);
 	}
 
 	@Override
-	public void useItem(Character ch)
+	public boolean useItem(Character ch)
 	{
 		// use ch's setMana method
 	}

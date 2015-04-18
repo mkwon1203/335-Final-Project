@@ -7,13 +7,20 @@ public class RevivePotion extends Potion
 
 	public RevivePotion()
 	{
-		super(1, "Revive potion", null);
+		// placeholder values
+		// need to update Image parameter being passed in
+		super(1, "Revive Potion", "Revive potion description", null);
 	}
 
 	@Override
-	public void useItem(Character ch)
+	public boolean useItem(Character ch)
 	{
 		// use ch's setAlive method
+		if (ch.isAlive())
+			return false;
+		// else
+		ch.setAlive(true);
+		return true;
 	}
 
 }
