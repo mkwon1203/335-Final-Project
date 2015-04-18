@@ -3,6 +3,11 @@ package view;
 import javax.swing.*;
 import model.*;
 
+/**
+ * solely 
+ * @author Min's PC
+ *
+ */
 public class TestFrame extends JFrame
 {
 	Map map;
