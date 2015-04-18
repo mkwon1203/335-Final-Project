@@ -1,6 +1,7 @@
 package controller;
 
 import view.MainView;
+import view.TestFrame;
 import model.*;
 
 public class Client implements Runnable {
@@ -12,8 +13,8 @@ public class Client implements Runnable {
 	public static void main(String[]args){
 		
 		//new Client();
-		Map map = new Map("res/levels/example.lvl");
-		System.out.println(map);
+		Map map = new Map("res/levels/testLevel.lvl");
+		TestFrame frame = new TestFrame(map);
 	}
 	
 	public Client(){

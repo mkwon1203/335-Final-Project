@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -21,6 +22,10 @@ public abstract class Block
 		try
 		{
 			this.texture = ImageIO.read(new File(textureName));
+		}
+		catch (FileNotFoundException fnfe)
+		{
+			fnfe.printStackTrace();
 		}
 		catch (IOException ex)
 		{

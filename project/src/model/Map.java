@@ -36,6 +36,16 @@ public class Map
 	{
 		return levelArray;
 	}
+	
+	public int getLevelX()
+	{
+		return levelArray.length;
+	}
+	
+	public int getLevelY()
+	{
+		return levelArray[0].length;
+	}
 
 	/**
 	 * This method uses the LoadGame class to load the game using the given
@@ -49,6 +59,14 @@ public class Map
 	public boolean loadLevel(String levelName)
 	{
 		int[][] levelArrayInt = LoadGame.loadFile(levelName);
+//		for (int i = 0; i < levelArrayInt.length; i ++)
+//		{
+//			for (int j = 0; j < levelArrayInt[0].length; j ++)
+//			{
+//				System.out.print(levelArrayInt[i][j] + " ");
+//			}
+//			System.out.println();
+//		}
 		levelArray = new Block[levelArrayInt.length][levelArrayInt[0].length];
 		
 		for (int i = 0; i < levelArrayInt.length; i++)
@@ -56,22 +74,23 @@ public class Map
 			for (int j = 0; j < levelArrayInt[0].length; j++)
 			{
 				int blockInt = levelArrayInt[i][j];
+				
 				Block block;
 				
-				switch (blockInt)
-				{
-					case 0:
-						block = new Wall();
-					case 1:
-						block = new Floor();
-					case 2:
-						block = new Air();
-					default:
-				}
+				if (blockInt == 0)
+					block = new Floor();
+				else if (blockInt == 1)
+					block = new Wall();
+				else if (blockInt == 2)
+					block = new Air();
+				else
+					block = null;
 				
 				levelArray[i][j] = block;
 			}
 		}
+		
+		return true;
 	}
 
 	/**
@@ -113,7 +132,7 @@ public class Map
 	 */
 	public boolean setValue(Point p, Block b)
 	{
-
+		
 		return true;
 	}
 
