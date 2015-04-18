@@ -4,13 +4,7 @@ import java.awt.Image;
 import java.awt.Point;
 
 public class Mage extends Character
-
 {
-	private String myName;
-	private String myType;
-	private int myHealth;
-	private int myStrength;
-	private Point myPosition;
 
 	public Mage(String name, String type, int health, int strength,
 			Point position) {

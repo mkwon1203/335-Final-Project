@@ -19,12 +19,6 @@ public interface CharacterInterface
 	 */
 	public abstract int getMana();
 	
-	/**
-	 * This method returns the energy of the character
-	 * 
-	 * @return energy of character as int value
-	 */
-	public abstract int getEnergy();
 	
 	/**
 	 * This method returns the strength stat value of the character

@@ -12,7 +12,6 @@ public abstract class Item {
 		description = descriptionInput;
 		texture = textureInput;
 	}
-<<<<<<< Updated upstream
 	
 	public String getDescription()
 	{
@@ -29,8 +28,5 @@ public abstract class Item {
 		return cost;
 	}
 	
-=======
-
->>>>>>> Stashed changes
 	public abstract void useItem(Character ch);
 }

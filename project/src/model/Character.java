@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Point;
 
 public abstract class Character implements CharacterInterface {
+	
 	private String myName;
 	private String myType;
 	private int myHealth;
