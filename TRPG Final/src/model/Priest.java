@@ -3,22 +3,24 @@ package model;
 import java.awt.Image;
 import java.awt.Point;
 
-public abstract class Character implements CharacterInterface {
+public class Priest extends Character {
+
 	private String myName;
 	private String myType;
 	private int myHealth;
 	private int myStrength;
-	private Point myLocation;
+	private Point location;
 
-	public Character(String name, String type, int health, int strength,
+	public Priest(String name, String type, int health, int strength,
 			Point location) {
 
-		myName = name;
-		myType = type;
-		myHealth = health;
-		myStrength = strength;
-		myLocation = location;
+		super(name, type, health, strength, location);
+	}
 
+	@Override
+	public int getEnergy() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	/**
@@ -72,7 +74,7 @@ public abstract class Character implements CharacterInterface {
 	 */
 	public Point getLocation() {
 
-		return myLocation;
+		return 
 	}
 
 	/**
@@ -109,6 +111,23 @@ public abstract class Character implements CharacterInterface {
 
 	}
 
+	public void attack(Character ch) {
+
+		if (this.isAlive()) {
+
+			this.addHealth(2);
+
+		} else
+			return;
+
+	}
+
+	public void addHealth(int value) {
+
+		myHealth += value;
+
+	}
+
 	/**
 	 * This method returns the Image which is the texture of the character
 	 * 
@@ -117,5 +136,4 @@ public abstract class Character implements CharacterInterface {
 	public Image getTexture() {
 
 	}
-
 }

@@ -3,22 +3,18 @@ package model;
 import java.awt.Image;
 import java.awt.Point;
 
-public abstract class Character implements CharacterInterface {
+public class Archer extends Character {
+
 	private String myName;
 	private String myType;
 	private int myHealth;
 	private int myStrength;
-	private Point myLocation;
+	private Point myPosition;
 
-	public Character(String name, String type, int health, int strength,
-			Point location) {
+	public Archer(String name, String type, int health, int strength,
+			Point position) {
 
-		myName = name;
-		myType = type;
-		myHealth = health;
-		myStrength = strength;
-		myLocation = location;
-
+		super(name, type, health, strength, position);
 	}
 
 	/**
@@ -60,7 +56,7 @@ public abstract class Character implements CharacterInterface {
 	 */
 	public int getDefence() {
 
-		return defenceStat;
+		return 
 
 	}
 
@@ -72,7 +68,7 @@ public abstract class Character implements CharacterInterface {
 	 */
 	public Point getLocation() {
 
-		return myLocation;
+		return myPosition;
 	}
 
 	/**
@@ -117,5 +113,4 @@ public abstract class Character implements CharacterInterface {
 	public Image getTexture() {
 
 	}
-
 }
