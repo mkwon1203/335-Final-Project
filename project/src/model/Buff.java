@@ -1,6 +1,5 @@
 package model;
 
-<<<<<<< Updated upstream
 import java.awt.Image;
 
 public abstract class Buff extends Item
@@ -9,8 +8,4 @@ public abstract class Buff extends Item
 	{
 		super(costInput, descriptionInput, textureInput);
 	}
-
-public abstract class Buff extends Item {
-
->>>>>>> Stashed changes
 }

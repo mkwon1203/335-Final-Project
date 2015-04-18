@@ -1,8 +1,9 @@
-package controller;
 
+
+
+package controller;
+import model.LoadGame;
 import view.MainView;
-import view.TestFrame;
-import model.*;
 
 public class Client implements Runnable {
 	
@@ -12,9 +13,8 @@ public class Client implements Runnable {
 	
 	public static void main(String[]args){
 		
-		//new Client();
-		Map map = new Map("res/levels/testLevel.lvl");
-		TestFrame frame = new TestFrame(map);
+		new Client();
+		
 	}
 	
 	public Client(){
@@ -23,11 +23,17 @@ public class Client implements Runnable {
 		
 		mainFrame = new MainView();
 		
+		LoadGame.loadFile("res/levels/testLevel.lvl");
+		System.out.println("Width: " + LoadGame.LEVELWIDTH + " Height: " + LoadGame.LEVELHEIGHT);
+		
+		//This is how to play a sound
+		SoundEffects.addSound("res/music/smb_over.mid");
+		
 		mainFrame.draw();
 		
 	}
 	
-
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub

@@ -1,4 +1,7 @@
+
+
 package view;
+
 import controller.Client;
 
 import java.awt.*;
@@ -62,8 +65,8 @@ public class TitleScreen extends JPanel {
 		
 		if(Client.GAMESTATE == 0){
 			bufferGraphics.drawImage(titlePic, 0,0, null);
-			bufferGraphics.drawImage(startImage,400,50, null);
-			bufferGraphics.drawImage(exitImage, 400, 75, null);
+			bufferGraphics.drawImage(startImage,500,100, null);
+			bufferGraphics.drawImage(exitImage, 575, 175, null);
 		}
 		
 		draw(g);
