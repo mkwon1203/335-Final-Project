@@ -17,4 +17,10 @@ public class Spearman extends Character {
 		return spearMove;
 	}
 
+	public void setPosition(Point otherPosition) {
+
+		position = otherPosition;
+
+	}
+
 }
