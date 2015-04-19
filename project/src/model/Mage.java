@@ -13,7 +13,8 @@ public class Mage extends Character {
 	@Override
 	public int moveDistance() {
 		// TODO Auto-generated method stub
-		return 0;
+		int mageMove = 2;
+		return mageMove;
 	}
 
 }

@@ -17,7 +17,8 @@ public class Knight extends Character {
 	@Override
 	public int moveDistance() {
 		// TODO Auto-generated method stub
-		return 0;
+		int knightMove = 1;
+		return knightMove;
 	}
 
 }
