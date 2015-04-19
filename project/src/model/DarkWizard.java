@@ -5,18 +5,8 @@ import java.awt.Point;
 
 public class DarkWizard extends Enemy {
 
-	private String myName;
-	private String myType;
-	private int myHealth;
-	private int myStrength;
-	private Point myPosition;
-	private int myMana;
-
-	public DarkWizard(String name, String type, int health, int strength,
-			int mana, Point position) {
-
-		super(name, type, health, strength, position);
-		myMana = mana;
+	public DarkWizard()
+	{
 
 	}
 
