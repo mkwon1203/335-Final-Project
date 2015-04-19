@@ -145,4 +145,11 @@ public abstract class CharacterInterface
 	{
 		return texture;
 	}
+	
+	public abstract boolean addHealth();
+	public abstract boolean addMana();
+	public abstract boolean addStrength();
+	public abstract boolean addDefence();
+	public abstract boolean setIsAlive(boolean status);
+	public abstract void changeLocation(Point newLocation);
 }

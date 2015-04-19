@@ -22,4 +22,27 @@ public class Archer extends Character {
 				ARCHER_IMAGEPATH);
 	}
 
+	@Override
+	public boolean addHealth()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean addMana()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean addStrength()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean addDefence()
+	{
+		return false;
+	}
 }
