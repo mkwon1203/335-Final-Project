@@ -8,4 +8,12 @@ public abstract class Buff extends Item
 	{
 		super(costInput, nameInput, descriptionInput, textureInput);
 	}
+<<<<<<< Updated upstream
 }
+=======
+
+  public abstract class Buff extends Item {
+
+    Stashed changes;
+}
+>>>>>>> Stashed changes

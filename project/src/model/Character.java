@@ -4,12 +4,13 @@ import java.awt.Image;
 import java.awt.Point;
 
 public abstract class Character implements CharacterInterface {
-	
+
 	private String myName;
 	private String myType;
 	private int myHealth;
 	private int myStrength;
 	private Point myLocation;
+	private Image texture;
 
 	public Character(String name, String type, int health, int strength,
 			Point location) {
@@ -40,7 +41,7 @@ public abstract class Character implements CharacterInterface {
 	 */
 	public int getMana() {
 
-		return mana;
+		return 0;
 	}
 
 	/**
@@ -60,8 +61,6 @@ public abstract class Character implements CharacterInterface {
 	 * @return defence of character as int value
 	 */
 	public int getDefence() {
-
-		return defenceStat;
 
 	}
 
@@ -84,20 +83,42 @@ public abstract class Character implements CharacterInterface {
 	 */
 	public boolean isAlive() {
 
-		if (myHealth <= 0)
+		if (myHealth > 0)
 
-			return false;
-		else
 			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * This method used to defense enemy
+	 * 
+	 * 
+	 */
+	public void defence() {
+
+	}
+
+	/**
+	 * 
+	 * 
+	 * 
+	 */
+	public void attack() {
+
 	}
 
 	/**
 	 * This method returns how many tile blocks the character can move
 	 * 
+	 * @param target
+	 *            the destintation we want to move to
+	 * 
 	 * @return distance the character can travel as int value
 	 */
 	public int moveDistance() {
 
+		return 0;
 	}
 
 	/**
@@ -116,6 +137,8 @@ public abstract class Character implements CharacterInterface {
 	 * @return image of the character
 	 */
 	public Image getTexture() {
+
+		return texture;
 
 	}
 

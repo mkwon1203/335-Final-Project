@@ -5,6 +5,23 @@ import java.awt.Point;
 
 public abstract class Enemy implements CharacterInterface {
 
+	private String myName;
+	private String myType;
+	private int myHealth;
+	private int myStrength;
+	private Point myPosition;
+
+	public Enemy(String name, String type, int health, int strength,
+			Point position) {
+
+		myName = name;
+		myType = type;
+		myHealth = 100;// hardcode 100
+		myStrength = strength;
+		myPosition = position;
+
+	}
+
 	public abstract int getHealth();
 
 	/**
