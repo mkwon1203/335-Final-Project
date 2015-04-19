@@ -8,6 +8,10 @@ public class Map
 	// block[x][y]
 	private Block[][] levelArray;
 	private String fileName;
+	private Player player;
+	private boolean victory;
+	private List<Point> playerSpawns;
+	private List<Point> enemySpawns;
 
 	public Map(String inputFileName)
 	{
@@ -101,6 +105,7 @@ public class Map
 	 */
 	public Block getValue(Point p)
 	{
+		// check to make sure p lies within boundary of 2D array
 		return null;
 	}
 
@@ -115,6 +120,12 @@ public class Map
 	 *         out of bounds or occured
 	 */
 	public boolean setValue(Point p, Block b)
+	{
+		// check to make sure p lies within boundary of 2D array
+		return true;
+	}
+	
+	private boolean verifyBounds(Point p)
 	{
 		
 		return true;

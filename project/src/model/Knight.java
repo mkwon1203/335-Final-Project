@@ -3,22 +3,112 @@ package model;
 import java.awt.Point;
 
 public class Knight extends Character {
+	private static final int KNIGHT_HEALTH = 100;
+	private static final int KNIGHT_MANA = 0;
+	private static final int KNIGHT_STRENGTH = 10;
+	private static final int KNIGHT_DEFENCE = 10;
+	private static final int KNIGHT_MOVEDISTANCE = 1;
+	private static final int KNIGHT_ATTACKDISTANCE = 1;
+	private static final String KNIGHT_IMAGEPATH = "Knight Path";
 
-	// Updated upstream
+	public Knight(Point initialPosition) {
 
-	// Stashed changes
-	public Knight(String name, String type, int health, int strength,
-			Point position) {
+		super("Knight", "Knight desription", KNIGHT_HEALTH, KNIGHT_MANA,
+				KNIGHT_STRENGTH, KNIGHT_DEFENCE, initialPosition, true,
+				KNIGHT_MOVEDISTANCE, KNIGHT_ATTACKDISTANCE, KNIGHT_IMAGEPATH);
+	}
 
-		super(name, type, health, strength, position);
+	public void revive()
+	{
+		setAlive();
+		setHealth(KNIGHT_HEALTH);
+	}
+
+	@Override
+	public boolean addHealth(int delta)
+	{
+		/*
+		 * case 1: trying to add health to full health unit or dead unit just
+		 * return false case 2: trying to add health to unit with less than full
+		 * health but health will go past max health set to max health case 3:
+		 * trying to decrease health below 0 set to 0, setDead
+		 * 
+		 * case 2 and 3 returns true
+		 */
+		if (getHealth() == KNIGHT_HEALTH || !isAlive())
+			// case 1
+			return false;
+		else if (getHealth() + delta > KNIGHT_HEALTH)
+			// case 2
+			setHealth(KNIGHT_HEALTH);
+		else if (getHealth() + delta <= 0)
+		{
+			// case 3
+			setHealth(0);
+			setDead();
+		}
+		else
+			setHealth(getHealth() + delta);
+		return true;
 
 	}
 
 	@Override
-	public int moveDistance() {
-		// TODO Auto-generated method stub
-		int knightMove = 1;
-		return knightMove;
+	public boolean addMana(int delta)
+	{
+		/*
+		 * case 1: trying to add mana to full mana unit or dead unit just return
+		 * false case 2: trying to add mana to unit with less than full mana but
+		 * mana will go past max set to max mana defined by the final variable
+		 * case 3: trying to decrease mana below 0 set to 0
+		 * 
+		 * case 2 and 3 returns true
+		 */
+		if (getMana() == KNIGHT_MANA || !isAlive())
+			return false;
+		else if (getMana() + delta > KNIGHT_MANA)
+			setMana(KNIGHT_MANA);
+		else if (getMana() + delta <= 0)
+			setMana(0);
+		else
+			setMana(getMana() + delta);
+		
+		return true;
 	}
 
+	@Override
+	public boolean addStrength(int delta)
+	{
+		/*
+		 * case 0: dead unit, return false
+		 * case 1: adding strength takes it below 0 set to 0 otherwise, just add
+		 * and then return true
+		 */
+		if (!isAlive())
+			return false;
+		else if (getStrength() + delta < 0)
+			setStrength(0);
+		else
+			setStrength(getStrength() + delta);
+
+		return true;
+	}
+
+	@Override
+	public boolean addDefence(int delta)
+	{
+		/*
+		 * case 0: dead unit, return false
+		 * case 1: adding defence takes it below 0 set to 0 otherwise, just add
+		 * and then return true
+		 */
+		if (!isAlive())
+			return false;
+		else if (getDefence() + delta < 0)
+			setDefence(0);
+		else
+			setDefence(getDefence() + delta);
+
+		return true;
+	}
 }
