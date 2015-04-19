@@ -2,6 +2,8 @@ package model;
 
 public class HealthPotion extends Potion
 {
+	private static final int HEALTHPOTION_VALUE = 50;
+	
 	public HealthPotion()
 	{
 		// placeholder values
@@ -11,6 +13,6 @@ public class HealthPotion extends Potion
 	public boolean useItem(Character ch)
 	{
 		// use ch's setHealth method and add to it
-		ch.setHealth(50);
+		return ch.addHealth(HEALTHPOTION_VALUE);
 	}
 }

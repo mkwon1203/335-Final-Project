@@ -2,7 +2,7 @@ package model;
 
 public class ManaPotion extends Potion
 {
-	
+	private static final int MANAPOTION_VALUE = 10;
 	public ManaPotion()
 	{
 		// placeholder values
@@ -13,5 +13,6 @@ public class ManaPotion extends Potion
 	public boolean useItem(Character ch)
 	{
 		// use ch's setMana method
+		return ch.addMana(MANAPOTION_VALUE);
 	}
 }

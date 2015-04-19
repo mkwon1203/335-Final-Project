@@ -18,8 +18,7 @@ public class RevivePotion extends Potion
 		// use ch's setAlive method
 		if (ch.isAlive())
 			return false;
-		// else
-		ch.setAlive(true);
+		ch.revive();
 		return true;
 	}
 

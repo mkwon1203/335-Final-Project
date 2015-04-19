@@ -146,10 +146,53 @@ public abstract class CharacterInterface
 		return texture;
 	}
 	
-	public abstract boolean addHealth();
-	public abstract boolean addMana();
-	public abstract boolean addStrength();
-	public abstract boolean addDefence();
-	public abstract boolean setIsAlive(boolean status);
-	public abstract void changeLocation(Point newLocation);
+	public abstract boolean addHealth(int delta);
+	
+	public void setHealth(int newHealth)
+	{
+		health = newHealth;
+	}
+	
+	public abstract boolean addMana(int delta);
+	
+	public void setMana(int newMana)
+	{
+		mana = newMana;
+	}
+	
+	public abstract boolean addStrength(int delta);
+	
+	public void setStrength(int newStrength)
+	{
+		strength = newStrength;
+	}
+	
+	public abstract boolean addDefence(int delta);
+	
+	public void setDefence(int newDefence)
+	{
+		defence = newDefence;
+	}
+	
+	public void setIsAlive(boolean status)
+	{
+		isAlive = status;
+	}
+	
+	public void setAlive()
+	{
+		isAlive = true;
+	}
+	
+	public abstract void revive();
+	
+	public void setDead()
+	{
+		isAlive = false;
+	}
+	
+	public void setLocation(Point newLocation)
+	{
+		location = newLocation;
+	}
 }
