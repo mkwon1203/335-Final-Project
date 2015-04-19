@@ -3,69 +3,136 @@ package model;
 import java.awt.Image;
 import java.awt.Point;
 
-public interface CharacterInterface
+public abstract class CharacterInterface
 {
+	private String type;
+	private String description;
+	private int health;
+	private int mana;
+	private int strength;
+	private int defence;
+	private Point location;
+	private boolean isAlive;
+	private int moveDistance;
+	private int attackDistance;
+	private Image texture;
+
+	public CharacterInterface(String type, String description, int health,
+			int mana, int strength, int defence, Point location,
+			boolean isAlive, int moveDistance, int attackDistance,
+			Image texture)
+	{
+		this.type = type;
+		this.description = description;
+		this.health = health;
+		this.mana = mana;
+		this.strength = strength;
+		this.defence = defence;
+		this.location = location;
+		this.isAlive = isAlive;
+		this.moveDistance = moveDistance;
+		this.attackDistance = attackDistance;
+		this.texture = texture;
+	}
+	
+	public String getType()
+	{
+		return type;
+	}
+	
+	public String getDescription()
+	{
+		return description;
+	}
+
 	/**
 	 * This method returns the health of the character
 	 * 
 	 * @return health of character as int value
 	 */
-	public abstract int getHealth();
-	
+	public int getHealth()
+	{
+		return health;
+	}
+
 	/**
 	 * This method returns the mana of the character
 	 * 
 	 * @return mana of character as int value
 	 */
-	public abstract int getMana();
-	
-	
+	public int getMana()
+	{
+		return mana;
+	}
+
 	/**
 	 * This method returns the strength stat value of the character
 	 * 
 	 * @return strength of character as int value
 	 */
-	public abstract int getStrength();
-	
+	public int getStrength()
+	{
+		return strength;
+	}
+
 	/**
 	 * This method returns the defence stat value of the character
 	 * 
 	 * @return defence of character as int value
 	 */
-	public abstract int getDefence();
+	public int getDefence()
+	{
+		return defence;
+	}
 	
 	/**
-	 * This method returns the Point object that contains information
-	 * about where the character is located on the game map
+	 * This method returns the Point object that contains information about
+	 * where the character is located on the game map
+	 * 
 	 * @return position of the character
 	 */
-	public abstract Point getLocation();
-	
+	public Point getLocation()
+	{
+		return location;
+	}
+
 	/**
 	 * This method returns whether or not the character is alive or dead.
 	 * 
-	 * @return true if character is alive
-	 * 		   false if character is dead
+	 * @return true if character is alive false if character is dead
 	 */
-	public abstract boolean isAlive();
-	
+	public boolean isAlive()
+	{
+		return isAlive;
+	}
+
 	/**
 	 * This method returns how many tile blocks the character can move
 	 * 
 	 * @return distance the character can travel as int value
 	 */
-	public abstract int moveDistance();
-	
+	public int getMoveDistance()
+	{
+		return moveDistance;
+	}
+
 	/**
-	 * This method returns how many tiles away the character can perform its attack
+	 * This method returns how many tiles away the character can perform its
+	 * attack
 	 * 
 	 * @return distance the character can attack as int value
 	 */
-	public abstract int attackDistance();
-	
+	public int getAttackDistance()
+	{
+		return attackDistance;
+	}
 	/**
 	 * This method returns the Image which is the texture of the character
+	 * 
 	 * @return image of the character
 	 */
-	public abstract Image getTexture();
+	public Image getTexture()
+	{
+		return texture;
+	}
 }

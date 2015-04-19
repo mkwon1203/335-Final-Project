@@ -3,7 +3,7 @@ package model;
 import java.awt.Image;
 import java.awt.Point;
 
-public abstract class Character implements CharacterInterface {
+public abstract class Character extends CharacterInterface {
 
 	private String myName;
 	private String myType;

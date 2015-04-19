@@ -3,13 +3,7 @@ package model;
 import java.awt.Image;
 import java.awt.Point;
 
-public abstract class Enemy implements CharacterInterface {
-
-	private String myName;
-	private String myType;
-	private int myHealth;
-	private int myStrength;
-	private Point myPosition;
+public abstract class Enemy extends CharacterInterface {
 
 	public Enemy(String name, String type, int health, int strength,
 			Point position) {
