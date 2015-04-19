@@ -2,6 +2,10 @@ package model;
 
 import java.awt.Image;
 import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public abstract class CharacterInterface
 {
@@ -20,7 +24,7 @@ public abstract class CharacterInterface
 	public CharacterInterface(String type, String description, int health,
 			int mana, int strength, int defence, Point location,
 			boolean isAlive, int moveDistance, int attackDistance,
-			Image texture)
+			String texture)
 	{
 		this.type = type;
 		this.description = description;
@@ -32,7 +36,13 @@ public abstract class CharacterInterface
 		this.isAlive = isAlive;
 		this.moveDistance = moveDistance;
 		this.attackDistance = attackDistance;
-		this.texture = texture;
+		try{
+			this.texture = ImageIO.read(new File(texture));
+		}
+		catch (IOException ioex)
+		{
+			ioex.printStackTrace();
+		}
 	}
 	
 	public String getType()

@@ -11,5 +11,6 @@ public class HealthPotion extends Potion
 	public boolean useItem(Character ch)
 	{
 		// use ch's setHealth method and add to it
+		ch.setHealth(50);
 	}
 }
