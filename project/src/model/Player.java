@@ -85,8 +85,13 @@ public class Player
 	{
 		// have to add conditional to see if item i is usable on ch at all first
 		boolean itemUsed = i.useItem(ch);
-		if (!itemUsed)
 		
+		if (itemUsed)
+		{
+			inventory.removeItem(i);
+		}
+		// item could not be used
+		// throw exception or something
 	}
 	
 	public void addItem(Item i)

@@ -5,25 +5,13 @@ import java.util.List;
 
 public class Map
 {
+	// block[x][y]
 	private Block[][] levelArray;
 	private String fileName;
 
 	public Map(String inputFileName)
 	{
 		fileName = inputFileName;
-//		// small map, placeholder value 32x32 size
-//		levelArray = new Block[8][8];
-//
-//		/*
-//		 * should be handled by loadgame
-//		 */
-//		for (int i = 0; i < levelArray.length; i++)
-//		{
-//			for (int j = 0; j < levelArray[0].length; j++)
-//			{
-//				levelArray[i][j] = new Wall();
-//			}
-//		}
 		loadLevel(fileName);
 	}
 
@@ -37,11 +25,13 @@ public class Map
 		return levelArray;
 	}
 	
+	// returns length of the map grid (x direction)
 	public int getLevelX()
 	{
 		return levelArray.length;
 	}
 	
+	// returns heigth of map grid (y direction)
 	public int getLevelY()
 	{
 		return levelArray[0].length;
@@ -59,14 +49,7 @@ public class Map
 	public boolean loadLevel(String levelName)
 	{
 		int[][] levelArrayInt = LoadGame.loadFile(levelName);
-//		for (int i = 0; i < levelArrayInt.length; i ++)
-//		{
-//			for (int j = 0; j < levelArrayInt[0].length; j ++)
-//			{
-//				System.out.print(levelArrayInt[i][j] + " ");
-//			}
-//			System.out.println();
-//		}
+
 		levelArray = new Block[levelArrayInt.length][levelArrayInt[0].length];
 		
 		for (int i = 0; i < levelArrayInt.length; i++)
@@ -84,7 +67,8 @@ public class Map
 				else if (blockInt == 2)
 					block = new Air();
 				else
-					block = null;
+					// critical error
+					return false;
 				
 				levelArray[i][j] = block;
 			}
