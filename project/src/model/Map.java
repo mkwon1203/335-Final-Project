@@ -8,8 +8,6 @@ public class Map
 	// block[x][y]
 	private Block[][] levelArray;
 	private String fileName;
-	private Player player;
-	private boolean victory;
 	private List<Point> playerSpawns;
 	private List<Point> enemySpawns;
 
@@ -106,7 +104,11 @@ public class Map
 	public Block getValue(Point p)
 	{
 		// check to make sure p lies within boundary of 2D array
-		return null;
+		if (!verifyBounds(p))
+			// point p is not a valid point in relation to map
+			return null;
+
+		return levelArray[p.x][p.y];
 	}
 
 	/**
@@ -122,11 +124,50 @@ public class Map
 	public boolean setValue(Point p, Block b)
 	{
 		// check to make sure p lies within boundary of 2D array
+		if (!verifyBounds(p))
+			// point p is not a valid point in relation to map
+			return false;
+		
+		// set the new block
+		levelArray[p.x][p.y] = b;
+		
 		return true;
 	}
 	
+	// will set the block at point p to be occupied
+	public boolean setOccupied(Point p)
+	{
+		if (!verifyBounds(p))
+			// point p is not a valid point in relation to map
+			return false;
+		
+		levelArray[p.x][p.y].setOccupied(true);
+		return true;
+	}
+	
+	public boolean setUnoccupied(Point p)
+	{
+		if (!verifyBounds(p))
+			// point p is not a valid point in relation to map
+			return false;
+		
+		levelArray[p.x][p.y].setOccupied(false);
+		return true;
+	}
+	
+	// helper method to make sure point p is a valid one
+	// with respect to our 2D array map
 	private boolean verifyBounds(Point p)
 	{
+		int x = p.x;
+		int y = p.y;
+
+		if (x >= levelArray.length || y >= levelArray[0].length)
+			// out of bounds
+			return false;
+		else if (x < 0 || y < 0)
+			// invalid values, can't have negative coordinates
+			return false;
 		
 		return true;
 	}

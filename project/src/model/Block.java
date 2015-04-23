@@ -59,6 +59,11 @@ public abstract class Block
 		return texture;
 	}
 	
+	public void setOccupied(boolean newOccupied)
+	{
+		occupied = newOccupied;
+	}
+	
 	// placeholder for console GUI
 	public String toString()
 	{
