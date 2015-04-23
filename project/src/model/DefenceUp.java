@@ -10,7 +10,7 @@ public class DefenceUp extends Buff
 	}
 
 	@Override
-	public boolean useItem(Character ch)
+	public boolean useItem(CharacterInterface ch)
 	{
 		// use ch's set defence method
 		return ch.addDefence(DEFENCEUP_VALUE);

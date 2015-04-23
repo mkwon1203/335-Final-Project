@@ -35,7 +35,7 @@ public abstract class Item implements Comparable<Item>{
 		return texture;
 	}
 	
-	public abstract boolean useItem(Character ch);
+	public abstract boolean useItem(CharacterInterface ch);
 	
 	// comparing is done with the name of the item
 	public int compareTo(Item other)

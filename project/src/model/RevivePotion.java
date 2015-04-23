@@ -13,7 +13,7 @@ public class RevivePotion extends Potion
 	}
 
 	@Override
-	public boolean useItem(Character ch)
+	public boolean useItem(CharacterInterface ch)
 	{
 		// use ch's setAlive method
 		if (ch.isAlive())

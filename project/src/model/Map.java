@@ -157,10 +157,23 @@ public class Map
 	
 	// helper method to make sure point p is a valid one
 	// with respect to our 2D array map
-	private boolean verifyBounds(Point p)
+	public boolean verifyBounds(Point p)
 	{
 		int x = p.x;
 		int y = p.y;
+
+		if (x >= levelArray.length || y >= levelArray[0].length)
+			// out of bounds
+			return false;
+		else if (x < 0 || y < 0)
+			// invalid values, can't have negative coordinates
+			return false;
+		
+		return true;
+	}
+	
+	public boolean verifyBounds(int x, int y)
+	{
 
 		if (x >= levelArray.length || y >= levelArray[0].length)
 			// out of bounds

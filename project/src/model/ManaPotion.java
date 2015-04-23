@@ -10,7 +10,7 @@ public class ManaPotion extends Potion
 	}
 
 	@Override
-	public boolean useItem(Character ch)
+	public boolean useItem(CharacterInterface ch)
 	{
 		// use ch's setMana method
 		return ch.addMana(MANAPOTION_VALUE);

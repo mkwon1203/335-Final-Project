@@ -10,7 +10,7 @@ public class HealthPotion extends Potion
 		super(1, "Health Potion", "Health potion description", null);
 	}
 	
-	public boolean useItem(Character ch)
+	public boolean useItem(CharacterInterface ch)
 	{
 		// use ch's setHealth method and add to it
 		return ch.addHealth(HEALTHPOTION_VALUE);

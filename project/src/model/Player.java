@@ -81,7 +81,7 @@ public class Player
 		money += amount;
 	}
 	
-	public void useItem(Character ch, Item i)
+	public boolean useItem(CharacterInterface ch, Item i)
 	{
 		// have to add conditional to see if item i is usable on ch at all first
 		boolean itemUsed = i.useItem(ch);
@@ -92,6 +92,12 @@ public class Player
 		}
 		// item could not be used
 		// throw exception or something
+		else
+		{
+			
+		}
+		
+		return itemUsed;
 	}
 	
 	public void addItem(Item i)

@@ -20,6 +20,9 @@ public abstract class CharacterInterface
 	private int moveDistance;
 	private int attackDistance;
 	private Image texture;
+	private boolean available;
+	private boolean moveAvailable;
+	private boolean actionAvailable;
 
 	public CharacterInterface(String type, String description, int health,
 			int mana, int strength, int defence, Point location,
@@ -43,6 +46,8 @@ public abstract class CharacterInterface
 		{
 			ioex.printStackTrace();
 		}
+		// hard coded for now, might change to be included as parameter
+		available = true;
 	}
 	
 	public String getType()
@@ -144,6 +149,43 @@ public abstract class CharacterInterface
 	public Image getTexture()
 	{
 		return texture;
+	}
+	
+	public boolean getAvailable()
+	{
+		return available;
+	}
+	
+	public boolean getMoveAvailable()
+	{
+		return moveAvailable;
+	}
+	
+	public boolean getActionAvailable()
+	{
+		return actionAvailable;
+	}
+	
+	public void setAvailable(boolean availability)
+	{
+		available = availability;
+	}
+	
+	public void setMoveAvailable(boolean a)
+	{
+		moveAvailable = a;
+	}
+	
+	public void setActionAvailable(boolean a)
+	{
+		actionAvailable = a;
+	}
+	
+	public void resetAvailable()
+	{
+		available = true;
+		moveAvailable = true;
+		actionAvailable = true;
 	}
 	
 	public abstract boolean addHealth(int delta);

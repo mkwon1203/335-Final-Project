@@ -10,7 +10,7 @@ public class AttackUp extends Buff
 	}
 
 	@Override
-	public boolean useItem(Character ch)
+	public boolean useItem(CharacterInterface ch)
 	{
 		// use ch's setAttack method
 		return ch.addStrength(ATTACKUP_VALUE);
