@@ -39,6 +39,7 @@ public class TestTitleScreen extends JPanel
 		setPreferredSize(new Dimension(800,600));
 		setLayout(null);
 		add(start);
+		
 		start.setBounds(500,175, 266,32);
 		start.setRolloverIcon(new ImageIcon(ImageIO.read(new File("res/titleScreen/startGame2.png"))));
 		start.setOpaque(false);
