@@ -33,6 +33,7 @@ public class NewGameSelection extends JPanel {
 
 		lowPanel.add(back);
 		lowPanel.add(next);
+		// added some comment
 
 	}
 }
