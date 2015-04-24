@@ -2,22 +2,61 @@ package view;
 
 import model.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 public class TestTitleScreen extends JPanel
 {
-	public static void main(String[]args)
+	JButton start, option, quit;
+	Image background;
+	
+	public static void main(String[]args) throws IOException
 	{
-		Random rand = new Random();
-		int str = 10;
-		int raw = rand.nextInt((str+5)-(str-5)+1) + str -5;
-		System.out.println(raw);
-
-		double percent = 80 / 100.0;
-		int actualAttack = (int) (raw * percent);
-		System.out.println(actualAttack);
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(800,600);
+		
+		TestTitleScreen panel = new TestTitleScreen();
+		frame.add(panel);
+		frame.pack();
 	}
+	
+	public TestTitleScreen() throws IOException
+	{
+		background = ImageIO.read(new File("res/titleScreen/titleBackground.png"));
+		repaint();
+		start = new JButton(new ImageIcon(ImageIO.read(new File("res/titleScreen/startgame.png"))));
+		option = new JButton("Option");
+		quit = new JButton(new ImageIcon(ImageIO.read(new File("res/titleScreen/quit.png"))));
+		
+		setLayout(null);
+		add(start);
+		start.setBounds(500,175, 266,32);
+		start.setRolloverIcon(new ImageIcon(ImageIO.read(new File("res/titleScreen/startGame2.png"))));
+		start.setOpaque(false);
+		start.setContentAreaFilled(false);
+		start.setBorderPainted(false);
+		add(option);
+		option.setBounds(500,275, 266, 32);
+		add(quit);
+		quit.setBounds(500,375,266,32);
+		quit.setRolloverIcon(new ImageIcon(ImageIO.read(new File("res/titleScreen/quit2.png"))));
+		quit.setOpaque(false);
+		quit.setContentAreaFilled(false);
+		quit.setBorderPainted(false);
+	}
+	
+	public void paintComponent(Graphics page)
+	{
+		super.paintComponent(page);
+		page.drawImage(background, 0, 0, null);
+	}
+	
+	
 }

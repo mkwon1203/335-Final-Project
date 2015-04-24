@@ -31,6 +31,7 @@ public class Client implements Runnable {
 		
 		mainFrame.draw();
 		
+		
 	}
 	
 	
