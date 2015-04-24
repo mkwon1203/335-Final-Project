@@ -3,29 +3,26 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Random;
 
-public class Game
+public class Game extends Observable
 {
 	private int turnCounter;
 	Player player;
-	// needs AI field
+	AI enemy;
 	Map map;
 	CharacterInterface currentCharacter; // currently selected character, mainly
 											// for GUI
 
-	public Game(String playerName, List<Character> playerCharacters,
+	public Game(String playerName, List<Character> playerCharacters, List<Enemy> enemyCharacters,
 			String mapName)
 	{
 		turnCounter = 1;
 		player = new Player(playerName, playerCharacters);
-		// initialize AI here
+		enemy = new AIEasy(enemyCharacters);
 		map = new Map(mapName);
 		currentCharacter = null;
-	}
-
-	public void mainLoop()
-	{
-
 	}
 
 	public List<Point> movablePositionList(CharacterInterface ch)
@@ -40,7 +37,7 @@ public class Game
 
 		List<Point> movablePositions = new ArrayList<Point>();
 
-		while (moveDistance > 0)
+		while (moveDistance >= 0)
 		{
 			for (int y = currentY - moveDistance; y <= currentY + moveDistance; y++)
 			{
@@ -69,15 +66,22 @@ public class Game
 	public boolean move(CharacterInterface ch, Point location)
 	{
 		// moves given character to a given location
-		if (!ch.getMoveAvailable() || !map.verifyBounds(location))
+		if (!ch.getMoveAvailable() || !map.verifyBounds(location)
+				|| map.getValue(location).isOccupied())
 			return false; // ch can't move or location is invalid
 
 		// move the character
 		// make sure to set the block at the new location to be occupied
 		// make sure to set block at old location to be unoccupied
 		// update ch's position (that is what it means to move)
+		Point oldLocation = ch.getLocation();
+		map.setUnoccupied(oldLocation);
+		ch.setLocation(location);
+		map.setOccupied(location);
 		
 		ch.setMoveAvailable(false);
+		setChanged();
+		notifyAll();
 		return true;
 	}
 
@@ -91,14 +95,59 @@ public class Game
 		
 		if (ch instanceof Character)
 		{
+			// get list of AI's units
+			List<Enemy> enemies = enemy.getEnemies();
 			
+			for (Enemy e : enemies)
+			{
+				if (attackable(ch, e) && e.isAlive())
+					attackableCharacters.add(e);
+			}
 		}
 		else // ch is AI's unit
 		{
+			List<Character> characters = player.getCharacters();
 			
+			for (Character c : characters)
+			{
+				if (attackable(ch, c) && c.isAlive())
+					attackableCharacters.add(c);
+			}
 		}
 		
 		return attackableCharacters;
+	}
+	
+	public boolean attackable(CharacterInterface attacker, CharacterInterface defender)
+	{
+		// checks to make sure attacker and defender lies on same horizontal
+		// or vertical line
+		if (attacker.getLocation().x != defender.getLocation().x &&
+			attacker.getLocation().y != defender.getLocation().y)
+			return false;
+		
+		// checks to make sure defender is within attackable distance of attacker
+		int distance = distance(attacker.getLocation(),defender.getLocation());
+		
+		return distance <= attacker.getAttackDistance();
+	}
+	
+	public int distance(Point initialPoint, Point finalPoint)
+	{
+		/*
+		 * needs revision when moveDistance can be >1 later on maybe
+		 */
+		int horizontalDistance = Math.abs(initialPoint.x-finalPoint.x);
+		int verticalDistance = Math.abs(initialPoint.y-finalPoint.y);
+		
+		return horizontalDistance + verticalDistance;
+	}
+	
+	// path finding algorithm
+	public List<Point> pathFind(Point initialPoint, Point finalPoint)
+	{
+		// returns null if path isn't found
+		return null;
 	}
 
 	public boolean attack(CharacterInterface attacker,
@@ -108,9 +157,41 @@ public class Game
 		if (!attacker.getActionAvailable() || !attackableCharacterList(attacker).contains(defender))
 			return false;
 		
-		// make the attacker hit the defender
+		// attack
+		// roll dice for critical hit first
+		boolean critical = false;
+
+		Random rand = new Random();
+		if (rand.nextInt(1000) < 100) // 10% chance
+			critical = true;
 		
+		/*
+		 * damage calculation
+		 * defence will mitigate % of the attack based on the function defencePercent
+		 * attack is based on strength
+		 * inclusive range [strength-5 ... strength + 5] determines raw attack
+		 *    -critical hit will mean raw is multipled by 1.5
+		 * actual attack is raw attack * defencePercent/100
+		 */
+		int str = attacker.getStrength();
+		int raw = rand.nextInt((str+5)-(str-5)+1) + str -5;
+		if (critical)
+			raw = (int) (raw * 1.5);
+		double percent = defencePercent(defender.getDefence()) / 100.0;
+		int actualAttack = (int) (raw * percent);
+		
+		defender.addHealth(-actualAttack);
+		
+		wait(attacker);
+		setChanged();
+		notifyAll();
 		return true;
+	}
+	
+	public int defencePercent(int defence)
+	{
+		// do log function
+		return 100 - defence;
 	}
 
 	public boolean useItem(CharacterInterface ch, Item item)
@@ -123,7 +204,7 @@ public class Game
 		boolean itemUsed = player.useItem(ch, item);
 
 		if (itemUsed)
-			ch.setActionAvailable(false);
+			wait(ch);
 
 		return itemUsed;
 	}
@@ -140,6 +221,11 @@ public class Game
 		ch.setAvailable(false);
 		return true;
 	}
+	
+	public void updateCurrentCharacter(CharacterInterface selected)
+	{
+		currentCharacter = selected;
+	}
 
 	public void updateCharacterAvailable(CharacterInterface ch)
 	{
@@ -152,6 +238,7 @@ public class Game
 	public void endTurn()
 	{
 		// sets all units to be unavailable to advance the turn
+		
 	}
 
 	public void playerTurnStart()

@@ -3,7 +3,8 @@ package model;
 import java.awt.Image;
 import java.awt.Point;
 
-public class DarkWizard extends Enemy {
+public class DarkWizard extends Enemy
+{
 	private static final int DARKWIZARD_HEALTH = 100;
 	private static final int DARKWIZARD_MANA = 0;
 	private static final int DARKWIZARD_STRENGTH = 10;
@@ -12,13 +13,15 @@ public class DarkWizard extends Enemy {
 	private static final int DARKWIZARD_ATTACKDISTANCE = 1;
 	private static final String DARKWIZARD_IMAGEPATH = "Darkwizard Path";
 
-	public DarkWizard(Point initialPosition) {
+	public DarkWizard(Point initialPosition)
+	{
 
 		super("Darkwizard", "Darkwizard desription", DARKWIZARD_HEALTH,
 				DARKWIZARD_MANA, DARKWIZARD_STRENGTH, DARKWIZARD_DEFENCE,
 				initialPosition, true, DARKWIZARD_MOVEDISTANCE,
 				DARKWIZARD_ATTACKDISTANCE, DARKWIZARD_IMAGEPATH);
 	}
+
 	public void revive()
 	{
 		setAlive();
@@ -36,22 +39,31 @@ public class DarkWizard extends Enemy {
 		 * 
 		 * case 2 and 3 returns true
 		 */
-		if (getHealth() == DARKWIZARD_HEALTH || !isAlive())
+		if (!isAlive())
 			// case 1
 			return false;
-		else if (getHealth() + delta > DARKWIZARD_HEALTH)
-			// case 2
-			setHealth(DARKWIZARD_HEALTH);
-		else if (getHealth() + delta <= 0)
+		if (delta > 0)
 		{
-			// case 3
-			setHealth(0);
-			setDead();
+			// can't add to full health unit
+			if (getHealth() == DARKWIZARD_HEALTH)
+				return false;
+			else if (getHealth() + delta > DARKWIZARD_HEALTH)
+				// case 2
+				setHealth(DARKWIZARD_HEALTH);
 		}
+		// else delta is <= 0
 		else
-			setHealth(getHealth() + delta);
+		{
+			if (getHealth() + delta <= 0)
+			{
+				// case 3
+				setHealth(0);
+				setDead();
+			}
+			else
+				setHealth(getHealth() + delta);
+		}
 		return true;
-
 	}
 
 	@Override
@@ -73,7 +85,7 @@ public class DarkWizard extends Enemy {
 			setMana(0);
 		else
 			setMana(getMana() + delta);
-		
+
 		return true;
 	}
 
@@ -81,9 +93,8 @@ public class DarkWizard extends Enemy {
 	public boolean addStrength(int delta)
 	{
 		/*
-		 * case 0: dead unit, return false
-		 * case 1: adding strength takes it below 0 set to 0 otherwise, just add
-		 * and then return true
+		 * case 0: dead unit, return false case 1: adding strength takes it
+		 * below 0 set to 0 otherwise, just add and then return true
 		 */
 		if (!isAlive())
 			return false;
@@ -99,9 +110,8 @@ public class DarkWizard extends Enemy {
 	public boolean addDefence(int delta)
 	{
 		/*
-		 * case 0: dead unit, return false
-		 * case 1: adding defence takes it below 0 set to 0 otherwise, just add
-		 * and then return true
+		 * case 0: dead unit, return false case 1: adding defence takes it below
+		 * 0 set to 0 otherwise, just add and then return true
 		 */
 		if (!isAlive())
 			return false;
