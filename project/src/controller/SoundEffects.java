@@ -11,7 +11,7 @@ import java.io.*;
 import javax.sound.sampled.*;
 import java.util.*;
 
-class SoundEffects {
+public class SoundEffects {
    
    private static ArrayList<Clip> clips = new ArrayList<Clip>();
    
