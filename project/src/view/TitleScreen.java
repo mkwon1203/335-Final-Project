@@ -8,18 +8,25 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.event.*;
 import javax.swing.*;
 
 
-public class TitleScreen extends JPanel {
+public class TitleScreen extends JPanel{
 	
+	public static int TITLESTATE = 0;
 	private static TitleScreen title = null;
 	
 	private Graphics bufferGraphics;
-	private BufferedImage titlePic, startImage, exitImage;
+	private Image titlePic, startImage, exitImage;
+	private JButton startButton, optionButton, exitButton;
+	
+	
+	MenuListener listener;
 	
 	private TitleScreen(){
 		this(800, 600);
@@ -29,11 +36,14 @@ public class TitleScreen extends JPanel {
 	private TitleScreen(int x, int y){
 		
 		setPreferredSize(new Dimension(x,y));
+		setLayout(null);
+		setBackground(Color.BLUE);
+		
+		
+		listener = new MenuListener();
 		
 		loadTitleImage();
 		loadButtonImages();
-		
-		setBackground(Color.BLACK);
 		
 	}
 	
@@ -41,6 +51,7 @@ public class TitleScreen extends JPanel {
 	private void loadTitleImage(){
 		try{
 			titlePic = ImageIO.read(new File("res/titleScreen/titleBackground.png"));
+			//backgroundLabel = new JLabel(new ImageIcon(titlePic));
 		}catch(IOException e){System.out.println("Couldn't find title picture.");}
 	}
 	
@@ -49,6 +60,27 @@ public class TitleScreen extends JPanel {
 		try{
 			startImage = ImageIO.read(new File("res/titleScreen/startGame.png"));
 			exitImage = ImageIO.read(new File("res/titleScreen/quit.png"));
+			
+			//Sets the images into the JLabels that can be drawn later.
+			startButton = new JButton(new ImageIcon(startImage));
+			exitButton = new JButton(new ImageIcon(exitImage));
+			
+			startButton.setOpaque(false);
+			startButton.setContentAreaFilled(false);
+			startButton.setBorderPainted(false);
+			startButton.setRolloverIcon(new ImageIcon(ImageIO.read(new File("res/titleScreen/startGame2.png"))));
+			
+			exitButton.setOpaque(false);
+			exitButton.setContentAreaFilled(false);
+			exitButton.setBorderPainted(false);
+			exitButton.setRolloverIcon(new ImageIcon(ImageIO.read(new File("res/titleScreen/quit2.png"))));
+			
+			startButton.setName("start");
+			exitButton.setName("quit");
+			
+			startButton.addActionListener(listener);
+			//optionLabel.addMouseListener(listener);
+			exitButton.addActionListener(listener);
 		}catch(IOException e){System.out.println("Couldn't find button image.");}
 	}
 	
@@ -59,22 +91,32 @@ public class TitleScreen extends JPanel {
 		return title;
 	}
 	
-	//This method is meant to "pre-draw" the title screen (will not be seen on screen)
-	public void paintOffScreen(Graphics g){
-		bufferGraphics = titlePic.getGraphics();
+	public void draw(){
 		
-		if(Client.GAMESTATE == 0){
-			bufferGraphics.drawImage(titlePic, 0,0, null);
-			bufferGraphics.drawImage(startImage,500,100, null);
-			bufferGraphics.drawImage(exitImage, 575, 175, null);
+		if(TITLESTATE == 0){
+			
+			//backgroundLabel.setLocation(0,0);
+			//startButton.setLocation(500,100);
+			//exitButton.setLocation(new Point(575,175));
+			
+			add(startButton);
+			add(exitButton);
+			
+			startButton.setBounds(500, 100, startImage.getWidth(null), 
+					startImage.getHeight(null));
+			exitButton.setBounds(575, 175, exitImage.getWidth(null), 
+					exitImage.getHeight(null));
+			
 		}
 		
-		draw(g);
 	}
 	
-	//Used to draw the actual title screen
-	public void draw(Graphics g){
-		g.drawImage(titlePic,0,0,null);
+	
+	@Override
+	protected void paintComponent(Graphics g){
+		super.paintComponent(g);
+			g.drawImage(titlePic, 0, 0, null);
+		
 	}
 	
 }
