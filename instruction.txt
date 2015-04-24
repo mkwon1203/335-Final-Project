@@ -1,0 +1,12 @@
+To pull from repository
+
+git fetch
+git pull
+
+
+------------------------------------
+To upload your stuff onto repository
+
+git add project/
+git commit -m "add message here!"
+git push
