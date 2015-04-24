@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -47,6 +48,8 @@ public class UnitScreen extends JFrame{
 	private BufferedImage previewImage;
 	private String playerDescription;
 	private JPanel panel;
+	private String selected;
+	
 	public UnitScreen(){
 		if (Client.GAMESTATE == 4){
 			makeGUI();
@@ -91,6 +94,13 @@ public class UnitScreen extends JFrame{
 		listUnits = new JList(model);
 		addToTeam = new JButton("Add To Team");
 		
+		listUnits.setVisibleRowCount(5);
+		listUnits.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		if (listUnits.getSelectedValue() != null){
+			selected = listUnits.getSelectedValue().toString();
+			System.out.println(selected);
+		}
 		
 		JLabel description = new JLabel("Description");
 		playerDescription = getPlayerDescription();
@@ -104,10 +114,8 @@ public class UnitScreen extends JFrame{
 		
 		//adding preview image to the JLabel
 		unitPreview = new JLabel(new ImageIcon(previewImage));
+
 		
-		
-		listUnits.setVisibleRowCount(5);
-		listUnits.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		//TODO: do junit test for non trivial methods (attack/ movement /gui) and finish this gui
 		
@@ -161,35 +169,8 @@ public class UnitScreen extends JFrame{
 		this.setLayout(null);
 		this.add(panel);
 		this.setResizable(false);
-//		//this.add(topPanel, BorderLayout.NORTH);
-//		// adding new stuff
-//		//this.add(listUnits);
-//		//this.add(topPanel, BorderLayout.CENTER);
-//		//this.add(listTeam, BorderLayout.EAST);
-//		addToTeam = new JButton("Add To Team");
-//		
-//		this.add(addToTeam, BorderLayout.SOUTH);
 	}
-//	private void createTopPanel(){
-//		//setBackground(Color.BLACK);
-//		//topPanel.setLayout(new GridLayout(0, 2));
-//		topPanel.setLayout(null);
-//		topPanel.setSize(800,600);
-//		
-//		// adding the characters to default model list to insert in  listUnits list
-//		model.addElement("Archer");
-//		model.addElement("Knight");
-//		model.addElement("Mage");
-//		model.addElement("Priest");
-//		model.addElement("Spearman");
-//	
-//		
-//		JLabel units = new JLabel("Units");
-//		
-//		//unitPreview.setPreferredSize(new Dimension(100,100));
-//		
-//		listUnits = new JList(model);
-//		addToTeam = new JButton("Add To Team");
+
 //		
 //		
 //		//changing characterState depending on what is selected in listUnits
@@ -208,45 +189,7 @@ public class UnitScreen extends JFrame{
 //		else if (listUnits.getSelectedValue() == "Spearman"){
 //			characterState = 5;
 //		}
-//		//addToTeam.setPreferredSize(new Dimension(1,1));
-//
-//		JLabel description = new JLabel("Description");
-//		playerDescription = getPlayerDescription();
-//		JLabel descriptionText = new JLabel(playerDescription);
-//		
-//		
-//		
-//		// creating a unitPreview and scaling
-//		loadPreviewImage();
-//		previewImage = ScaleImage();
-//		
-//		//adding preview image to the JLabel
-//		unitPreview = new JLabel(new ImageIcon(previewImage));
-//		
-//		units.setPreferredSize(new Dimension(5,5));
-//		addToTeam.setPreferredSize(new Dimension(5,5));
-//		unitPreview.setPreferredSize(new Dimension(100,100));
-//		//listUnits.setPreferredSize(new Dimension(4,4));
-//		description.setPreferredSize(new Dimension(20,20));
-//		descriptionText.setPreferredSize(new Dimension(20,20));
-//		
-//		// adding to the topPanel
-//		//units.setBounds(0, 50, 10, 10);
-//		topPanel.add(units);
-//		topPanel.add(unitPreview);
-//		topPanel.add(listUnits);
-//		topPanel.add(description);
-//		topPanel.add(addToTeam);
-//		topPanel.add(descriptionText);
-//		
-//		
-//		listUnits.setVisibleRowCount(5);
-//		listUnits.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//		
-//		
-//		
-//		
-//	}
+
 	
 	public BufferedImage ScaleImage(){
 		BufferedImage scaledImage = new BufferedImage(previewImage.getWidth(), previewImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -267,42 +210,50 @@ public class UnitScreen extends JFrame{
 
 	// will get the player description depending on the character that is selected
 	private String getPlayerDescription() {
+		getChatacterState();
 		String result = "test";
-		if (listUnits.getSelectedValue() != null){
-			if (listUnits.getSelectedValue().equals("Archer")){
-				return "Archer";
-				//this.repaint();
-			}
-			//playerDescription = model.Archer.getDescription();
+		if (characterState == 0){
+			result = "Archer";
 		}
+		if (characterState == 1){
+			result = "Knight";
+		}
+		if (characterState == 2){
+			result = "Mage";
+		}
+		if (characterState == 3){
+			result = "Priest";
+		}
+		if (characterState == 4){
+			result = "Spearman";
+		}
+			//playerDescription = model.Archer.getDescription();
 		return result;
 	}
 
-//	private void createBottomPanel() {
-//		
-//
-//		bottomPanel.setLayout(new GridLayout(0, 2));
-//		bottomPanel.setSize(800,600);
-//		
-//		JLabel team = new JLabel("Team");
-//		listTeam = new JList(teamModel);
-//		backButton = new JButton("Back");
-//		removeFromTeam = new JButton("Remove from Team");
-//		playButton = new JButton("Play");
-//		JLabel empty = new JLabel();
-//		teamList = new JScrollPane(listTeam);
-//		
-//		bottomPanel.add(team);
-//		bottomPanel.add(removeFromTeam);
-//		bottomPanel.add(teamList);
-//		bottomPanel.add(empty);
-//		bottomPanel.add(backButton);
-//		bottomPanel.add(playButton);
-//		
-//		listTeam.setVisibleRowCount(5);
-//		listTeam.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//	}
 	
+	private void getChatacterState() {
+		//changing characterState depending on what is selected in listUnits
+		if (listUnits.getSelectedIndex() == 0){
+			characterState = 1;
+			System.out.println("characterState is: " + characterState);
+		}
+		else if (listUnits.getSelectedIndex() == 1){
+			characterState = 2;		
+		}
+		else if (listUnits.getSelectedIndex() == 2){
+			characterState = 3;
+		}
+		else if (listUnits.getSelectedIndex() == 3){
+			characterState = 4;
+		}
+		else if (listUnits.getSelectedIndex() == 4){
+			characterState = 5;
+		}
+		
+	}
+
+
 	private void registerListeners() {
 		ActionListener listen = new ButtonListener();
 		addToTeam.addActionListener(listen);
@@ -324,6 +275,7 @@ public class UnitScreen extends JFrame{
 			}
 			else if (e.getSource() == backButton){ // go back to previous screen
 				Client.GAMESTATE-= 1;
+				dispose();
 			}
 			else if (e.getSource() == playButton){ // start the game!
 				Client.GAMESTATE = 1;
