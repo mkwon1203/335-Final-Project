@@ -36,22 +36,31 @@ public class Rat extends Enemy {
 		 * 
 		 * case 2 and 3 returns true
 		 */
-		if (getHealth() == RAT_HEALTH || !isAlive())
+		if (!isAlive())
 			// case 1
 			return false;
-		else if (getHealth() + delta > RAT_HEALTH)
-			// case 2
-			setHealth(RAT_HEALTH);
-		else if (getHealth() + delta <= 0)
+		if (delta > 0)
 		{
-			// case 3
-			setHealth(0);
-			setDead();
+			// can't add to full health unit
+			if (getHealth() == RAT_HEALTH)
+				return false;
+			else if (getHealth() + delta > RAT_HEALTH)
+				// case 2
+				setHealth(RAT_HEALTH);
 		}
+		// else delta is <= 0
 		else
-			setHealth(getHealth() + delta);
+		{
+			if (getHealth() + delta <= 0)
+			{
+				// case 3
+				setHealth(0);
+				setDead();
+			}
+			else
+				setHealth(getHealth() + delta);
+		}
 		return true;
-
 	}
 
 	@Override

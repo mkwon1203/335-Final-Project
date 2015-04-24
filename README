@@ -8,14 +8,17 @@ Other notes:
   javadoc is inside project/doc
   
 Min
-  -Item, Block, Map, Player, Inventory, GUI game screen label
+  -AI
 Phyllis
-  -Character, Enemy, GUI title screen
+  -Title screen GUI, test trival methods, 
 Chris
-  -Client, TitleMenu, other GUI
+  -Level GUI, Map, Position
 Josue
-  -movement, help chris with GUI (titlescreens)
+  -Test movement, attack, Units GUi
 
+AI:
+  AI Strategy needs to be finished up
+  
 Model:
    Player needs to be finihsed up
    Map requires more helper methods and finishing up

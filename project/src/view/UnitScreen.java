@@ -327,7 +327,7 @@ public class UnitScreen extends JFrame{
 			}
 			else if (e.getSource() == playButton){ // start the game!
 				Client.GAMESTATE = 1;
-				System.exit(0);
+				dispose();
 			}
 		}
 		
