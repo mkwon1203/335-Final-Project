@@ -25,6 +25,7 @@ public class TestTitleScreen extends JPanel
 		TestTitleScreen panel = new TestTitleScreen();
 		frame.add(panel);
 		frame.pack();
+		frame.setResizable(false);
 	}
 	
 	public TestTitleScreen() throws IOException
@@ -32,9 +33,10 @@ public class TestTitleScreen extends JPanel
 		background = ImageIO.read(new File("res/titleScreen/titleBackground.png"));
 		repaint();
 		start = new JButton(new ImageIcon(ImageIO.read(new File("res/titleScreen/startgame.png"))));
-		option = new JButton("Option");
+		option = new JButton("Option"); // change to icon here too 
 		quit = new JButton(new ImageIcon(ImageIO.read(new File("res/titleScreen/quit.png"))));
 		
+		setPreferredSize(new Dimension(800,600));
 		setLayout(null);
 		add(start);
 		start.setBounds(500,175, 266,32);
@@ -44,6 +46,7 @@ public class TestTitleScreen extends JPanel
 		start.setBorderPainted(false);
 		add(option);
 		option.setBounds(500,275, 266, 32);
+		// option needs to have correct icon
 		add(quit);
 		quit.setBounds(500,375,266,32);
 		quit.setRolloverIcon(new ImageIcon(ImageIO.read(new File("res/titleScreen/quit2.png"))));
