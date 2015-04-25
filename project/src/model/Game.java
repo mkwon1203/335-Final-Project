@@ -23,6 +23,7 @@ public class Game extends Observable
 		enemy = new AIEasy(enemyCharacters);
 		map = new Map(mapName);
 		currentCharacter = null;
+		playerTurnStart();
 	}
 	
 	// returns the map object
@@ -36,6 +37,30 @@ public class Game extends Observable
 	
 	public AI getAI(){
 		return enemy;
+	}
+	
+	public boolean isPlayersTurn(){
+		if(turnCounter % 2 == 1)
+			return true;
+		return false;
+	}
+	
+	public void advanceTurn(){
+		turnCounter++;
+		if(turnCounter % 2 == 1){
+			playerTurnStart();
+		}else{
+			enemyTurnStart();
+		}
+		
+	}
+	
+	public boolean isCharacterSelected(){
+	   return currentCharacter == null;
+	}
+	
+	public CharacterInterface getSelectedCharacter(){
+		return currentCharacter;
 	}
 
 	public List<Point> movablePositionList(CharacterInterface ch)
@@ -91,7 +116,7 @@ public class Game extends Observable
 		map.setUnoccupied(oldLocation);
 		ch.setLocation(location);
 		map.setOccupied(location);
-
+		
 		ch.setMoveAvailable(false);
 		setChanged();
 		notifyAll();
@@ -261,6 +286,7 @@ public class Game extends Observable
 			{
 				wait(ch);
 			}
+			advanceTurn();
 		}
 		else
 		{
@@ -269,6 +295,7 @@ public class Game extends Observable
 			{
 				wait(e);
 			}
+			advanceTurn();
 		}
 	}
 

@@ -64,8 +64,9 @@ public class MainView extends JFrame {
 			
 			game = new Game("Player1", playerCharacters, enemyCharacters, "res/levels/milestone.lvl");
 		}
-		if(level == null)
+		if(level == null){
 			level = new Level(game, 800, 600);
+		}
 		
 		add(level);
 		pack();
