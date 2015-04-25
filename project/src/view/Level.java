@@ -2,13 +2,27 @@
 
 package view;
 
+import model.Game;
+import model.Block;
+import model.Character;
+import model.Enemy;
+
 import javax.swing.*;
+
+import java.util.List;
+
+import controller.Client;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Level extends JPanel
 {
 	
 	private JPanel gamePanel, statsPanel;
+	private Game game;
+	
+	Image screen;
 	
 	//Level Constructor
 	public Level(){
@@ -16,6 +30,11 @@ public class Level extends JPanel
 	}
 	
 	public Level(int x, int y){
+		define(x,y);
+	}
+	
+	public Level(Game game, int x, int y){
+		this.game = game;
 		define(x,y);
 	}
 	
@@ -39,7 +58,42 @@ public class Level extends JPanel
 		
 	}
 	
-	public void draw(){
+	public void drawMap(){
+		
+		screen = createVolatileImage(gamePanel.getWidth(), gamePanel.getHeight());
+		Graphics2D g = (Graphics2D)screen.getGraphics();
+		
+		
+		if(game != null){
+			
+			Block[][] level = game.getMap().getLevel();
+			
+			for(int y = 0; y < game.getMap().getLevelY(); y++){
+				for(int x = 0; x < game.getMap().getLevelX(); x++){
+					g.drawImage(level[x][y].getTexture(), y * Client.BLOCKSIZE, x * Client.BLOCKSIZE, null);
+				}
+			}
+			
+			drawUnits(g);
+			
+			g = (Graphics2D)gamePanel.getGraphics();
+			g.drawImage(screen, 0, 0, null);
+			g.dispose();
+		}
+		
+	}
+	
+	public void drawUnits(Graphics2D g){
+		List<Character> playerUnits = game.getPlayer().getCharacters();
+		List<Enemy> aiUnits = game.getAI().getEnemies();
+		
+		for(Character c : playerUnits){
+			g.drawImage(c.getTexture(), c.getLocation().x, c.getLocation().y, null);
+		}
+		
+		for(Enemy e : aiUnits){
+			g.drawImage(e.getTexture(), e.getLocation().x, e.getLocation().y, null);
+		}
 		
 	}
 	

@@ -24,6 +24,19 @@ public class Game extends Observable
 		map = new Map(mapName);
 		currentCharacter = null;
 	}
+	
+	// returns the map object
+	public Map getMap(){
+		return map;
+	}
+	
+	public Player getPlayer(){
+		return player;
+	}
+	
+	public AI getAI(){
+		return enemy;
+	}
 
 	public List<Point> movablePositionList(CharacterInterface ch)
 	{

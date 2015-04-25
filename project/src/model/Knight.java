@@ -9,7 +9,7 @@ public class Knight extends Character {
 	private static final int KNIGHT_DEFENCE = 10;
 	private static final int KNIGHT_MOVEDISTANCE = 1;
 	private static final int KNIGHT_ATTACKDISTANCE = 1;
-	private static final String KNIGHT_IMAGEPATH = "Knight Path";
+	private static final String KNIGHT_IMAGEPATH = "res/sprites/units/knight.png";
 
 	public Knight(Point initialPosition) {
 

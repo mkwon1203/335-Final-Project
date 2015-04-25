@@ -14,7 +14,6 @@ public class Client implements Runnable {
 	public static int GAMESTATE = 0;
 	
 	private boolean isRunning = false;
-	private boolean levelCreated = false;
 	
 	public static void main(String[]args){
 		
@@ -43,8 +42,8 @@ public class Client implements Runnable {
 		
 		mainFrame = new MainView();
 		
-		LoadGame.loadFile("res/levels/milestone.lvl");
-		System.out.println("Width: " + LoadGame.LEVELWIDTH + " Height: " + LoadGame.LEVELHEIGHT);
+		//LoadGame.loadFile("res/levels/milestone.lvl");
+		//System.out.println("Width: " + LoadGame.LEVELWIDTH + " Height: " + LoadGame.LEVELHEIGHT);
 		
 		//This is how to play a sound
 		//SoundEffects.addSound("res/music/smb_over.mid");

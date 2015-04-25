@@ -9,7 +9,7 @@ public class Goblin extends Enemy {
 	private static final int GOBLIN_DEFENCE = 10;
 	private static final int GOBLIN_MOVEDISTANCE = 1;
 	private static final int GOBLIN_ATTACKDISTANCE = 1;
-	private static final String GOBLIN_IMAGEPATH = "Goblin Path";
+	private static final String GOBLIN_IMAGEPATH = "res/sprites/units/goblin.png";
 
 	public Goblin(Point initialPosition) {
 		super("Goblin", "Goblin desription", GOBLIN_HEALTH, GOBLIN_MANA,
