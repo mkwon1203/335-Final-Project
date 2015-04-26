@@ -12,8 +12,10 @@ public class Game extends Observable
 	private Player player;
 	private AI enemy;
 	private Map map;
-	private CharacterInterface currentCharacter; // currently selected character, mainly
-											// for GUI
+	private CharacterInterface currentCharacter; // currently selected
+													// character, mainly
+
+	// for GUI
 
 	public Game(String playerName, List<Character> playerCharacters,
 			List<Enemy> enemyCharacters, String mapName)
@@ -22,45 +24,88 @@ public class Game extends Observable
 		player = new Player(playerName, playerCharacters);
 		enemy = new AIEasy(enemyCharacters);
 		map = new Map(mapName);
+		populateMap();
 		currentCharacter = null;
 		playerTurnStart();
 	}
-	
+
+	public void populateMap()
+	{
+		for (CharacterInterface ch : player.getCharacters())
+		{
+			map.setCharacter(ch.getLocation(), ch);
+		}
+
+		for (CharacterInterface ch : enemy.getEnemies())
+		{
+			map.setCharacter(ch.getLocation(), ch);
+		}
+	}
+
+	public int getTurnCounter()
+	{
+		return turnCounter;
+	}
+
 	// returns the map object
-	public Map getMap(){
+	public Map getMap()
+	{
 		return map;
 	}
-	
-	public Player getPlayer(){
+
+	public Player getPlayer()
+	{
 		return player;
 	}
-	
-	public AI getAI(){
+
+	public AI getAI()
+	{
 		return enemy;
 	}
-	
-	public boolean isPlayersTurn(){
-		if(turnCounter % 2 == 1)
-			return true;
-		return false;
-	}
-	
-	public void advanceTurn(){
-		turnCounter++;
-		if(turnCounter % 2 == 1){
-			playerTurnStart();
-		}else{
-			enemyTurnStart();
-		}
-		
-	}
-	
-	public boolean isCharacterSelected(){
-	   return currentCharacter == null;
-	}
-	
-	public CharacterInterface getSelectedCharacter(){
+
+	public CharacterInterface getSelectedCharacter()
+	{
 		return currentCharacter;
+	}
+
+	public void setSelectedCharacter(CharacterInterface ch)
+	{
+		currentCharacter = ch;
+	}
+	
+	public void setSelectedCharacter(int row, int col)
+	{
+		currentCharacter = map.getCharacter(row,col);
+	}
+	
+	public boolean isOccupied(int row, int col)
+	{
+		return map.isOccupied(row, col);
+	}
+	
+	public CharacterInterface getCharacterAt(int row, int col)
+	{
+		return map.getCharacter(row,col);
+	}
+
+	public boolean isCharacterSelected()
+	{
+		return currentCharacter != null;
+	}
+
+	public boolean isPlayersTurn()
+	{
+		return turnCounter % 2 == 1;
+	}
+
+	public void advanceTurn()
+	{
+		turnCounter++;
+
+		if (isPlayersTurn())
+			playerTurnStart();
+		else
+			enemyTurnStart();
 	}
 
 	public List<Point> movablePositionList(CharacterInterface ch)
@@ -91,10 +136,11 @@ public class Game extends Observable
 		}
 
 		// prune the list to make sure it only contains valid points
-		for (Point p : movablePositions)
+		for (int i = 0; i < movablePositions.size(); i++)
 		{
-			if (!map.verifyBounds(p) || map.getValue(p).isSolid()
-					|| map.getValue(p).isOccupied())
+			Point p = movablePositions.get(i);
+			if (!map.verifyBounds(p) || map.getBlock(p).isSolid()
+					|| map.isOccupied(p))
 				movablePositions.remove(p);
 		}
 
@@ -103,24 +149,23 @@ public class Game extends Observable
 
 	public boolean move(CharacterInterface ch, Point location)
 	{
-		// moves given character to a given location
-		if (!ch.getMoveAvailable() || !map.verifyBounds(location)
-				|| map.getValue(location).isOccupied())
-			return false; // ch can't move or location is invalid
+		boolean movable = movablePositionList(ch).contains(location);
+		if (!ch.getMoveAvailable() || !movable)
+			return false;
 
 		// move the character
-		// make sure to set the block at the new location to be occupied
-		// make sure to set block at old location to be unoccupied
-		// update ch's position (that is what it means to move)
 		Point oldLocation = ch.getLocation();
-		map.setUnoccupied(oldLocation);
+		map.setCharacter(oldLocation, null);
 		ch.setLocation(location);
-		map.setOccupied(location);
-		
+		map.setCharacter(location, ch);
+
 		ch.setMoveAvailable(false);
-		setChanged();
-		notifyAll();
 		return true;
+	}
+
+	public boolean move(CharacterInterface ch, int row, int col)
+	{
+		return move(ch, new Point(row, col));
 	}
 
 	public List<CharacterInterface> attackableCharacterList(
@@ -225,8 +270,6 @@ public class Game extends Observable
 		defender.addHealth(-actualAttack);
 
 		wait(attacker);
-		setChanged();
-		notifyAll();
 		return true;
 	}
 
@@ -286,7 +329,6 @@ public class Game extends Observable
 			{
 				wait(ch);
 			}
-			advanceTurn();
 		}
 		else
 		{
@@ -295,7 +337,6 @@ public class Game extends Observable
 			{
 				wait(e);
 			}
-			advanceTurn();
 		}
 	}
 
@@ -314,6 +355,10 @@ public class Game extends Observable
 		{
 			e.resetAvailable();
 		}
+		
+		enemy.makeMove(this);
+		
+		advanceTurn();
 	}
 
 	public boolean isTurnOver()
@@ -349,20 +394,50 @@ public class Game extends Observable
 	{
 		// checks if any victory conditions are met
 		// condition 1: all of either player or AI's units are ded
+//		if (!isPlayersTurn())
+//		{
+//			for (Character ch : player.getCharacters())
+//			{
+//				if (ch.isAlive())
+//					return false;
+//			}
+//		}
+//		else
+//		{
+//			for (Enemy e : enemy.getEnemies())
+//			{
+//				if (e.isAlive())
+//					return false;
+//			}
+//		}
+		
+		boolean playerDead = true;
 		for (Character ch : player.getCharacters())
 		{
 			if (ch.isAlive())
-				return false;
-		}
-
+				playerDead = false;
+		} 
+		boolean enemyDead = true;
 		for (Enemy e : enemy.getEnemies())
 		{
 			if (e.isAlive())
-				return false;
+				enemyDead = false;
 		}
 		
+		return playerDead || enemyDead;
+
 		// more conditions below
 
-		return true;
+		//return true;
+	}
+
+	public String toStringGUI()
+	{
+		return map.toStringGUI();
+	}
+
+	public String toStringGUI2()
+	{
+		return map.toStringGUI2();
 	}
 }

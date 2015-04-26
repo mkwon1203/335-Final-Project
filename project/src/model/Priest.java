@@ -120,4 +120,10 @@ public class Priest extends Character {
 
 		return true;
 	}
+
+	@Override
+	public String toStringGUI()
+	{
+		return "P";
+	}
 }

@@ -11,12 +11,18 @@ public class Wall extends Block
 	public Wall()
 	{
 		// placeholder values
-		super(true, false, false, "res/sprites/wall.png");
+		super(true, false, "res/sprites/wall.png", "Wall");
 	}
 
 	@Override
 	public void draw()
 	{
+	}
+
+	@Override
+	public String toStringGUI()
+	{
+		return "[W]";
 	}
 
 }

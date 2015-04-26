@@ -121,4 +121,10 @@ public class Mage extends Character {
 
 		return true;
 	}
+
+	@Override
+	public String toStringGUI()
+	{
+		return "M";
+	}
 }

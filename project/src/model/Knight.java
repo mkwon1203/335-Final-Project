@@ -120,4 +120,10 @@ public class Knight extends Character {
 
 		return true;
 	}
+
+	@Override
+	public String toStringGUI()
+	{
+		return "K";
+	}
 }

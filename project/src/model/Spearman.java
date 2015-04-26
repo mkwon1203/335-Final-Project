@@ -121,4 +121,10 @@ public class Spearman extends Character {
 
 		return true;
 	}
+
+	@Override
+	public String toStringGUI()
+	{
+		return "S";
+	}
 }

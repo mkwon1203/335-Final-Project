@@ -121,4 +121,10 @@ public class Rat extends Enemy {
 
 		return true;
 	}
+
+	@Override
+	public String toStringGUI()
+	{
+		return "R";
+	}
 }

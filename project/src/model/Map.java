@@ -27,16 +27,36 @@ public class Map
 		return levelArray;
 	}
 	
-	// returns length of the map grid (x direction)
-	public int getLevelX()
+	// returns height of map
+	public int getLevelRow()
 	{
 		return levelArray.length;
 	}
 	
-	// returns heigth of map grid (y direction)
-	public int getLevelY()
+	// returns length of map, number of columns
+	public int getLevelCol()
 	{
 		return levelArray[0].length;
+	}
+	
+	public List<Point> getPlayerSpawns()
+	{
+		return playerSpawns;
+	}
+	
+	public List<Point> getEnemySpawns()
+	{
+		return enemySpawns;
+	}
+	
+	public void setPlayerSpawns(List<Point> spawns)
+	{
+		playerSpawns = spawns;
+	}
+	
+	public void setEnemySpawns(List<Point> spawns)
+	{
+		enemySpawns = spawns;
 	}
 
 	/**
@@ -54,11 +74,11 @@ public class Map
 
 		levelArray = new Block[levelArrayInt.length][levelArrayInt[0].length];
 		
-		for (int i = 0; i < levelArrayInt.length; i++)
+		for (int row = 0; row < levelArrayInt.length; row++)
 		{
-			for (int j = 0; j < levelArrayInt[0].length; j++)
+			for (int col = 0; col < levelArrayInt[0].length; col++)
 			{
-				int blockInt = levelArrayInt[i][j];
+				int blockInt = levelArrayInt[row][col];
 				
 				Block block;
 				
@@ -72,9 +92,31 @@ public class Map
 					// critical error
 					return false;
 				
-				levelArray[i][j] = block;
+				levelArray[row][col] = block;
 			}
 		}
+		
+//		for (int i = 0; i < levelArray[0].length; i++)
+//		{
+//			for (int j = 0; j < levelArray.length; j++)
+//			{
+//				int blockInt = levelArrayInt[j][i];
+//				
+//				Block block;
+//				
+//				if (blockInt == 0)
+//					block = new Floor();
+//				else if (blockInt == 1)
+//					block = new Wall();
+//				else if (blockInt == 2)
+//					block = new Air();
+//				else
+//					// critical error
+//					return false;
+//				
+//				levelArray[j][i] = block;
+//			}
+//		}
 		
 		return true;
 	}
@@ -101,7 +143,7 @@ public class Map
 	 * @return the Block object at the given point p null if the coordinate is
 	 *         out of bounds
 	 */
-	public Block getValue(Point p)
+	public Block getBlock(Point p)
 	{
 		// check to make sure p lies within boundary of 2D array
 		if (!verifyBounds(p))
@@ -109,6 +151,15 @@ public class Map
 			return null;
 
 		return levelArray[p.x][p.y];
+	}
+	
+	// overloaded method, using 2 ints for x and y instead of point
+	public Block getBlock(int x, int y)
+	{
+		if (!verifyBounds(x,y))
+			return null;
+		
+		return levelArray[x][y];
 	}
 
 	/**
@@ -121,7 +172,7 @@ public class Map
 	 * @return True if the block was placed successfully False if the point was
 	 *         out of bounds or occured
 	 */
-	public boolean setValue(Point p, Block b)
+	public boolean setBlock(Point p, Block b)
 	{
 		// check to make sure p lies within boundary of 2D array
 		if (!verifyBounds(p))
@@ -134,24 +185,13 @@ public class Map
 		return true;
 	}
 	
-	// will set the block at point p to be occupied
-	public boolean setOccupied(Point p)
+	public boolean setBlock(int x, int y, Block b)
 	{
-		if (!verifyBounds(p))
-			// point p is not a valid point in relation to map
+		if (!verifyBounds(x,y))
 			return false;
 		
-		levelArray[p.x][p.y].setOccupied(true);
-		return true;
-	}
-	
-	public boolean setUnoccupied(Point p)
-	{
-		if (!verifyBounds(p))
-			// point p is not a valid point in relation to map
-			return false;
+		levelArray[x][y] = b;
 		
-		levelArray[p.x][p.y].setOccupied(false);
 		return true;
 	}
 	
@@ -184,6 +224,50 @@ public class Map
 		
 		return true;
 	}
+	
+	public CharacterInterface getCharacter(Point p)
+	{
+		return levelArray[p.x][p.y].getCharacter();
+	}
+	
+	// returns the character at location (x,y)
+	public CharacterInterface getCharacter(int x, int y)
+	{
+		return levelArray[x][y].getCharacter();
+	}
+	
+	public boolean isOccupied(Point p)
+	{
+		return levelArray[p.x][p.y].isOccupied();
+	}
+	
+	public boolean isOccupied(int x, int y)
+	{
+		return levelArray[x][y].isOccupied();
+	}
+	
+	public boolean setCharacter(int x, int y, CharacterInterface ch)
+	{
+		if (!verifyBounds(x,y))
+			return false;
+		
+		levelArray[x][y].setCharacter(ch);
+		return true;
+	}
+	
+	public boolean setCharacter(Point p, CharacterInterface ch)
+	{
+		if (!verifyBounds(p))
+			return false;
+		
+		levelArray[p.x][p.y].setCharacter(ch);
+		return true;
+	}
+	
+	public void clearCharacters()
+	{
+		// run through array, clear all characters off the blocks
+	}
 
 	public String toString()
 	{
@@ -196,6 +280,42 @@ public class Map
 				Block curr = levelArray[i][j];
 
 				toReturn += curr.toString() + " ";
+			}
+			toReturn += "\n";
+		}
+
+		return toReturn;
+	}
+	
+	public String toStringGUI()
+	{
+		String toReturn = "";
+
+		for (int i = 0; i < levelArray.length; i++)
+		{
+			for (int j = 0; j < levelArray[0].length; j++)
+			{
+				Block curr = levelArray[i][j];
+
+				toReturn += curr.toStringGUI() + " ";
+			}
+			toReturn += "\n";
+		}
+
+		return toReturn;
+	}
+	
+	public String toStringGUI2()
+	{
+		String toReturn = "";
+
+		for (int i = 0; i < levelArray[0].length; i++)
+		{
+			for (int j = 0; j < levelArray.length; j++)
+			{
+				Block curr = levelArray[j][i];
+
+				toReturn += curr.toStringGUI() + " ";
 			}
 			toReturn += "\n";
 		}

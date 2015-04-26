@@ -123,4 +123,10 @@ public class DarkWizard extends Enemy
 		return true;
 	}
 
+	@Override
+	public String toStringGUI()
+	{
+		return "D";
+	}
+
 }

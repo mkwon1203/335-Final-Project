@@ -119,4 +119,10 @@ public class Goblin extends Enemy {
 
 		return true;
 	}
+
+	@Override
+	public String toStringGUI()
+	{
+		return "G";
+	}
 }

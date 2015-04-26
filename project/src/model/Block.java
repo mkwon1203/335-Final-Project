@@ -10,15 +10,17 @@ import javax.imageio.ImageIO;
 public abstract class Block
 {
 	private boolean solidState;
-	private boolean occupied;
+	private CharacterInterface character;
 	private boolean animated;
 	private Image texture;
+	private String type;
 	
-	public Block(boolean solidState, boolean occupied, boolean animated, String textureName)
+	public Block(boolean solidState, boolean animated, String textureName, String typeName)
 	{
 		this.solidState = solidState;
-		this.occupied = occupied;
+		character = null;
 		this.animated = animated;
+		type = typeName;
 		try
 		{
 			this.texture = ImageIO.read(new File(textureName));
@@ -44,9 +46,9 @@ public abstract class Block
 		return solidState;
 	}
 	
-	public boolean isOccupied()
+	public CharacterInterface getCharacter()
 	{
-		return occupied;
+		return character;
 	}
 	
 	public boolean isAnimated()
@@ -59,27 +61,33 @@ public abstract class Block
 		return texture;
 	}
 	
-	public void setOccupied(boolean newOccupied)
+	public boolean isOccupied()
 	{
-		occupied = newOccupied;
+		return character != null;
+	}
+	
+	public void setCharacter(CharacterInterface ch)
+	{
+		character = ch;
+	}
+	
+	public void setSolid(boolean solid)
+	{
+		solidState = solid;
+	}
+	
+	public void setAnimated(boolean animate)
+	{
+		animated = animate;
 	}
 	
 	// placeholder for console GUI
 	public String toString()
 	{
-		String toReturn = "";
-		
-		if (solidState)
-			toReturn += "W"; // for wall
-		else if (!solidState && !occupied)
-			toReturn += "F"; // for floor
-		else if (occupied)
-			toReturn += "C"; // for character
-		else
-			toReturn += "E"; // error!
-		
-		return toReturn;
+		return type;
 	}
+	
+	public abstract String toStringGUI();
 	
 	/**
 	 * This method will draw the block tile using the texture 

@@ -237,4 +237,6 @@ public abstract class CharacterInterface
 	{
 		location = newLocation;
 	}
+	
+	public abstract String toStringGUI();
 }
