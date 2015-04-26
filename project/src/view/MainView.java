@@ -37,6 +37,9 @@ public class MainView extends JFrame {
 		
 	}
 	
+	public Game getGame(){
+		return game;
+	}
 	
 	private void createFrame(int x, int y){
 		
@@ -56,10 +59,10 @@ public class MainView extends JFrame {
 		
 		if(game == null){
 			playerCharacters = new ArrayList<Character>();
-			playerCharacters.add(new Knight(new Point(5 * Client.BLOCKSIZE,7 * Client.BLOCKSIZE)));
+			playerCharacters.add(new Knight(new Point(5,7)));
 			
 			enemyCharacters = new ArrayList<Enemy>();
-			enemyCharacters.add(new Goblin(new Point(15 * Client.BLOCKSIZE,7 * Client.BLOCKSIZE)));
+			enemyCharacters.add(new Goblin(new Point(15,7)));
 			
 			
 			game = new Game("Player1", playerCharacters, enemyCharacters, "res/levels/milestone.lvl");
@@ -72,6 +75,23 @@ public class MainView extends JFrame {
 		pack();
 	}
 	
+	public void update(){
+		
+		if(Client.GAMESTATE == 1){
+			
+			if(title.isDisplayable()){
+				remove(title);
+				System.out.println("I removed the title panel");
+				addLevelToFrame();
+			}
+			
+			if(level == null)
+				addLevelToFrame();
+			
+		}
+		
+	}
+	
 	public void draw(){
 		
 		if(Client.GAMESTATE == 0){
@@ -79,13 +99,6 @@ public class MainView extends JFrame {
 			add(title);
 			pack();
 		}else if(Client.GAMESTATE == 1){
-			if(title.isDisplayable()){
-				remove(title);
-				System.out.println("I removed the title panel");
-				addLevelToFrame();
-			}
-			if(level == null)
-				addLevelToFrame();
 			
 			level.drawMap();
 			

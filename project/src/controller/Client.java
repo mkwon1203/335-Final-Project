@@ -4,6 +4,7 @@
 package controller;
 import model.LoadGame;
 import view.MainView;
+import model.Game;
 
 public class Client implements Runnable {
 	
@@ -14,6 +15,8 @@ public class Client implements Runnable {
 	public static int GAMESTATE = 0;
 	
 	private boolean isRunning = false;
+	
+	private Game game;
 	
 	public static void main(String[]args){
 		
@@ -53,8 +56,23 @@ public class Client implements Runnable {
 	
 	public void update(){
 		
+		mainFrame.update();
 		
+		if(GAMESTATE == 1){
 			
+			if(game == null)
+				game = mainFrame.getGame();
+			
+			
+			
+			if(game.isTurnOver())
+				game.advanceTurn();
+			
+			//TODO: Temporary, will eventually just end game and prompt a menu.
+			if(game.isGameOver())
+				isRunning = false;
+			
+		}
 		
 	}
 	

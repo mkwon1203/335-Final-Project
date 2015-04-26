@@ -79,9 +79,9 @@ public class Level extends JPanel
 			
 			Block[][] level = game.getMap().getLevel();
 			
-			for(int y = 0; y < game.getMap().getLevelY(); y++){
-				for(int x = 0; x < game.getMap().getLevelX(); x++){
-					g.drawImage(level[x][y].getTexture(), y * Client.BLOCKSIZE, x * Client.BLOCKSIZE, null);
+			for(int y = 0; y < game.getMap().getLevelRow(); y++){
+				for(int x = 0; x < game.getMap().getLevelCol(); x++){
+					g.drawImage(level[y][x].getTexture(), x * Client.BLOCKSIZE, y * Client.BLOCKSIZE, null);
 				}
 			}
 			
@@ -98,11 +98,11 @@ public class Level extends JPanel
 		playerUnits = game.getPlayer().getCharacters();
 		aiUnits = game.getAI().getEnemies();
 		for(Character c : playerUnits){
-			g.drawImage(c.getTexture(), c.getLocation().x, c.getLocation().y, null);
+			g.drawImage(c.getTexture(), c.getLocation().x * Client.BLOCKSIZE, c.getLocation().y * Client.BLOCKSIZE, null);
 		}
 		
 		for(Enemy e : aiUnits){
-			g.drawImage(e.getTexture(), e.getLocation().x, e.getLocation().y, null);
+			g.drawImage(e.getTexture(), e.getLocation().x * Client.BLOCKSIZE, e.getLocation().y * Client.BLOCKSIZE, null);
 		}
 		
 	}
@@ -123,25 +123,25 @@ public class Level extends JPanel
 			case 1:
 				if(Client.GAMESTATE == 1){
 					
-					Block b = game.getMap().getValue(new Point((int)(e.getY() / Client.BLOCKSIZE), (int)(e.getX() / Client.BLOCKSIZE)));
+					Point clickLocation = new Point((int)(e.getY() / Client.BLOCKSIZE), (int)(e.getX() / Client.BLOCKSIZE));
 					
-					if(game.isCharacterSelected()){
-						if(game.isPlayersTurn()){
+					Block b = game.getMap().getBlock(clickLocation);
+					System.out.println("Block is occupied: " + b.isOccupied());
+					
+					
+					if(game.isPlayersTurn()){
+						
+						if(game.isCharacterSelected()){
 							System.out.println("trying to move.");
-							game.move(game.getSelectedCharacter(), new Point(((int)(e.getX() / Client.BLOCKSIZE) * Client.BLOCKSIZE),((int)(e.getY() / Client.BLOCKSIZE) * Client.BLOCKSIZE)));
-							game.endTurn();
+							game.move(game.getSelectedCharacter(), clickLocation);
 						}
-					}
-					
-					for(Character c : playerUnits){
-						if(((int)(c.getLocation().x / Client.BLOCKSIZE) == (int)(e.getX() / Client.BLOCKSIZE)) && 
-								((int)(c.getLocation().y / Client.BLOCKSIZE) == (int)(e.getY() / Client.BLOCKSIZE))){
-							game.updateCurrentCharacter(c);
-							//game.move(c, new Point((int)(e.getX() / Client.BLOCKSIZE),(int)(e.getY() / Client.BLOCKSIZE)));
-							System.out.println("selected a unit");
+						
+						if(b.isOccupied()){
+							game.setSelectedCharacter(game.getCharacterAt(clickLocation.x, clickLocation.y));
+							System.out.println("Character selected: " + game.isCharacterSelected());
 						}
+						
 					}
-					
 					
 					System.out.println(b.isSolid());
 					System.out.println("Mouse coordinates: " + e.getX() + ", " + e.getY());
@@ -152,14 +152,13 @@ public class Level extends JPanel
 			case 2:
 				
 				break;
-				
-				
-			}
+					
+			}//End of switch
 			
 			
-		}
+		}//End of mouseClicked()
 		
 		
-	}
+	} //End of inner class
 	
 }
