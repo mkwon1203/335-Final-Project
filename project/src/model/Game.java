@@ -9,10 +9,10 @@ import java.util.Random;
 public class Game extends Observable
 {
 	private int turnCounter;
-	Player player;
-	AI enemy;
-	Map map;
-	CharacterInterface currentCharacter; // currently selected character, mainly
+	private Player player;
+	private AI enemy;
+	private Map map;
+	private CharacterInterface currentCharacter; // currently selected character, mainly
 											// for GUI
 
 	public Game(String playerName, List<Character> playerCharacters,

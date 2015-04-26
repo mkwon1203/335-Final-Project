@@ -6,6 +6,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -14,22 +16,22 @@ public class TestTitleScreen extends JPanel
 {
 	JButton start, option, quit;
 	Image background;
+	JFrame frame;
 	
 	public static void main(String[]args) throws IOException
 	{
-		JFrame frame = new JFrame();
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(800,600);
 		
 		TestTitleScreen panel = new TestTitleScreen();
-		frame.add(panel);
-		frame.pack();
-		frame.setResizable(false);
 	}
 	
 	public TestTitleScreen() throws IOException
 	{
+		frame = new JFrame();
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(800,600);
+		frame.setResizable(false);
+		
 		background = ImageIO.read(new File("res/titleScreen/titleBackground.png"));
 		repaint();
 		start = new JButton(new ImageIcon(ImageIO.read(new File("res/titleScreen/startgame.png"))));
@@ -54,6 +56,9 @@ public class TestTitleScreen extends JPanel
 		quit.setOpaque(false);
 		quit.setContentAreaFilled(false);
 		quit.setBorderPainted(false);
+		quit.addActionListener(new QuitButtonListener());
+		frame.add(this);
+		frame.pack();
 	}
 	
 	public void paintComponent(Graphics page)
@@ -62,5 +67,13 @@ public class TestTitleScreen extends JPanel
 		page.drawImage(background, 0, 0, null);
 	}
 	
+	public class QuitButtonListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			frame.dispose();
+		}
+	}
 	
 }
