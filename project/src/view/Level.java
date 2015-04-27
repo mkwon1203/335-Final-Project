@@ -98,11 +98,11 @@ public class Level extends JPanel
 		playerUnits = game.getPlayer().getCharacters();
 		aiUnits = game.getAI().getEnemies();
 		for(Character c : playerUnits){
-			g.drawImage(c.getTexture(), c.getLocation().x * Client.BLOCKSIZE, c.getLocation().y * Client.BLOCKSIZE, null);
+			g.drawImage(c.getTexture(), c.getLocation().y * Client.BLOCKSIZE, c.getLocation().x * Client.BLOCKSIZE, null);
 		}
 		
 		for(Enemy e : aiUnits){
-			g.drawImage(e.getTexture(), e.getLocation().x * Client.BLOCKSIZE, e.getLocation().y * Client.BLOCKSIZE, null);
+			g.drawImage(e.getTexture(), e.getLocation().y * Client.BLOCKSIZE, e.getLocation().x * Client.BLOCKSIZE, null);
 		}
 		
 	}
@@ -124,7 +124,7 @@ public class Level extends JPanel
 				if(Client.GAMESTATE == 1){
 					
 					Point clickLocation = new Point((int)(e.getY() / Client.BLOCKSIZE), (int)(e.getX() / Client.BLOCKSIZE));
-					
+					System.out.println("Click location: " + clickLocation.x + " " + clickLocation.y);
 					Block b = game.getMap().getBlock(clickLocation);
 					System.out.println("Block is occupied: " + b.isOccupied());
 					
