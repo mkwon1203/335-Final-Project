@@ -29,6 +29,9 @@ public class Game extends Observable
 		playerTurnStart();
 	}
 
+	/**
+	 * This method will take
+	 */
 	public void populateMap()
 	{
 		for (CharacterInterface ch : player.getCharacters())
@@ -72,20 +75,20 @@ public class Game extends Observable
 	{
 		currentCharacter = ch;
 	}
-	
+
 	public void setSelectedCharacter(int row, int col)
 	{
-		currentCharacter = map.getCharacter(row,col);
+		currentCharacter = map.getCharacter(row, col);
 	}
-	
+
 	public boolean isOccupied(int row, int col)
 	{
 		return map.isOccupied(row, col);
 	}
-	
+
 	public CharacterInterface getCharacterAt(int row, int col)
 	{
-		return map.getCharacter(row,col);
+		return map.getCharacter(row, col);
 	}
 
 	public boolean isCharacterSelected()
@@ -120,28 +123,32 @@ public class Game extends Observable
 
 		List<Point> movablePositions = new ArrayList<Point>();
 
-		while (moveDistance >= 0)
+		if (ch.isAlive())
 		{
-			for (int y = currentY - moveDistance; y <= currentY + moveDistance; y++)
+			while (moveDistance >= 0)
 			{
-				Point p = new Point(leftX, y);
-				movablePositions.add(p);
-				p = new Point(rightX, y);
-				movablePositions.add(p);
+				for (int y = currentY - moveDistance; y <= currentY
+						+ moveDistance; y++)
+				{
+					Point p = new Point(leftX, y);
+					movablePositions.add(p);
+					p = new Point(rightX, y);
+					movablePositions.add(p);
+				}
+
+				leftX--;
+				rightX++;
+				moveDistance--;
 			}
 
-			leftX--;
-			rightX++;
-			moveDistance--;
-		}
-
-		// prune the list to make sure it only contains valid points
-		for (int i = 0; i < movablePositions.size(); i++)
-		{
-			Point p = movablePositions.get(i);
-			if (!map.verifyBounds(p) || map.getBlock(p).isSolid()
-					|| map.isOccupied(p))
-				movablePositions.remove(p);
+			// prune the list to make sure it only contains valid points
+			for (int i = 0; i < movablePositions.size(); i++)
+			{
+				Point p = movablePositions.get(i);
+				if (!map.verifyBounds(p) || map.getBlock(p).isSolid()
+						|| map.isOccupied(p))
+					movablePositions.remove(p);
+			}
 		}
 
 		return movablePositions;
@@ -177,26 +184,29 @@ public class Game extends Observable
 		// less than or equal to the attackDistance of given character ch
 		List<CharacterInterface> attackableCharacters = new ArrayList<CharacterInterface>();
 
-		if (ch instanceof Character)
+		if (ch.isAlive())
 		{
-			// get list of AI's units
-			List<Enemy> enemies = enemy.getEnemies();
-
-			for (Enemy e : enemies)
+			if (ch instanceof Character)
 			{
-				if (attackable(ch, e) && e.isAlive())
-					attackableCharacters.add(e);
+				// get list of AI's units
+				List<Enemy> enemies = enemy.getEnemies();
+
+				for (Enemy e : enemies)
+				{
+					if (attackable(ch, e) && e.isAlive())
+						attackableCharacters.add(e);
+				}
 			}
-		}
-		else
-		// ch is AI's unit
-		{
-			List<Character> characters = player.getCharacters();
-
-			for (Character c : characters)
+			else
+			// ch is AI's unit
 			{
-				if (attackable(ch, c) && c.isAlive())
-					attackableCharacters.add(c);
+				List<Character> characters = player.getCharacters();
+
+				for (Character c : characters)
+				{
+					if (attackable(ch, c) && c.isAlive())
+						attackableCharacters.add(c);
+				}
 			}
 		}
 
@@ -355,9 +365,9 @@ public class Game extends Observable
 		{
 			e.resetAvailable();
 		}
-		
+
 		enemy.makeMove(this);
-		
+
 		advanceTurn();
 	}
 
@@ -394,41 +404,41 @@ public class Game extends Observable
 	{
 		// checks if any victory conditions are met
 		// condition 1: all of either player or AI's units are ded
-//		if (!isPlayersTurn())
-//		{
-//			for (Character ch : player.getCharacters())
-//			{
-//				if (ch.isAlive())
-//					return false;
-//			}
-//		}
-//		else
-//		{
-//			for (Enemy e : enemy.getEnemies())
-//			{
-//				if (e.isAlive())
-//					return false;
-//			}
-//		}
-		
+		// if (!isPlayersTurn())
+		// {
+		// for (Character ch : player.getCharacters())
+		// {
+		// if (ch.isAlive())
+		// return false;
+		// }
+		// }
+		// else
+		// {
+		// for (Enemy e : enemy.getEnemies())
+		// {
+		// if (e.isAlive())
+		// return false;
+		// }
+		// }
+
 		boolean playerDead = true;
 		for (Character ch : player.getCharacters())
 		{
 			if (ch.isAlive())
 				playerDead = false;
-		} 
+		}
 		boolean enemyDead = true;
 		for (Enemy e : enemy.getEnemies())
 		{
 			if (e.isAlive())
 				enemyDead = false;
 		}
-		
+
 		return playerDead || enemyDead;
 
 		// more conditions below
 
-		//return true;
+		// return true;
 	}
 
 	public String toStringGUI()
