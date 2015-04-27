@@ -69,8 +69,10 @@ public class Client implements Runnable {
 				game.advanceTurn();
 			
 			//TODO: Temporary, will eventually just end game and prompt a menu.
-			if(game.isGameOver())
+			if(game.isGameOver()){
 				isRunning = false;
+				System.out.println("Game Ended");
+			}
 			
 		}
 		

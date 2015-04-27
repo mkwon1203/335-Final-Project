@@ -3,7 +3,7 @@ package model;
 import java.awt.Point;
 
 public class Goblin extends Enemy {
-	private static final int GOBLIN_HEALTH = 100;
+	private static final int GOBLIN_HEALTH = 25;
 	private static final int GOBLIN_MANA = 0;
 	private static final int GOBLIN_STRENGTH = 10;
 	private static final int GOBLIN_DEFENCE = 10;

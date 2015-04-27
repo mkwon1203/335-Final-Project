@@ -59,10 +59,10 @@ public class MainView extends JFrame {
 		
 		if(game == null){
 			playerCharacters = new ArrayList<Character>();
-			playerCharacters.add(new Knight(new Point(5,7)));
+			playerCharacters.add(new Knight(new Point(7,5)));
 			
 			enemyCharacters = new ArrayList<Enemy>();
-			enemyCharacters.add(new Goblin(new Point(15,7)));
+			enemyCharacters.add(new Goblin(new Point(7,15)));
 			
 			
 			game = new Game("Player1", playerCharacters, enemyCharacters, "res/levels/milestone.lvl");
@@ -101,6 +101,7 @@ public class MainView extends JFrame {
 		}else if(Client.GAMESTATE == 1){
 			
 			level.drawMap();
+			level.drawStatsPanel();
 			
 		}
 		
