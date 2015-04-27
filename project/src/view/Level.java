@@ -184,7 +184,7 @@ public class Level extends JPanel
 				g.setColor(Color.RED);
 				g.fillRect(c.getLocation().y * Client.BLOCKSIZE + 1, c.getLocation().x * Client.BLOCKSIZE - 10, 30, 5);
 				g.setColor(Color.GREEN);
-				g.fillRect(c.getLocation().y * Client.BLOCKSIZE + 1, c.getLocation().x * Client.BLOCKSIZE - 10, c.getPercentHealth() * 30, 5);
+				g.fillRect(c.getLocation().y * Client.BLOCKSIZE + 1, c.getLocation().x * Client.BLOCKSIZE - 10, (int)(c.getPercentHealth() * 30), 5);
 			}
 			
 			List<Enemy> aiCharacters = game.getAI().getEnemies();
@@ -192,7 +192,7 @@ public class Level extends JPanel
 				g.setColor(Color.RED);
 				g.fillRect(c.getLocation().y * Client.BLOCKSIZE + 1, c.getLocation().x * Client.BLOCKSIZE - 10, 30, 5);
 				g.setColor(Color.GREEN);
-				g.fillRect(c.getLocation().y * Client.BLOCKSIZE + 1, c.getLocation().x * Client.BLOCKSIZE - 10, c.getPercentHealth() * 30, 5);
+				g.fillRect(c.getLocation().y * Client.BLOCKSIZE + 1, c.getLocation().x * Client.BLOCKSIZE - 10, (int)(c.getPercentHealth() * 30), 5);
 			}
 			
 			//This highlights the movable locations for the selected character
