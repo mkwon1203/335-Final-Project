@@ -250,13 +250,8 @@ public class Level extends JPanel
 				if(Client.GAMESTATE == 1){
 					
 					clickLocation = new Point((int)(e.getY() / Client.BLOCKSIZE), (int)(e.getX() / Client.BLOCKSIZE));
-
-					Point clickLocation = new Point((int)(e.getY() / Client.BLOCKSIZE), (int)(e.getX() / Client.BLOCKSIZE));
-					System.out.println("Click location: " + clickLocation.x + " " + clickLocation.y);
-
 					Block b = game.getMap().getBlock(clickLocation);
 					//System.out.println("Block is occupied: " + b.isOccupied());
-					
 					
 					if(game.isPlayersTurn()){
 						
