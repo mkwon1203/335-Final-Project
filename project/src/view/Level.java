@@ -168,18 +168,38 @@ public class Level extends JPanel
 			
 			Block[][] level = game.getMap().getLevel();
 			
+			//Draws the map itself
 			for(int y = 0; y < game.getMap().getLevelRow(); y++){
 				for(int x = 0; x < game.getMap().getLevelCol(); x++){
 					g.drawImage(level[y][x].getTexture(), x * Client.BLOCKSIZE, y * Client.BLOCKSIZE, null);
 				}
 			}
 			
+			//Method call to draw the units on the map
 			drawUnits(g);
 			
+			//TODO: Draw the health bars above all the units on the map.
+			List<Character> playerCharacters = game.getPlayer().getCharacters();
+			for(Character c : playerCharacters){
+				g.setColor(Color.RED);
+				g.fillRect(c.getLocation().y * Client.BLOCKSIZE + 1, c.getLocation().x * Client.BLOCKSIZE - 10, 30, 5);
+				g.setColor(Color.GREEN);
+				g.fillRect(c.getLocation().y * Client.BLOCKSIZE + 1, c.getLocation().x * Client.BLOCKSIZE - 10, c.getPercentHealth() * 30, 5);
+			}
+			
+			List<Enemy> aiCharacters = game.getAI().getEnemies();
+			for(Enemy c : aiCharacters){
+				g.setColor(Color.RED);
+				g.fillRect(c.getLocation().y * Client.BLOCKSIZE + 1, c.getLocation().x * Client.BLOCKSIZE - 10, 30, 5);
+				g.setColor(Color.GREEN);
+				g.fillRect(c.getLocation().y * Client.BLOCKSIZE + 1, c.getLocation().x * Client.BLOCKSIZE - 10, c.getPercentHealth() * 30, 5);
+			}
+			
+			//This highlights the movable locations for the selected character
 			if(game.isCharacterSelected()){
 				if(game.getSelectedCharacter().getMoveAvailable()){
-					List<Point> moveableTiles = game.movablePositionList(game.getSelectedCharacter());
-					for(Point p : moveableTiles){
+					List<Point> movableTiles = game.movablePositionList(game.getSelectedCharacter());
+					for(Point p : movableTiles){
 						if(game.isOccupied(p.x, p.y)){
 							if(game.attackable(game.getSelectedCharacter(), game.getCharacterAt(p.x, p.y))){
 								g.setColor(Color.RED);
