@@ -190,6 +190,8 @@ public abstract class CharacterInterface
 	
 	public abstract boolean addHealth(int delta);
 	
+	public abstract double getPercentHealth();
+	
 	public void setHealth(int newHealth)
 	{
 		health = newHealth;

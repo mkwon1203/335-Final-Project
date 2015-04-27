@@ -25,6 +25,11 @@ public class Archer extends Character
 		setAlive();
 		setHealth(ARCHER_HEALTH);
 	}
+	
+	public double getPercentHealth()
+	{
+		return ((double) getHealth()) / ARCHER_HEALTH;
+	}
 
 	@Override
 	public boolean addHealth(int delta)

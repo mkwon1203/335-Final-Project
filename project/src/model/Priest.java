@@ -23,6 +23,11 @@ public class Priest extends Character {
 		setAlive();
 		setHealth(PRIEST_HEALTH);
 	}
+	
+	public double getPercentHealth()
+	{
+		return ((double) getHealth()) / PRIEST_HEALTH;
+	}
 
 	@Override
 	public boolean addHealth(int delta)

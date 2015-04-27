@@ -22,6 +22,11 @@ public class Goblin extends Enemy {
 		setAlive();
 		setHealth(GOBLIN_HEALTH);
 	}
+	
+	public double getPercentHealth()
+	{
+		return ((double) getHealth()) / GOBLIN_HEALTH;
+	}
 
 	@Override
 	public boolean addHealth(int delta)

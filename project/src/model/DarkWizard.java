@@ -27,6 +27,11 @@ public class DarkWizard extends Enemy
 		setAlive();
 		setHealth(DARKWIZARD_HEALTH);
 	}
+	
+	public double getPercentHealth()
+	{
+		return ((double) getHealth()) / DARKWIZARD_HEALTH;
+	}
 
 	@Override
 	public boolean addHealth(int delta)

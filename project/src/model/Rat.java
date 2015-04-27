@@ -24,6 +24,11 @@ public class Rat extends Enemy {
 		setAlive();
 		setHealth(RAT_HEALTH);
 	}
+	
+	public double getPercentHealth()
+	{
+		return ((double) getHealth()) / RAT_HEALTH;
+	}
 
 	@Override
 	public boolean addHealth(int delta)
