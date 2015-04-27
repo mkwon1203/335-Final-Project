@@ -65,7 +65,7 @@ public class MainView extends JFrame {
 			enemyCharacters.add(new Goblin(new Point(7,15)));
 			
 			
-			game = new Game("Player1", playerCharacters, enemyCharacters, "res/levels/milestone.lvl");
+			game = new Game("Player1", playerCharacters, enemyCharacters, "milestone");
 		}
 		if(level == null){
 			level = new Level(game, 800, 600);
