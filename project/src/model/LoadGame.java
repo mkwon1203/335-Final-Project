@@ -17,7 +17,7 @@ public class LoadGame {
 	//Call this method to load a level file
 	public static int[][] loadFile(String fileName){
 		
-		//  "res/levels/testLevel.lvl"
+		//  Example file name: "testLevel"
 		fileName = "res/levels/" + fileName + ".lvl";
 		
 		try{
@@ -67,7 +67,6 @@ public class LoadGame {
 	//	The spawn locations should be changed and decided based upon the 
 	//	possible enemy spawn locations on the map.
 	public static List<String> loadEnemies(String fileName){
-		//Will return String for now, so I can test the code easier.
 		List<String> enemyList = new ArrayList<String>();
 		String path = "res/levels/" + fileName + ".lvl";
 		
@@ -98,7 +97,6 @@ public class LoadGame {
 	//		Returns a list of points that contain the possible spawn locations
 	//			on the map.
 	public static List<Point> loadEnemySpawns(String fileName){
-		//TODO: Write the logic to load the enemy spawn locations.
 		List<Point> enemySpawns = new ArrayList<Point>();
 		String path = "res/levels/" + fileName + ".lvl";
 		
@@ -132,7 +130,6 @@ public class LoadGame {
 	//		Returns a list of points that are the possible spawn locations on
 	//		the map.
 	public static List<Point> loadPlayerSpawns(String fileName){
-		//TODO: Write the logic to load the player spawn locations.
 		List<Point> playerSpawns = new ArrayList<Point>();
 		String path = "res/levels/" + fileName + ".lvl";
 		

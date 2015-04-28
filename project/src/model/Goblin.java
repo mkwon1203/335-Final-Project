@@ -5,8 +5,8 @@ import java.awt.Point;
 public class Goblin extends Enemy {
 	private static final int GOBLIN_HEALTH = 25;
 	private static final int GOBLIN_MANA = 0;
-	private static final int GOBLIN_STRENGTH = 10;
-	private static final int GOBLIN_DEFENCE = 10;
+	private static final int GOBLIN_STRENGTH = 7;
+	private static final int GOBLIN_DEFENCE = 5;
 	private static final int GOBLIN_MOVEDISTANCE = 1;
 	private static final int GOBLIN_ATTACKDISTANCE = 1;
 	private static final String GOBLIN_IMAGEPATH = "res/sprites/units/goblin.png";

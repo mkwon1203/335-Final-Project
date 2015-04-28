@@ -101,7 +101,7 @@ public class MainView extends JFrame {
 		}else if(Client.GAMESTATE == 1){
 			
 			level.drawMap();
-			level.drawStatsPanel();
+			level.getStatPanel().draw();
 			
 		}
 		
