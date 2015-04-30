@@ -192,6 +192,8 @@ public abstract class CharacterInterface
 	
 	public abstract double getPercentHealth();
 	
+	public abstract double getPercentMana();
+	
 	public void setHealth(int newHealth)
 	{
 		health = newHealth;

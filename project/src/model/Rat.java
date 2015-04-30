@@ -29,6 +29,11 @@ public class Rat extends Enemy {
 	{
 		return ((double) getHealth()) / RAT_HEALTH;
 	}
+	
+	public double getPercentMana()
+	{
+		return ((double) getMana()) / RAT_MANA;
+	}
 
 	@Override
 	public boolean addHealth(int delta)

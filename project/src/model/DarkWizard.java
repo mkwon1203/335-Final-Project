@@ -32,6 +32,11 @@ public class DarkWizard extends Enemy
 	{
 		return ((double) getHealth()) / DARKWIZARD_HEALTH;
 	}
+	
+	public double getPercentMana()
+	{
+		return ((double) getMana()) / DARKWIZARD_MANA;
+	}
 
 	@Override
 	public boolean addHealth(int delta)

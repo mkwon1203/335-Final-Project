@@ -29,6 +29,11 @@ public class Spearman extends Character {
 	{
 		return ((double) getHealth()) / SPEARMAN_HEALTH;
 	}
+	
+	public double getPercentMana()
+	{
+		return ((double) getMana()) / SPEARMAN_MANA;
+	}
 
 	@Override
 	public boolean addHealth(int delta)

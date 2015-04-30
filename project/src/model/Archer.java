@@ -30,6 +30,11 @@ public class Archer extends Character
 	{
 		return ((double) getHealth()) / ARCHER_HEALTH;
 	}
+	
+	public double getPercentMana()
+	{
+		return ((double) getMana()) / ARCHER_MANA;
+	}
 
 	@Override
 	public boolean addHealth(int delta)

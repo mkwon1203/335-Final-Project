@@ -29,6 +29,11 @@ public class Mage extends Character {
 	{
 		return ((double) getHealth()) / MAGE_HEALTH;
 	}
+	
+	public double getPercentMana()
+	{
+		return ((double) getMana()) / MAGE_MANA;
+	}
 
 	@Override
 	public boolean addHealth(int delta)

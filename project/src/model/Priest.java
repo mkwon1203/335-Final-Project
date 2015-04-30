@@ -28,6 +28,11 @@ public class Priest extends Character {
 	{
 		return ((double) getHealth()) / PRIEST_HEALTH;
 	}
+	
+	public double getPercentMana()
+	{
+		return ((double) getMana()) / PRIEST_MANA;
+	}
 
 	@Override
 	public boolean addHealth(int delta)

@@ -207,9 +207,7 @@ public class LevelStatPanel extends JPanel{
 				g.fillRect(160, 20, (int)(game.getSelectedCharacter().getPercentHealth() * 100), 7);
 				g.setColor(Color.BLUE);
 				
-				//TODO: Uncomment the other line, and delete existing line when method is written.
-				g.fillRect(160, 60, 100, 7);
-				//g.fillRect(160, 60, (int)(game.getSelectedCharacter().getPercentMana() * 100), 7);
+				g.fillRect(160, 60, (int)(game.getSelectedCharacter().getPercentMana() * 100), 7);
 			}
 		}
 		repaint();

@@ -28,6 +28,11 @@ public class Knight extends Character {
 	{
 		return ((double) getHealth()) / KNIGHT_HEALTH;
 	}
+	
+	public double getPercentMana()
+	{
+		return ((double) getMana()) / KNIGHT_MANA;
+	}
 
 	@Override
 	public boolean addHealth(int delta)
