@@ -7,10 +7,12 @@ import java.awt.List;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import model.Enemy;
 import model.Game;
 import model.HealthPotion;
 import model.Knight;
 import model.ManaPotion;
+import model.Map;
 import model.RevivePotion;
 
 import org.junit.Test;
@@ -22,8 +24,11 @@ public class TestModelClasses {
 //	private HealthPotion healthPotion = new HealthPotion();
 //	private ManaPotion manaPotion = new ManaPotion();
 //	private RevivePotion revivePotion = new RevivePotion();
-	private ArrayList<Character> characterList = new ArrayList<Character>();
+	private java.util.List<model.Character> characterList;// = new List<Character>();
+	private ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 	private Game game;
+	private Character knight2 = new Character('b');
+	private Map map = new Map("res/level/milestone.lvl");
 	//Knight knight2 = new Character(knightLoc);
 	
 	
@@ -44,7 +49,10 @@ public class TestModelClasses {
 		// need to check image
 		
 		//characterList.add((Character)knight);
-		game = new Game("knight", null, null, null);
+		game = new Game("knight", characterList, enemyList, "res/level/milestone.lvl");
+		Point nextMove = new Point(3,3);
+		game.move(knight, nextMove);
+		assertEquals(nextMove, knight.getLocation());
 	}
 	
 	//@Test
