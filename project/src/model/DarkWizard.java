@@ -12,14 +12,20 @@ public class DarkWizard extends Enemy
 	private static final int DARKWIZARD_MOVEDISTANCE = 1;
 	private static final int DARKWIZARD_ATTACKDISTANCE = 1;
 	private static final String DARKWIZARD_IMAGEPATH = "Darkwizard Path";
+	private static final String DARKWIZARD_DESCRIPTION = "DARKWIZARD description";
 
 	public DarkWizard(Point initialPosition)
 	{
 
-		super("Darkwizard", "Darkwizard desription", DARKWIZARD_HEALTH,
+		super("Darkwizard", DARKWIZARD_DESCRIPTION, DARKWIZARD_HEALTH,
 				DARKWIZARD_MANA, DARKWIZARD_STRENGTH, DARKWIZARD_DEFENCE,
 				initialPosition, true, DARKWIZARD_MOVEDISTANCE,
 				DARKWIZARD_ATTACKDISTANCE, DARKWIZARD_IMAGEPATH);
+	}
+	
+	public static String getUnitDescription()
+	{
+		return DARKWIZARD_DESCRIPTION;
 	}
 
 	public void revive()

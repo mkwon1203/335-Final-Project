@@ -11,12 +11,18 @@ public class Mage extends Character {
 	private static final int MAGE_MOVEDISTANCE = 1;
 	private static final int MAGE_ATTACKDISTANCE = 1;
 	private static final String MAGE_IMAGEPATH = "Mage Path";
+	private static final String MAGE_DESCRIPTION = "MAGE description";
 
 	public Mage(Point initialPosition) {
 
-		super("Mage", "Mage desription", MAGE_HEALTH, MAGE_MANA, MAGE_STRENGTH,
+		super("Mage", MAGE_DESCRIPTION, MAGE_HEALTH, MAGE_MANA, MAGE_STRENGTH,
 				MAGE_DEFENCE, initialPosition, true, MAGE_MOVEDISTANCE,
 				MAGE_ATTACKDISTANCE, MAGE_IMAGEPATH);
+	}
+	
+	public static String getUnitDescription()
+	{
+		return MAGE_DESCRIPTION;
 	}
 
 	public void revive()

@@ -19,10 +19,10 @@ public class TestFrame extends JFrame
 		map = inputMap;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Gaem");
-		setSize(blockSize*map.getLevelX(), blockSize*map.getLevelY());
+		setSize(blockSize*map.getLevelRow(), blockSize*map.getLevelCol());
 		
 		JPanel panel = new JPanel();
-		panel.setSize(blockSize*map.getLevelX(), blockSize*map.getLevelY());
+		panel.setSize(blockSize*map.getLevelRow(), blockSize*map.getLevelCol());
 		panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
 		Block[][] array = map.getLevel();
 		

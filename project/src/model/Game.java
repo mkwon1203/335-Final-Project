@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
@@ -115,39 +116,42 @@ public class Game extends Observable
 	{
 		// returns a List containing all points that given character can move to
 		Point currentPosition = ch.getLocation();
-		int currentX = currentPosition.x;
-		int currentY = currentPosition.y;
+		int currentRow = currentPosition.x;
+		int leftCol = currentPosition.y;
+		int rightCol = currentPosition.y;
 		int moveDistance = ch.getMoveDistance();
-		int leftX = currentX;
-		int rightX = currentX;
 
+		List<Point> rawMovablePositions = new ArrayList<Point>();
 		List<Point> movablePositions = new ArrayList<Point>();
 
 		if (ch.isAlive())
 		{
 			while (moveDistance >= 0)
 			{
-				for (int y = currentY - moveDistance; y <= currentY
-						+ moveDistance; y++)
+				for (int row = currentRow - moveDistance; row <= currentRow
+						+ moveDistance; row++)
 				{
-					Point p = new Point(leftX, y);
-					movablePositions.add(p);
-					p = new Point(rightX, y);
-					movablePositions.add(p);
+					Point l = new Point(row, leftCol);
+					if (!rawMovablePositions.contains(l))
+						rawMovablePositions.add(l);
+					Point r = new Point(row, rightCol);
+					if (!rawMovablePositions.contains(r))
+						rawMovablePositions.add(r);
 				}
 
-				leftX--;
-				rightX++;
+				leftCol --;
+				rightCol ++;
 				moveDistance--;
 			}
-
+			
 			// prune the list to make sure it only contains valid points
-			for (int i = 0; i < movablePositions.size(); i++)
+			for (int i = 0; i < rawMovablePositions.size(); i++)
 			{
-				Point p = movablePositions.get(i);
-				if (!map.verifyBounds(p) || map.getBlock(p).isSolid()
-						|| map.isOccupied(p))
-					movablePositions.remove(p);
+				Point p = rawMovablePositions.get(i);
+				
+				if (map.verifyBounds(p) && !map.getBlock(p).isSolid()
+						&& !map.isOccupied(p))
+					movablePositions.add(p);
 			}
 		}
 
@@ -157,6 +161,7 @@ public class Game extends Observable
 	public boolean move(CharacterInterface ch, Point location)
 	{
 		boolean movable = movablePositionList(ch).contains(location);
+		
 		if (!ch.getMoveAvailable() || !movable)
 			return false;
 
@@ -246,19 +251,35 @@ public class Game extends Observable
 		// returns null if path isn't found
 		return null;
 	}
+	
+	public boolean attack(CharacterInterface attacker, Point defenderPosition)
+	{
+		CharacterInterface defender = map.getCharacter(defenderPosition);
+		
+		if (defender == null)
+			// trying to attack on a block without character
+			return false;
+		
+		return attack(attacker, defender);
+	}
 
 	public boolean attack(CharacterInterface attacker,
 			CharacterInterface defender)
 	{
-		// given attacker will attack given defender if possible
+		// check if attacker can attack and also if the defender is attackable
 		if (!attacker.getActionAvailable()
 				|| !attackableCharacterList(attacker).contains(defender))
 			return false;
+		
+		// check if attacker and defender are on same team, friendly fire is not allowed
+		if ((attacker instanceof Character && defender instanceof Character)
+		  ||(attacker instanceof Enemy && defender instanceof Enemy))
+			return false;
 
-		// attack
+		// attack sequence start
+		
 		// roll dice for critical hit first
 		boolean critical = false;
-
 		Random rand = new Random();
 		if (rand.nextInt(1000) < 100) // 10% chance
 			critical = true;
@@ -276,13 +297,20 @@ public class Game extends Observable
 			raw = (int) (raw * 1.5);
 		double percent = defencePercent(defender.getDefence()) / 100.0;
 		int actualAttack = (int) (raw * percent);
-
+		
+		// modify the defender health
 		defender.addHealth(-actualAttack);
 
 		wait(attacker);
 		return true;
 	}
 
+	/**
+	 * Helper method used inside attack method
+	 * @param defence
+	 * 		Defence of the defender unit from the attack method
+	 * @return
+	 */
 	public int defencePercent(int defence)
 	{
 		// do log function

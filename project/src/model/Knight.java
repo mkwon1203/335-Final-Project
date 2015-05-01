@@ -10,12 +10,18 @@ public class Knight extends Character {
 	private static final int KNIGHT_MOVEDISTANCE = 1;
 	private static final int KNIGHT_ATTACKDISTANCE = 1;
 	private static final String KNIGHT_IMAGEPATH = "res/sprites/units/knight.png";
+	private static final String KNIGHT_DESCRIPTION = "KNIGHT description";
 
 	public Knight(Point initialPosition) {
 
-		super("Knight", "Knight desription", KNIGHT_HEALTH, KNIGHT_MANA,
+		super("Knight", KNIGHT_DESCRIPTION, KNIGHT_HEALTH, KNIGHT_MANA,
 				KNIGHT_STRENGTH, KNIGHT_DEFENCE, initialPosition, true,
 				KNIGHT_MOVEDISTANCE, KNIGHT_ATTACKDISTANCE, KNIGHT_IMAGEPATH);
+	}
+	
+	public static String getUnitDescription()
+	{
+		return KNIGHT_DESCRIPTION;
 	}
 
 	public void revive()

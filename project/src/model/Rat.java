@@ -12,11 +12,17 @@ public class Rat extends Enemy {
 	private static final int RAT_MOVEDISTANCE = 1;
 	private static final int RAT_ATTACKDISTANCE = 1;
 	private static final String RAT_IMAGEPATH = "Rat Path";
+	private static final String RAT_DESCRIPTION = "RAT description";
 
 	public Rat(Point initialPosition) {
-		super("Rat", "Rat desription", RAT_HEALTH, RAT_MANA, RAT_STRENGTH,
+		super("Rat", RAT_DESCRIPTION, RAT_HEALTH, RAT_MANA, RAT_STRENGTH,
 				RAT_DEFENCE, initialPosition, true, RAT_MOVEDISTANCE,
 				RAT_ATTACKDISTANCE, RAT_IMAGEPATH);
+	}
+	
+	public static String getUnitDescription()
+	{
+		return RAT_DESCRIPTION;
 	}
 
 	public void revive()

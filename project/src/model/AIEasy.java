@@ -33,6 +33,11 @@ public class AIEasy implements AI
 			{
 				// perform move then see about attacking
 				List<Point> movable = currentGame.movablePositionList(e);
+				System.out.println("GameTurn: " + currentGame.getTurnCounter());
+				for (Point p : movable)
+				{
+					System.out.println("Row: " + p.x + " Col: " + p.y);
+				}
 				
 				if (!movable.isEmpty())
 				{

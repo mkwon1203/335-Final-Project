@@ -12,12 +12,18 @@ public class Archer extends Character
 	private static final int ARCHER_MOVEDISTANCE = 1;
 	private static final int ARCHER_ATTACKDISTANCE = 1;
 	private static final String ARCHER_IMAGEPATH = "PATHPATH";
+	private static final String ARCHER_DESCRIPTION = "archer description";
 
 	public Archer(Point initialPosition)
 	{
-		super("Archer", "Archer desription", ARCHER_HEALTH, ARCHER_MANA,
+		super("Archer", ARCHER_DESCRIPTION, ARCHER_HEALTH, ARCHER_MANA,
 				ARCHER_STRENGTH, ARCHER_DEFENCE, initialPosition, true,
 				ARCHER_MOVEDISTANCE, ARCHER_ATTACKDISTANCE, ARCHER_IMAGEPATH);
+	}
+	
+	public static String getUnitDescription()
+	{
+		return ARCHER_DESCRIPTION;
 	}
 
 	public void revive()

@@ -11,12 +11,18 @@ public class Spearman extends Character {
 	private static final int SPEARMAN_MOVEDISTANCE = 1;
 	private static final int SPEARMAN_ATTACKDISTANCE = 1;
 	private static final String SPEARMAN_IMAGEPATH = "Spearman Path";
+	private static final String SPEARMAN_DESCRIPTION = "SPEARMAN description";
 
 	public Spearman(Point initialPosition) {
-		super("Spearman", "Spearman desription", SPEARMAN_HEALTH,
+		super("Spearman", SPEARMAN_DESCRIPTION, SPEARMAN_HEALTH,
 				SPEARMAN_MANA, SPEARMAN_STRENGTH, SPEARMAN_DEFENCE,
 				initialPosition, true, SPEARMAN_MOVEDISTANCE,
 				SPEARMAN_ATTACKDISTANCE, SPEARMAN_IMAGEPATH);
+	}
+	
+	public static String getUnitDescription()
+	{
+		return SPEARMAN_DESCRIPTION;
 	}
 	
 	public void revive()

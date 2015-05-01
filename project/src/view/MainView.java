@@ -62,7 +62,7 @@ public class MainView extends JFrame {
 			playerCharacters.add(new Knight(new Point(7,5)));
 			
 			enemyCharacters = new ArrayList<Enemy>();
-			enemyCharacters.add(new Goblin(new Point(7,15)));
+			enemyCharacters.add(new Goblin(new Point(10,14)));
 			
 			
 			game = new Game("Player1", playerCharacters, enemyCharacters, "milestone");
