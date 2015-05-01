@@ -3,10 +3,11 @@ package model;
 public class AttackUp extends Buff
 {
 	private static final int ATTACKUP_VALUE = 5;
+	
 	public AttackUp()
 	{
 		// placeholder valuse
-		super(1, "Attack Up", "attack up description", null);
+		super(1, "Attack Up", "attack up description", "res/sprites/items/attackup.png");
 	}
 
 	@Override

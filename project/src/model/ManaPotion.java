@@ -6,7 +6,7 @@ public class ManaPotion extends Potion
 	public ManaPotion()
 	{
 		// placeholder values
-		super(1, "Mana Potion", "Mana potion description", null);
+		super(1, "Mana Potion", "Mana potion description", "res/sprites/items/manapotion.png");
 	}
 
 	@Override

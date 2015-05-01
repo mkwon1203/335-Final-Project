@@ -9,7 +9,7 @@ public class RevivePotion extends Potion
 	{
 		// placeholder values
 		// need to update Image parameter being passed in
-		super(1, "Revive Potion", "Revive potion description", null);
+		super(1, "Revive Potion", "Revive potion description", "res/sprites/items/revivepotion.png");
 	}
 
 	@Override

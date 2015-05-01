@@ -1,6 +1,10 @@
 package model;
 
 import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public abstract class Item implements Comparable<Item>{
 	private int cost;
@@ -8,11 +12,17 @@ public abstract class Item implements Comparable<Item>{
 	private String description;
 	private Image texture;
 
-	public Item(int costInput, String nameInput, String descriptionInput, Image textureInput) {
+	public Item(int costInput, String nameInput, String descriptionInput, String texture) {
 		cost = costInput;
 		name = nameInput;
 		description = descriptionInput;
-		texture = textureInput;
+		try{
+			this.texture = ImageIO.read(new File(texture));
+		}
+		catch (IOException ioex)
+		{
+			ioex.printStackTrace();
+		}
 	}
 	
 	public int getCost()

@@ -6,7 +6,7 @@ import java.awt.Point;
 public class Rat extends Enemy {
 
 	private static final int RAT_HEALTH = 100;
-	private static final int RAT_MANA = 0;
+	private static final int RAT_MANA = -1;
 	private static final int RAT_STRENGTH = 10;
 	private static final int RAT_DEFENCE = 10;
 	private static final int RAT_MOVEDISTANCE = 1;
