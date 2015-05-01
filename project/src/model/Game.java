@@ -430,25 +430,6 @@ public class Game extends Observable
 
 	public boolean isGameOver()
 	{
-		// checks if any victory conditions are met
-		// condition 1: all of either player or AI's units are ded
-		// if (!isPlayersTurn())
-		// {
-		// for (Character ch : player.getCharacters())
-		// {
-		// if (ch.isAlive())
-		// return false;
-		// }
-		// }
-		// else
-		// {
-		// for (Enemy e : enemy.getEnemies())
-		// {
-		// if (e.isAlive())
-		// return false;
-		// }
-		// }
-
 		boolean playerDead = true;
 		for (Character ch : player.getCharacters())
 		{

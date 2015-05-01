@@ -76,9 +76,13 @@ public class Player
 	
 	// this method changes the money held by player by amount
 	// to decrease money, pass in negative value for amount
-	public void setMoney(int amount)
+	public boolean setMoney(int amount)
 	{
+		if (money + amount < 0)
+			return false;
+		
 		money += amount;
+		return true;
 	}
 	
 	public boolean useItem(CharacterInterface ch, Item i)
