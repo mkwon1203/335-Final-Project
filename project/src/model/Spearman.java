@@ -10,7 +10,7 @@ public class Spearman extends Character {
 	private static final int SPEARMAN_DEFENCE = 10;
 	private static final int SPEARMAN_MOVEDISTANCE = 1;
 	private static final int SPEARMAN_ATTACKDISTANCE = 1;
-	private static final String SPEARMAN_IMAGEPATH = "Spearman Path";
+	private static final String SPEARMAN_IMAGEPATH = "res/sprites/units/spearman.png";
 	private static final String SPEARMAN_DESCRIPTION = "SPEARMAN description";
 
 	public Spearman(Point initialPosition) {

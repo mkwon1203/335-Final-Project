@@ -11,7 +11,7 @@ public class Rat extends Enemy {
 	private static final int RAT_DEFENCE = 10;
 	private static final int RAT_MOVEDISTANCE = 1;
 	private static final int RAT_ATTACKDISTANCE = 1;
-	private static final String RAT_IMAGEPATH = "Rat Path";
+	private static final String RAT_IMAGEPATH = "res/sprites/units/rat.png";
 	private static final String RAT_DESCRIPTION = "RAT description";
 
 	public Rat(Point initialPosition) {

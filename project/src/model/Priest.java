@@ -10,7 +10,7 @@ public class Priest extends Character {
 	private static final int PRIEST_DEFENCE = 10;
 	private static final int PRIEST_MOVEDISTANCE = 1;
 	private static final int PRIEST_ATTACKDISTANCE = 1;
-	private static final String PRIEST_IMAGEPATH = "Priest Path";
+	private static final String PRIEST_IMAGEPATH = "res/sprites/units/priest.png";
 	private static final String PRIEST_DESCRIPTION = "PRIEST description";
 
 	public Priest(Point initialPosition) {

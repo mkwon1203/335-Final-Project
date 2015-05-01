@@ -10,7 +10,7 @@ public class Mage extends Character {
 	private static final int MAGE_DEFENCE = 10;
 	private static final int MAGE_MOVEDISTANCE = 1;
 	private static final int MAGE_ATTACKDISTANCE = 1;
-	private static final String MAGE_IMAGEPATH = "Mage Path";
+	private static final String MAGE_IMAGEPATH = "res/sprites/units/mage.png";
 	private static final String MAGE_DESCRIPTION = "MAGE description";
 
 	public Mage(Point initialPosition) {

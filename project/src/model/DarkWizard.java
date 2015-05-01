@@ -11,7 +11,7 @@ public class DarkWizard extends Enemy
 	private static final int DARKWIZARD_DEFENCE = 10;
 	private static final int DARKWIZARD_MOVEDISTANCE = 1;
 	private static final int DARKWIZARD_ATTACKDISTANCE = 1;
-	private static final String DARKWIZARD_IMAGEPATH = "Darkwizard Path";
+	private static final String DARKWIZARD_IMAGEPATH = "res/sprites/units/darkwizard.png";
 	private static final String DARKWIZARD_DESCRIPTION = "DARKWIZARD description";
 
 	public DarkWizard(Point initialPosition)

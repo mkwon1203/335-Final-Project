@@ -11,7 +11,7 @@ public class Archer extends Character
 	private static final int ARCHER_DEFENCE = 10;
 	private static final int ARCHER_MOVEDISTANCE = 1;
 	private static final int ARCHER_ATTACKDISTANCE = 1;
-	private static final String ARCHER_IMAGEPATH = "PATHPATH";
+	private static final String ARCHER_IMAGEPATH = "res/sprites/units/archer.png";
 	private static final String ARCHER_DESCRIPTION = "archer description";
 
 	public Archer(Point initialPosition)
