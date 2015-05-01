@@ -1,11 +1,15 @@
 package view;
 
-import java.awt.BorderLayout;
+import model.Archer;
+import model.Character;
+import model.Mage;
+import model.Priest;
+import model.Spearman;
+
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.util.List;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
@@ -16,39 +20,36 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractButton;
 import javax.swing.DefaultListModel;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-import model.Archer;
-import model.CharacterInterface;
 import model.Knight;
+import model.Spearman;
 import controller.Client;
 
 public class UnitScreen extends JFrame{
 	private DefaultListModel<String> model = new DefaultListModel<String>();
 	private DefaultListModel<String> teamModel = new DefaultListModel<String>();
 	private static UnitScreen screen = null;
-	private JPanel topPanel = new JPanel();
-	private JPanel bottomPanel = new JPanel();
 	private JButton addToTeam, removeFromTeam, backButton, playButton;
 	private JList listUnits, listTeam;
-	private JLabel unitPreview;
+	private JLabel unitPreview, units, team, descriptionText;
 	private JScrollPane teamList;
-	private int characterState;
 	private BufferedImage previewImage;
 	private String playerDescription;
 	private JPanel panel;
 	private String selected;
+	private static List<Character> characterList  = new ArrayList<Character>();
+	
 	
 	public UnitScreen(){
 		if (Client.GAMESTATE == 4){
@@ -56,19 +57,14 @@ public class UnitScreen extends JFrame{
 			registerListeners();
 			this.pack();
 			this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-			this.setSize(800,600);
-			this.setBackground(Color.BLACK);
+			this.setSize(800,612);
 			this.setVisible(true);
 		}
 	}
 
 
 	public void makeGUI(){
-		//createTopPanel();
 		createPanel();
-		//createBottomPanel();
-		//setBackground(Color.BLACK);
-		//createList();
 		setLayoutAndAddComponentsToFrame();
 	}
 
@@ -87,7 +83,7 @@ public class UnitScreen extends JFrame{
 		model.addElement("Spearman");
 	
 		
-		JLabel units = new JLabel("Units");
+		units = new JLabel("Units");
 	
 		//unitPreview.setPreferredSize(new Dimension(100,100));
 		
@@ -102,24 +98,15 @@ public class UnitScreen extends JFrame{
 			System.out.println(selected);
 		}
 		
-		JLabel description = new JLabel("Description");
-		playerDescription = getPlayerDescription();
-		JLabel descriptionText = new JLabel(playerDescription);
-		
-		
+		descriptionText = new JLabel(playerDescription);
 		
 		// creating a unitPreview and scaling
 		loadPreviewImage();
-		previewImage = ScaleImage();
+		previewImage = scaleImage();
 		
 		//adding preview image to the JLabel
 		unitPreview = new JLabel(new ImageIcon(previewImage));
-
-		
-		
-		//TODO: do junit test for non trivial methods (attack/ movement /gui) and finish this gui
-		
-		JLabel team = new JLabel("Team");
+		team = new JLabel("Team");
 		listTeam = new JList(teamModel);
 		listTeam.setFont(new Font("Arial", Font.PLAIN, 20));
 		backButton = new JButton("Back");
@@ -137,7 +124,31 @@ public class UnitScreen extends JFrame{
 		
 		listTeam.setVisibleRowCount(5);
 		listTeam.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		addToPanel();
+		setLocationInPanel();
 		
+		
+	}
+
+
+	private void setLocationInPanel() {
+		// setting location of components
+		listUnits.setBounds(50, 70, 100, 135);
+		units.setBounds(50, 0, 100, 100);
+		team.setBounds(600, 0, 100, 100);
+		teamList.setBounds(600, 70, 100, 135);
+		addToTeam.setBounds(275, 70, 150, 30);
+		removeFromTeam.setBounds(275, 100, 150, 30);
+		unitPreview.setBounds(275, 130, 200, 300);
+		
+		descriptionText.setBounds(275, 400, 300, 100);
+		playButton.setBounds(600, 500, 150, 30);
+		backButton.setBounds(50, 500, 150, 30);
+		
+	}
+
+
+	private void addToPanel() {
 		//add to the null layout
 		panel.add(units);
 		panel.add(listUnits);
@@ -150,48 +161,17 @@ public class UnitScreen extends JFrame{
 		panel.add(backButton);
 		panel.add(playButton);
 		
-		// setting location of components
-		listUnits.setBounds(50, 70, 100, 135);
-		units.setBounds(50, 0, 100, 100);
-		team.setBounds(600, 0, 100, 100);
-		teamList.setBounds(600, 70, 100, 135);
-		addToTeam.setBounds(275, 70, 150, 30);
-		removeFromTeam.setBounds(275, 100, 150, 30);
-		unitPreview.setBounds(275, 130, 200, 300);
-		descriptionText.setBounds(275, 375, 100, 100);
-		playButton.setBounds(600, 500, 150, 30);
-		backButton.setBounds(50, 500, 150, 30);
-		
 	}
 
 
 	private void setLayoutAndAddComponentsToFrame() {
 		this.setLayout(null);
+		panel.setBackground(Color.BLUE);
 		this.add(panel);
 		this.setResizable(false);
 	}
-
-//		
-//		
-//		//changing characterState depending on what is selected in listUnits
-//		if (listUnits.getSelectedValue() == "Archer"){
-//			characterState = 1;
-//		}
-//		else if (listUnits.getSelectedValue() == "Knight"){
-//			characterState = 2;		
-//		}
-//		else if (listUnits.getSelectedValue() == "Mage"){
-//			characterState = 3;
-//		}
-//		else if (listUnits.getSelectedValue() == "Priest"){
-//			characterState = 4;
-//		}
-//		else if (listUnits.getSelectedValue() == "Spearman"){
-//			characterState = 5;
-//		}
-
 	
-	public BufferedImage ScaleImage(){
+	public BufferedImage scaleImage(){
 		BufferedImage scaledImage = new BufferedImage(previewImage.getWidth(), previewImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
 	    AffineTransform at = new AffineTransform();
 	    at.scale(0.9, 0.9);
@@ -203,74 +183,121 @@ public class UnitScreen extends JFrame{
 	
 	// will get the unit preview Image
 	private void loadPreviewImage(){
-		try{
-			previewImage = ImageIO.read(new File("res/unitScreen/Archer.png"));
-		}catch(IOException e){System.out.println("Couldn't find title picture.");}
-	}
-
-	// will get the player description depending on the character that is selected
-	private String getPlayerDescription() {
-		getChatacterState();
-		String result = "test";
-		if (characterState == 0){
-			result = "Archer";
-		}
-		if (characterState == 1){
-			result = "Knight";
-		}
-		if (characterState == 2){
-			result = "Mage";
-		}
-		if (characterState == 3){
-			result = "Priest";
-		}
-		if (characterState == 4){
-			result = "Spearman";
-		}
-			//playerDescription = model.Archer.getDescription();
-		return result;
-	}
-
-	
-	private void getChatacterState() {
-		//changing characterState depending on what is selected in listUnits
-		if (listUnits.getSelectedIndex() == 0){
-			characterState = 1;
-			System.out.println("characterState is: " + characterState);
-		}
-		else if (listUnits.getSelectedIndex() == 1){
-			characterState = 2;		
-		}
-		else if (listUnits.getSelectedIndex() == 2){
-			characterState = 3;
-		}
-		else if (listUnits.getSelectedIndex() == 3){
-			characterState = 4;
-		}
-		else if (listUnits.getSelectedIndex() == 4){
-			characterState = 5;
-		}
-		
+		//if (characterState == 1){
+			try{
+				previewImage = ImageIO.read(new File("res/unitScreen/Archer.png"));
+			}catch(IOException e){System.out.println("Couldn't character image.");}
 	}
 
 
 	private void registerListeners() {
+		// button listeners
 		ActionListener listen = new ButtonListener();
 		addToTeam.addActionListener(listen);
 		removeFromTeam.addActionListener(listen);
 		backButton.addActionListener(listen);
 		playButton.addActionListener(listen);
+		
+		// adding a listener to list selection
+		ListSelectionModel listSelectionModel = listUnits.getSelectionModel();
+		   listSelectionModel.addListSelectionListener(new listListener());
+	}
+	
+	
+	private class listListener implements ListSelectionListener{
+
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			if (listUnits.getSelectedIndex() == 0){ // Unit Selected is the Archer
+				descriptionText.setText("Archer"); // set Archer description
+				// get Archer Image
+				previewImage = getImages(0);
+				unitPreview.setIcon(new ImageIcon(previewImage));
+			}
+			else if (listUnits.getSelectedIndex() == 1){ // Unit Selected is the Knight
+				Knight knight = new Knight(null);
+				descriptionText.setText(knight.getDescription()); // set Knight description
+				// get Knight Image
+				previewImage = getImages(1);
+				unitPreview.setIcon(new ImageIcon(previewImage));
+			}
+			else if(listUnits.getSelectedIndex() == 2){ // Unit Selected is the Mage
+				descriptionText.setText("Mage"); // set Mage description
+				// get Mage Image
+				previewImage = getImages(2);
+				unitPreview.setIcon(new ImageIcon(previewImage));
+			}
+			else if (listUnits.getSelectedIndex() == 3){ // Unit Selected is the Priest
+				descriptionText.setText("Priest"); // set Priest description
+				// get Priest Image
+				previewImage = getImages(3);
+				unitPreview.setIcon(new ImageIcon(previewImage));
+			}
+			else if (listUnits.getSelectedIndex() == 4){ // Unit Selected is the Spearman
+				//Spearman spearman = new Spearman(null);
+				//descriptionText.setText(spearman.getDescription()); // get Spearman description
+				descriptionText.setText("Spearman");
+				//String s = model.Spearman.getDescription();
+				//String s = spearman.getDescription();
+				// get Spearman Image
+				previewImage = getImages(4);
+				unitPreview.setIcon(new ImageIcon(previewImage));
+			}
+		}
+
+		
+	}
+	
+	private BufferedImage getImages(int i) {
+		if (i == 0){ //Archer
+			try{
+				previewImage = ImageIO.read(new File("res/unitScreen/Archer.png"));
+			}catch(IOException e){System.out.println("Couldn't character image.");}
+		}
+		else if (i == 1){ // Knight
+			try{
+				previewImage = ImageIO.read(new File("res/unitScreen/Knight.png"));
+			}catch(IOException e){System.out.println("Couldn't character image.");}
+		}
+		else if (i == 2){ //Mage
+			try{
+				previewImage = ImageIO.read(new File("res/unitScreen/Mage.png"));
+			}catch(IOException e){System.out.println("Couldn't character image.");}
+		}
+		else if (i == 3){ // Priest
+			try{
+				previewImage = ImageIO.read(new File("res/unitScreen/Priest.png"));
+			}catch(IOException e){System.out.println("Couldn't character image.");}
+		}
+		
+		else if (i == 4){ //Spearman
+			try{
+				previewImage = ImageIO.read(new File("res/unitScreen/Spearman.png"));
+			}catch(IOException e){System.out.println("Couldn't character image.");}
+		}
+		return previewImage;
 	}
 	
 	private class ButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == addToTeam){
-				if (teamModel.size() < 5)
+			if (e.getSource() == addToTeam){ // adding to team list
+				if (teamModel.size() < 5){
 					teamModel.addElement((String) listUnits.getSelectedValue());
+					//if (listUnits.getSelectedIndex() == 0)
+						//characterList.add(new Archer(new Point(0,0)));
+					 if (listUnits.getSelectedIndex() == 1)
+						characterList.add(new Knight(new Point(0,0)));
+					//else if (listUnits.getSelectedIndex() == 2)
+					//	characterList.add(new Mage(new Point(0,0)));
+					//else if (listUnits.getSelectedIndex() == 3)
+						//characterList.add(new Priest(new Point(0,0)));
+					//else if (listUnits.getSelectedIndex() == 4)
+						//characterList.add(new Spearman(new Point(0,0)));
+				}
 			}
-			else if (e.getSource() == removeFromTeam){
+			else if (e.getSource() == removeFromTeam){ // removing from team list
 				teamModel.removeElement(listTeam.getSelectedValue());
 			}
 			else if (e.getSource() == backButton){ // go back to previous screen
