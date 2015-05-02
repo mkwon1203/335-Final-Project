@@ -1,26 +1,16 @@
 CSC335 TRPG
-Edit me for comments and stuff
 
 To-do list:
-  add all classes from UML diagram
+  images for all the different units
+  animation for the unit movements (possibly attack)
+  shop in the main menu
+  make sure UseItem works inside Game.java
+  make sure different victory conditions work
+  
+  EXTRA CREDITS
+  -camera
+  -sounds
+  -networking (if we have time)
   
 Other notes:
   javadoc is inside project/doc
-  
-Min
-  -AI
-Phyllis
-  -Title screen GUI, test trival methods, 
-Chris
-  -Level GUI, Map, Position
-Josue
-  -Test movement, attack, Units GUi
-
-AI:
-  AI Strategy needs to be finished up
-  
-Model:
-   Player needs to be finihsed up
-   Map requires more helper methods and finishing up
-
-Mainly need work on GUI and animation
