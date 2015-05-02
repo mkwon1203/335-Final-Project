@@ -27,7 +27,7 @@ public class TitleScreen extends JPanel
 
 	private TitleScreen()
 	{
-		this(800, 600);
+		this(800, 612);
 	}
 
 	// Main constructor for the title screen
@@ -37,14 +37,14 @@ public class TitleScreen extends JPanel
 		setPreferredSize(new Dimension(x, y));
 		setLayout(null);
 		// is background neccesary???
-		setBackground(Color.BLUE);
+		setBackground(Color.BLACK);
 	}
 
 	// This method can be called to get the title screen object
 	public static TitleScreen getTitleScreen()
 	{
 		if (title == null)
-			title = new TitleScreen(800, 600);
+			title = new TitleScreen(800, 612);
 		return title;
 	}
 

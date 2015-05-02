@@ -25,7 +25,7 @@ public class MainView extends JFrame implements Observer{
 	private List<Character> playerCharacters;
 	
 	public MainView(){
-		this(800,600);
+		this(800,612);
 	}
 	
 	public MainView(int x, int y){
@@ -71,7 +71,7 @@ public class MainView extends JFrame implements Observer{
 			game.addObserver(this);
 		}
 		if(level == null){
-			level = new Level(game, 800, 600);
+			level = new Level(game, 800, 612);
 		}
 		
 		add(level);

@@ -28,7 +28,7 @@ public class TitleScreenMainPanel extends JPanel
 
 	public TitleScreenMainPanel()
 	{
-		this(800, 600);
+		this(800, 612);
 	}
 
 	public TitleScreenMainPanel(int x, int y)
@@ -36,7 +36,7 @@ public class TitleScreenMainPanel extends JPanel
 		setPreferredSize(new Dimension(x, y));
 		setLayout(null);
 		// is background color neccesary at all?
-		setBackground(Color.RED);
+		setBackground(Color.BLACK);
 
 		listener = new MenuListener();
 
