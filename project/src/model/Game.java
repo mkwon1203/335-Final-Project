@@ -31,7 +31,6 @@ public Game(String playerName, List<Character> playerCharacters, String mapName)
 		map.setEnemyLocations(enemies);
 		map.setPlayerLocations(playerCharacters);
 		player = new Player(playerName, playerCharacters);
-		// need to initialize AI
 		enemy = new AIEasy(enemies);
 		/*
 		 * map takes in the level file name
@@ -44,6 +43,7 @@ public Game(String playerName, List<Character> playerCharacters, String mapName)
 		currentCharacter = null;
 		playerTurnStart();
 	}
+
 
 	public List<Enemy> loadEnemies(String levelName)
 	{
@@ -65,9 +65,7 @@ public Game(String playerName, List<Character> playerCharacters, String mapName)
 		return enemies;
 	}
 
-	/**
-	 * This method will take
-	 */
+
 	public void populateMap()
 	{
 		for (CharacterInterface ch : player.getCharacters())
@@ -511,9 +509,15 @@ public Game(String playerName, List<Character> playerCharacters, String mapName)
 
 			// whichever one is higher will win
 			if (playerHealth >= enemyHealth)
+			{
 				timeoutPlayerWin = true;
+				GAMEOVER = GAMEOVER_PLAYERWIN_TIMELIMIT;
+			}
 			else
+			{
 				timeoutEnemyWin = true;
+				GAMEOVER = GAMEOVER_ENEMYWIN_TIMELIMIT;
+			}
 		}
 
 		return playerDead || enemyDead || timeoutPlayerWin || timeoutEnemyWin;
