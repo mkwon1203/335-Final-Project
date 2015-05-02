@@ -1,3 +1,4 @@
+
 package view;
 
 import model.Archer;
@@ -37,10 +38,14 @@ import model.Knight;
 import model.Spearman;
 import controller.Client;
 
+/**
+ * original UnitScreen class
+ */
+
 public class UnitScreen extends JFrame{
 	private DefaultListModel<String> model = new DefaultListModel<String>();
 	private DefaultListModel<String> teamModel = new DefaultListModel<String>();
-	private static UnitScreen screen = null;
+	private static TitleScreenUnitPanel screen = null;
 	private JButton addToTeam, removeFromTeam, backButton, playButton;
 	private JList listUnits, listTeam;
 	private JLabel unitPreview, units, team, descriptionText;
@@ -312,13 +317,13 @@ public class UnitScreen extends JFrame{
 	
 	public static void main(String[] arg){
 		Client.GAMESTATE = 4;
-		new UnitScreen();
+		new TitleScreenUnitPanel();
 	}
 	
 	//This method can be called to get the unit screen object
-	public static UnitScreen getUnitScreen(){
+	public static TitleScreenUnitPanel getUnitScreen(){
 			if(screen == null)
-				screen = new UnitScreen();
+				screen = new TitleScreenUnitPanel();
 		return screen;
 	}
 }
