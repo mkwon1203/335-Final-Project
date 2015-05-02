@@ -21,7 +21,6 @@ public class TitleScreen extends JPanel{
 	public static int TITLESTATE = 0;
 	private static TitleScreen title = null;
 	
-	private Graphics bufferGraphics;
 	private Image titlePic, startImage, exitImage;
 	private JButton startButton, optionButton, exitButton;
 	
