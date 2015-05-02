@@ -13,14 +13,14 @@ import javax.swing.JPanel;
 
 import controller.Client;
 
-public class NewGameSelection extends JFrame {
+public class TitleScreenLevelPanel extends JFrame {
 	private JPanel upPanel;
 	private JPanel lowPanel;
 	private JLabel preview;
 	private JList<File> levelList;
 	private JButton back;
 	private JButton next;
-	private static NewGameSelection gameSelect;
+	private static TitleScreenLevelPanel gameSelect;
 
 	/**
 	 * This the constructor for game selection class
@@ -29,7 +29,7 @@ public class NewGameSelection extends JFrame {
 	 * 
 	 */
 
-	public NewGameSelection() {
+	public TitleScreenLevelPanel() {
 
 		setLayout(new BorderLayout());
 		setSize(800, 600);
@@ -110,7 +110,7 @@ public class NewGameSelection extends JFrame {
 
 	public static void main(String[] arg) {
 		Client.GAMESTATE = 3;
-		new NewGameSelection();
+		new TitleScreenLevelPanel();
 
 	}
 
@@ -120,9 +120,9 @@ public class NewGameSelection extends JFrame {
 	 * @return
 	 */
 
-	public static NewGameSelection getNewGameSelection() {
+	public static TitleScreenLevelPanel getNewGameSelection() {
 
-		gameSelect = new NewGameSelection();
+		gameSelect = new TitleScreenLevelPanel();
 
 		return gameSelect;
 	}
