@@ -17,7 +17,7 @@ public class NewGameSelection extends JFrame {
 	private JPanel upPanel;
 	private JPanel lowPanel;
 	private JLabel preview;
-	private JList<String> levelList;
+	private JList<File> levelList;
 	private JButton back;
 	private JButton next;
 	private static NewGameSelection gameSelect;
@@ -73,12 +73,12 @@ public class NewGameSelection extends JFrame {
 	 * 
 	 */
 
-	private JList createLevelList() {
+	private JList<File> createLevelList() {
 
 		File folder = new File("res/levels");
 		File[] fileList = folder.listFiles();
 
-		levelList = new JList(fileList);
+		levelList = new JList<File>(fileList);
 
 		return levelList;
 	}

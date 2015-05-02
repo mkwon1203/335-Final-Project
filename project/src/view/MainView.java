@@ -3,20 +3,18 @@ package view;
 
 import controller.Client;
 import model.Character;
-import model.Enemy;
 import model.Knight;
-import model.Goblin;
 import model.Game;
 import model.Player;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class MainView extends JFrame {
+public class MainView extends JFrame implements Observer{
 	
 	private TitleScreen title;
 	private Level level;
@@ -48,6 +46,12 @@ public class MainView extends JFrame {
 		setTitle("335 TRPG");
 		setResizable(false);
 		
+		try{
+			setIconImage(new ImageIcon(ImageIO.read(new File("res/titleScreen/trpgIcon.png"))).getImage());
+		}catch(IOException e){
+			System.out.println("Can't Find Icon Image.");
+		}
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		
@@ -64,6 +68,7 @@ public class MainView extends JFrame {
 			
 			
 			game = new Game("Player1", playerCharacters, "milestone");
+			game.addObserver(this);
 		}
 		if(level == null){
 			level = new Level(game, 800, 600);
@@ -81,6 +86,8 @@ public class MainView extends JFrame {
 				remove(title);
 				System.out.println("I removed the title panel");
 				addLevelToFrame();
+				level.drawMap();
+				level.getStatPanel().draw();
 			}
 			
 			if(level == null)
@@ -99,10 +106,16 @@ public class MainView extends JFrame {
 		}else if(Client.GAMESTATE == 1){
 			
 			level.drawMap();
-			level.getStatPanel().draw();
+			//level.getStatPanel().draw();
 			
 		}
 		
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if(Client.GAMESTATE == 1)
+			level.getStatPanel().draw();
 	}
 	
 }

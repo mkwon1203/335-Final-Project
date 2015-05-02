@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import model.CharacterInterface;
 import model.Game;
+import model.Item;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +29,9 @@ public class LevelStatPanel extends JPanel{
 	private JLabel unitImage, unitHealthLabel, unitManaLabel, unitNameLabel;
 	private JLabel unitStrengthLabel, unitDefenceLabel;
 	private JButton attackButton, endTurnButton;
-	private JList inventoryList;
+	private JList<String> inventoryList;
+	private DefaultListModel<String> itemList;
+	private JScrollPane scroll;
 	
 	Image attackImage, endTurnImage;
 	Image statsScreen;
@@ -75,12 +78,31 @@ public class LevelStatPanel extends JPanel{
 		
 		unitImage = new JLabel(new ImageIcon(noUnitImage));
 		
+		itemList = new DefaultListModel<String>();
+		inventoryList = new JList<String>(itemList);
+		inventoryList.setBackground(Color.DARK_GRAY);
+		inventoryList.setForeground(Color.WHITE);
+		inventoryList.setVisibleRowCount(3);
+		inventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		updateInventory();
+		
+		scroll = new JScrollPane(inventoryList);
+		
+		add(inventoryList);
 		add(unitImage);
 		add(unitNameLabel);
 		add(unitHealthLabel);
 		add(unitManaLabel);
 		add(unitStrengthLabel);
 		add(unitDefenceLabel);
+	}
+	
+	//This method loads the Inventory JList that's at the bottom right of the screen
+	private void updateInventory(){
+		itemList.removeAllElements();
+		
+		for(Item i : game.getPlayer().getInventory().getItems())
+			itemList.addElement(i.getName());
 		
 	}
 	
@@ -170,6 +192,7 @@ public class LevelStatPanel extends JPanel{
 		attackButton.setBounds(350, 15, attackImage.getWidth(null), attackImage.getHeight(null));
 		endTurnButton.setBounds(335, 60, endTurnImage.getWidth(null), endTurnImage.getHeight(null));
 		
+		scroll.setBounds(640, 12, 150, 75);
 		unitImage.setBounds(40, 3, 64, 64);
 		unitNameLabel.setBounds(25, 70, 200, 25);
 		unitHealthLabel.setBounds(160, 30, 75, 25);
@@ -214,14 +237,11 @@ public class LevelStatPanel extends JPanel{
 		g.dispose();
 	}
 	
-	//JPanel paintComponent override in order to draw the background image on the panel.
 	@Override
-	protected void paintComponent(Graphics g){
+	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 			g.drawImage(statsScreen, 0, 0, null);
-		
 	}
-	
 	
 	//This is an inner-class which is the listener for the stat panel.
 	//	Handles all the logic for when the user interacts with the panel.
@@ -255,5 +275,6 @@ public class LevelStatPanel extends JPanel{
 		}//End of listener inner-class
 		
 	}//End of StatPanelListener inner class.
+
 	
 }//End of LevelStatPanel class
