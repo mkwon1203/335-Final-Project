@@ -15,19 +15,54 @@ public class Game extends Observable
 	private Map map;
 	private CharacterInterface currentCharacter; // currently selected
 													// character, mainly
+	public static int GAMEOVER;
+	public static final int GAMEOVER_NOT = -1;
+	public static final int GAMEOVER_PLAYERWIN_DEATHMATCH = 1;
+	public static final int GAMEOVER_ENEMYWIN_DEATHMATCH = 2;
+	public static final int GAMEOVER_PLAYERWIN_TIMELIMIT = 3;
+	public static final int GAMEOVER_ENEMYWIN_TIMELIMIT = 4;
 
-	// for GUI
-
-	public Game(String playerName, List<Character> playerCharacters,
-			List<Enemy> enemyCharacters, String mapName)
+public Game(String playerName, List<Character> playerCharacters, String mapName)
 	{
+		GAMEOVER = GAMEOVER_NOT;
 		turnCounter = 1;
-		player = new Player(playerName, playerCharacters);
-		enemy = new AIEasy(enemyCharacters);
+		List<Enemy> enemies = loadEnemies(mapName);
 		map = new Map(mapName);
+		map.setEnemyLocations(enemies);
+		map.setPlayerLocations(playerCharacters);
+		player = new Player(playerName, playerCharacters);
+		// need to initialize AI
+		enemy = new AIEasy(enemies);
+		/*
+		 * map takes in the level file name
+		 * map creates its 2D array map with it
+		 * map creates list of enemies and assigns the coordinates of the enemies using the
+		 * 	level file name
+		 * map also takes in list of player units and assigns coordinates with levelfilename
+		 */
 		populateMap();
 		currentCharacter = null;
 		playerTurnStart();
+	}
+
+	public List<Enemy> loadEnemies(String levelName)
+	{
+		List<String> enemyListString = LoadGame.loadEnemies(levelName);
+		List<Enemy> enemies = new ArrayList<Enemy>();
+		
+		for (String s : enemyListString)
+		{
+			if (s.equalsIgnoreCase("Goblin"))
+				enemies.add(new Goblin(null));
+			else if (s.equalsIgnoreCase("Rat"))
+				enemies.add(new Rat(null));
+			else if (s.equalsIgnoreCase("DarkWizard"))
+				enemies.add(new DarkWizard(null));
+			else
+				System.out.println("FATAL ERROR: LOAD ENEMY FAILED");
+		}
+		
+		return enemies;
 	}
 
 	/**
@@ -139,16 +174,16 @@ public class Game extends Observable
 						rawMovablePositions.add(r);
 				}
 
-				leftCol --;
-				rightCol ++;
+				leftCol--;
+				rightCol++;
 				moveDistance--;
 			}
-			
+
 			// prune the list to make sure it only contains valid points
 			for (int i = 0; i < rawMovablePositions.size(); i++)
 			{
 				Point p = rawMovablePositions.get(i);
-				
+
 				if (map.verifyBounds(p) && !map.getBlock(p).isSolid()
 						&& !map.isOccupied(p))
 					movablePositions.add(p);
@@ -161,7 +196,7 @@ public class Game extends Observable
 	public boolean move(CharacterInterface ch, Point location)
 	{
 		boolean movable = movablePositionList(ch).contains(location);
-		
+
 		if (!ch.getMoveAvailable() || !movable)
 			return false;
 
@@ -251,15 +286,15 @@ public class Game extends Observable
 		// returns null if path isn't found
 		return null;
 	}
-	
+
 	public boolean attack(CharacterInterface attacker, Point defenderPosition)
 	{
 		CharacterInterface defender = map.getCharacter(defenderPosition);
-		
+
 		if (defender == null)
 			// trying to attack on a block without character
 			return false;
-		
+
 		return attack(attacker, defender);
 	}
 
@@ -270,14 +305,15 @@ public class Game extends Observable
 		if (!attacker.getActionAvailable()
 				|| !attackableCharacterList(attacker).contains(defender))
 			return false;
-		
-		// check if attacker and defender are on same team, friendly fire is not allowed
+
+		// check if attacker and defender are on same team, friendly fire is not
+		// allowed
 		if ((attacker instanceof Character && defender instanceof Character)
-		  ||(attacker instanceof Enemy && defender instanceof Enemy))
+				|| (attacker instanceof Enemy && defender instanceof Enemy))
 			return false;
 
 		// attack sequence start
-		
+
 		// roll dice for critical hit first
 		boolean critical = false;
 		Random rand = new Random();
@@ -297,7 +333,7 @@ public class Game extends Observable
 			raw = (int) (raw * 1.5);
 		double percent = defencePercent(defender.getDefence()) / 100.0;
 		int actualAttack = (int) (raw * percent);
-		
+
 		// modify the defender health
 		defender.addHealth(-actualAttack);
 
@@ -307,8 +343,9 @@ public class Game extends Observable
 
 	/**
 	 * Helper method used inside attack method
+	 * 
 	 * @param defence
-	 * 		Defence of the defender unit from the attack method
+	 *            Defence of the defender unit from the attack method
 	 * @return
 	 */
 	public int defencePercent(int defence)
@@ -360,7 +397,7 @@ public class Game extends Observable
 
 	public void endTurn()
 	{
-		if (turnCounter % 2 == 1)
+		if (isPlayersTurn())
 		{
 			// turnCounter is odd, so it's player's turn
 			for (Character ch : player.getCharacters())
@@ -402,7 +439,7 @@ public class Game extends Observable
 	public boolean isTurnOver()
 	{
 		// checks if the current turn should be over
-		if (turnCounter % 2 == 1)
+		if (isPlayersTurn())
 		{
 			// turnCounter is odd, so it's player's turn
 			for (Character ch : player.getCharacters())
@@ -430,12 +467,14 @@ public class Game extends Observable
 
 	public boolean isGameOver()
 	{
+		// game over by all units dying
 		boolean playerDead = true;
 		for (Character ch : player.getCharacters())
 		{
 			if (ch.isAlive())
 				playerDead = false;
 		}
+
 		boolean enemyDead = true;
 		for (Enemy e : enemy.getEnemies())
 		{
@@ -443,11 +482,41 @@ public class Game extends Observable
 				enemyDead = false;
 		}
 
-		return playerDead || enemyDead;
+		if (playerDead)
+			GAMEOVER = GAMEOVER_PLAYERWIN_DEATHMATCH;
+		if (enemyDead)
+			GAMEOVER = GAMEOVER_ENEMYWIN_DEATHMATCH;
 
-		// more conditions below
+		// game over by turn counter going over
+		boolean timeoutPlayerWin = false;
+		boolean timeoutEnemyWin = false;
 
-		// return true;
+		if (turnCounter > 200)
+		{
+			// determine cumulative health of player units
+			int playerHealth = 0;
+			for (Character ch : player.getCharacters())
+			{
+				if (ch.isAlive())
+					playerHealth += ch.getHealth();
+			}
+
+			// cumulative health of enemy units
+			int enemyHealth = 0;
+			for (Enemy e : enemy.getEnemies())
+			{
+				if (e.isAlive())
+					enemyHealth += e.getHealth();
+			}
+
+			// whichever one is higher will win
+			if (playerHealth >= enemyHealth)
+				timeoutPlayerWin = true;
+			else
+				timeoutEnemyWin = true;
+		}
+
+		return playerDead || enemyDead || timeoutPlayerWin || timeoutEnemyWin;
 	}
 
 	public String toStringGUI()

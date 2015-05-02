@@ -14,3 +14,24 @@
 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+;
+
+<Enemies>
+goblin
+goblin
+goblin
+goblin
+goblin
+</Enemies>
+
+<EnemySpawns>
+10 14
+9 14
+9 15
+9 16
+9 17
+</EnemySpawns>
+
+<PlayerSpawns>
+7 5 
+</PlayerSpawns>

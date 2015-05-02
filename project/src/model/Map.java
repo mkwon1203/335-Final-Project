@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Map
 {
-	// block[x][y]
 	private Block[][] levelArray;
 	private String fileName;
 	private List<Point> playerSpawns;
@@ -14,7 +13,11 @@ public class Map
 	public Map(String inputFileName)
 	{
 		fileName = inputFileName;
+		// load up the map and spawns
 		loadLevel(fileName);
+		loadPlayerSpawns(fileName);
+		loadEnemySpawns(fileName);
+		// at this point, all fields are given values
 	}
 
 	/**
@@ -33,7 +36,7 @@ public class Map
 		return levelArray.length;
 	}
 	
-	// returns length of map, number of columns
+	// returns number of columns
 	public int getLevelCol()
 	{
 		return levelArray[0].length;
@@ -57,6 +60,35 @@ public class Map
 	public void setEnemySpawns(List<Point> spawns)
 	{
 		enemySpawns = spawns;
+	}
+	
+	/**
+	 * Uses the currently set list of Points, playerSPawns, to set the
+	 * individual locations of given list of player units
+	 * @param playerUnits
+	 */
+	public void setPlayerLocations(List<Character> playerUnits)
+	{
+		// atm, 'randomized' assignment
+		if (playerSpawns != null && playerUnits.size() == playerSpawns.size())
+		{
+			for (int i = 0; i < playerUnits.size(); i ++)
+			{
+				playerUnits.get(i).setLocation(playerSpawns.get(i));
+			}
+		}
+	}
+	
+	public void setEnemyLocations(List<Enemy> enemyUnits)
+	{
+		// atm, randomized assignment 
+		if (enemySpawns != null && enemyUnits.size() == enemySpawns.size())
+		{
+			for (int i = 0; i < enemyUnits.size(); i ++)
+			{
+				enemyUnits.get(i).setLocation(enemySpawns.get(i));
+			}
+		}
 	}
 
 	/**
@@ -96,29 +128,21 @@ public class Map
 			}
 		}
 		
-//		for (int i = 0; i < levelArray[0].length; i++)
-//		{
-//			for (int j = 0; j < levelArray.length; j++)
-//			{
-//				int blockInt = levelArrayInt[j][i];
-//				
-//				Block block;
-//				
-//				if (blockInt == 0)
-//					block = new Floor();
-//				else if (blockInt == 1)
-//					block = new Wall();
-//				else if (blockInt == 2)
-//					block = new Air();
-//				else
-//					// critical error
-//					return false;
-//				
-//				levelArray[j][i] = block;
-//			}
-//		}
-		
 		return true;
+	}
+	
+	public void loadPlayerSpawns(String levelName)
+	{
+		List<Point> playerSpawns = LoadGame.loadPlayerSpawns(levelName);
+		
+		setPlayerSpawns(playerSpawns);
+	}
+	
+	public void loadEnemySpawns(String levelName)
+	{
+		List<Point> enemySpawns = LoadGame.loadEnemySpawns(levelName);
+		
+		setEnemySpawns(enemySpawns);
 	}
 
 	/**
@@ -244,6 +268,16 @@ public class Map
 	public boolean isOccupied(int x, int y)
 	{
 		return levelArray[x][y].isOccupied();
+	}
+	
+	public boolean isSolid(Point p)
+	{
+		return levelArray[p.x][p.y].isSolid();
+	}
+	
+	public boolean isSolid(int x, int y)
+	{
+		return levelArray[x][y].isSolid();
 	}
 	
 	public boolean setCharacter(int x, int y, CharacterInterface ch)

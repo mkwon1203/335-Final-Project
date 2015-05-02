@@ -59,13 +59,10 @@ public class MainView extends JFrame {
 		
 		if(game == null){
 			playerCharacters = new ArrayList<Character>();
-			playerCharacters.add(new Knight(new Point(7,5)));
-			
-			enemyCharacters = new ArrayList<Enemy>();
-			enemyCharacters.add(new Goblin(new Point(10,14)));
+			playerCharacters.add(new Knight(null));
 			
 			
-			game = new Game("Player1", playerCharacters, enemyCharacters, "milestone");
+			game = new Game("Player1", playerCharacters, "milestone");
 		}
 		if(level == null){
 			level = new Level(game, 800, 600);
