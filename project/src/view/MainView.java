@@ -7,6 +7,7 @@ import model.Enemy;
 import model.Knight;
 import model.Goblin;
 import model.Game;
+import model.Player;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -20,10 +21,10 @@ public class MainView extends JFrame {
 	private TitleScreen title;
 	private Level level;
 	private Game game;
+	private Player player;
 	
 	//temporary variables
 	private List<Character> playerCharacters;
-	private List<Enemy> enemyCharacters;
 	
 	public MainView(){
 		this(800,600);
