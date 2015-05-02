@@ -29,6 +29,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -71,7 +72,7 @@ public class UnitScreen extends JFrame{
 
 	private void createPanel() {
 		panel = new JPanel();
-		panel.setSize(800, 600);
+		panel.setSize(800, 612);
 		panel.setLayout(null);
 
 		
@@ -142,8 +143,8 @@ public class UnitScreen extends JFrame{
 		unitPreview.setBounds(275, 130, 200, 300);
 		
 		descriptionText.setBounds(275, 400, 300, 100);
-		playButton.setBounds(600, 500, 150, 30);
-		backButton.setBounds(50, 500, 150, 30);
+		playButton.setBounds(500, 500, 250, 50);
+		backButton.setBounds(50, 500, 250, 50);
 		
 	}
 
@@ -171,7 +172,7 @@ public class UnitScreen extends JFrame{
 		this.setResizable(false);
 	}
 	
-	public BufferedImage scaleImage(){
+	public BufferedImage scaleImage(){ //getScaledInstance() instead of this shit!
 		BufferedImage scaledImage = new BufferedImage(previewImage.getWidth(), previewImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
 	    AffineTransform at = new AffineTransform();
 	    at.scale(0.9, 0.9);
@@ -209,36 +210,32 @@ public class UnitScreen extends JFrame{
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			if (listUnits.getSelectedIndex() == 0){ // Unit Selected is the Archer
-				descriptionText.setText("Archer"); // set Archer description
+				descriptionText.setText(Archer.getUnitDescription()); // set Archer description
 				// get Archer Image
 				previewImage = getImages(0);
 				unitPreview.setIcon(new ImageIcon(previewImage));
 			}
 			else if (listUnits.getSelectedIndex() == 1){ // Unit Selected is the Knight
-				Knight knight = new Knight(null);
-				descriptionText.setText(knight.getDescription()); // set Knight description
+				descriptionText.setText(Knight.getUnitDescription()); // set Knight description
 				// get Knight Image
 				previewImage = getImages(1);
 				unitPreview.setIcon(new ImageIcon(previewImage));
 			}
 			else if(listUnits.getSelectedIndex() == 2){ // Unit Selected is the Mage
-				descriptionText.setText("Mage"); // set Mage description
+				descriptionText.setText(Mage.getUnitDescription()); // set Mage description
 				// get Mage Image
 				previewImage = getImages(2);
 				unitPreview.setIcon(new ImageIcon(previewImage));
 			}
 			else if (listUnits.getSelectedIndex() == 3){ // Unit Selected is the Priest
-				descriptionText.setText("Priest"); // set Priest description
+				descriptionText.setText(Priest.getUnitDescription()); // set Priest description
 				// get Priest Image
 				previewImage = getImages(3);
 				unitPreview.setIcon(new ImageIcon(previewImage));
 			}
 			else if (listUnits.getSelectedIndex() == 4){ // Unit Selected is the Spearman
-				//Spearman spearman = new Spearman(null);
-				//descriptionText.setText(spearman.getDescription()); // get Spearman description
-				descriptionText.setText("Spearman");
-				//String s = model.Spearman.getDescription();
-				//String s = spearman.getDescription();
+				// get Spearman description
+				descriptionText.setText(Spearman.getUnitDescription());
 				// get Spearman Image
 				previewImage = getImages(4);
 				unitPreview.setIcon(new ImageIcon(previewImage));
@@ -289,6 +286,7 @@ public class UnitScreen extends JFrame{
 						//characterList.add(new Archer(new Point(0,0)));
 					 if (listUnits.getSelectedIndex() == 1)
 						characterList.add(new Knight(new Point(0,0)));
+					 //TODO: uncomment once the images of other characters work
 					//else if (listUnits.getSelectedIndex() == 2)
 					//	characterList.add(new Mage(new Point(0,0)));
 					//else if (listUnits.getSelectedIndex() == 3)

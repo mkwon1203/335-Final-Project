@@ -9,6 +9,7 @@ public class Shop
 	private Item healthpotion;
 	private Item manapotion;
 	private Item revivepotion;
+	private int playerCurrency;
 
 	public Shop(Player player)
 	{
@@ -24,6 +25,17 @@ public class Shop
 	public Item getCurrentItem()
 	{
 		return currentItem;
+	}
+	
+	public void buyItem(){
+		
+	}
+	
+	//player add item(item selected)
+	
+	public int getPlayerCurrency(){
+		return playerCurrency;
+		
 	}
 	
 	
