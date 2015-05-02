@@ -58,7 +58,7 @@ public class TitleScreenUnitPanel extends JPanel
 
 	public TitleScreenUnitPanel()
 	{
-		this(800, 600);
+		this(800, 612);
 	}
 
 	public TitleScreenUnitPanel(int x, int y)
@@ -66,7 +66,7 @@ public class TitleScreenUnitPanel extends JPanel
 		setPreferredSize(new Dimension(x, y));
 		setLayout(null);
 		// is background color neccesary at all?
-		setBackground(Color.RED);
+		setBackground(Color.BLACK);
 
 		buttonListener = new ButtonListener();
 		listListener = new ListListener();

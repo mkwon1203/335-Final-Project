@@ -34,7 +34,7 @@ public class Level extends JPanel
 	
 	//Level Constructor
 	public Level(){
-		define(800, 600);
+		define(800, 612);
 	}
 	
 	public Level(int x, int y){
