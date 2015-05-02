@@ -32,9 +32,8 @@ import controller.Client;
 public class ShopScreen extends JFrame{
 	private JPanel panel;
 	private JLabel playerCoins, healthPotion, manaPotion, revivePotion, strengthBuff, defenceBuff;
-	private JLabel health, mana, revive, strength, defence;
+	private JLabel health, mana, revive, strength, defence, healthCost, manaCost, reviveCost, strCost, defCost;
 	private JTextArea healthDescription, manaDescription, reviveDescription, strengthDescription, defenceDescription;
-	private Border border = BorderFactory.createLineBorder(Color.BLUE, 5);
 	private Border selectedBorder = BorderFactory.createLineBorder(Color.GREEN, 5);
 	private JList inventory;
 	private JScrollPane inventoryList;
@@ -70,76 +69,66 @@ public class ShopScreen extends JFrame{
 		
 		healthPotion.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent e) {
-		        System.out.println("Clicked!");
 		        selected = 1;
-		        System.out.println(selected);
 		        
 		        // set the correct borders
 				healthPotion.setBorder(selectedBorder);
-				manaPotion.setBorder(border);
-				revivePotion.setBorder(border);
-				strengthBuff.setBorder(border);
-				defenceBuff.setBorder(border);
+				manaPotion.setBorder(null);
+				revivePotion.setBorder(null);
+				strengthBuff.setBorder(null);
+				defenceBuff.setBorder(null);
 		    }
 		});
 		
 		manaPotion.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent e) {
-		        System.out.println("Clicked!");
 		        selected = 2;
-		        System.out.println(selected);
 		        
 		        // set the correct borders
 				manaPotion.setBorder(selectedBorder);
-				healthPotion.setBorder(border);
-				revivePotion.setBorder(border);
-				strengthBuff.setBorder(border);
-				defenceBuff.setBorder(border);
+				healthPotion.setBorder(null);
+				revivePotion.setBorder(null);
+				strengthBuff.setBorder(null);
+				defenceBuff.setBorder(null);
 		    }
 		});
 		
 		revivePotion.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent e) {
-		        System.out.println("Clicked!");
 		        selected = 3;
-		        System.out.println(selected);
 		        
 		        // set the correct borders
 				revivePotion.setBorder(selectedBorder);
-				healthPotion.setBorder(border);
-				manaPotion.setBorder(border);
-				strengthBuff.setBorder(border);
-				defenceBuff.setBorder(border);
+				healthPotion.setBorder(null);
+				manaPotion.setBorder(null);
+				strengthBuff.setBorder(null);
+				defenceBuff.setBorder(null);
 		    }
 		});
 		
 		strengthBuff.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent e) {
-		        System.out.println("Clicked!");
 		        selected = 4;
-		        System.out.println(selected);
 		        
 		        // set the correct borders
 				strengthBuff.setBorder(selectedBorder);
-				healthPotion.setBorder(border);
-				manaPotion.setBorder(border);
-				revivePotion.setBorder(border);
-				defenceBuff.setBorder(border);
+				healthPotion.setBorder(null);
+				manaPotion.setBorder(null);
+				revivePotion.setBorder(null);
+				defenceBuff.setBorder(null);
 		    }
 		});
 		
 		defenceBuff.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent e) {
-		        System.out.println("Clicked!");
 		        selected = 5;
-		        System.out.println(selected);
 		        
 		        // set the correct borders
 				defenceBuff.setBorder(selectedBorder);
-				healthPotion.setBorder(border);
-				manaPotion.setBorder(border);
-				revivePotion.setBorder(border);
-				strengthBuff.setBorder(border);
+				healthPotion.setBorder(null);
+				manaPotion.setBorder(null);
+				revivePotion.setBorder(null);
+				strengthBuff.setBorder(null);
 		    }
 		});
 			
@@ -197,50 +186,37 @@ public class ShopScreen extends JFrame{
 	private void setLocationInPanel() {
 		// 
 		playerCoins.setBounds(0, 0, 100, 30);
-		playerCoins.setBorder(border)
-		;
 		
 		// setting the health potion components
-		healthPotion.setBounds(50, 50, 100, 100);
-		healthPotion.setBorder(border);
-		healthDescription.setBounds(175, 90, 150, 60);
-		healthDescription.setBorder(border);
+		healthPotion.setBounds(50, 50, 80, 80);
+		healthDescription.setBounds(175, 90, 150, 60);;
 		health.setBounds(175, 50, 150, 30);
-		health.setBorder(border);
-		
+		healthCost.setBounds(50, 135, 80, 20);
 		
 		
 		//setting the mana potion components
-		manaPotion.setBounds(375, 50, 100, 100);
-		manaPotion.setBorder(border);
+		manaPotion.setBounds(375, 50, 80, 80);
 		manaDescription.setBounds(500, 90, 150, 60);
-		manaDescription.setBorder(border);
 		mana.setBounds(500, 50, 150, 30);
-		mana.setBorder(border);
+		manaCost.setBounds(375, 135, 80, 20);
 		
 		// setting revive potion components
-		revivePotion.setBounds(50, 175, 100, 100);
-		revivePotion.setBorder(border);
+		revivePotion.setBounds(50, 175, 80, 80);
 		reviveDescription.setBounds(175, 215, 150, 60);
-		reviveDescription.setBorder(border);
 		revive.setBounds(175, 175, 150, 30);
-		revive.setBorder(border);
+		reviveCost.setBounds(50, 260, 80, 20);
 		
 		// setting strength buff components
-		strengthBuff.setBounds(375, 175, 100, 100);
-		strengthBuff.setBorder(border);
+		strengthBuff.setBounds(375, 175, 80, 80);
 		strengthDescription.setBounds(500, 215, 150, 60);
-		strengthDescription.setBorder(border);
 		strength.setBounds(500, 175, 150, 30);
-		strength.setBorder(border);
+		strCost.setBounds(375, 260, 80, 20);
 		
 		// setting defence buff components
-		defenceBuff.setBounds(375, 300, 100, 100);
-		defenceBuff.setBorder(border);
+		defenceBuff.setBounds(375, 300, 80, 80);
 		defenceDescription.setBounds(500, 340, 150, 60);
-		defenceDescription.setBorder(border);
 		defence.setBounds(500, 300, 150, 30);
-		defence.setBorder(border);
+		defCost.setBounds(375, 385, 80, 20);
 		
 		// setting buttons
 		buyButton.setBounds(375, 425, 300, 50);
@@ -248,6 +224,7 @@ public class ShopScreen extends JFrame{
 		
 		// setting inventory list
 		inventoryList.setBounds(50, 300, 275, 275);
+		
 		
 		
 	}
@@ -281,6 +258,13 @@ public class ShopScreen extends JFrame{
 		
 		// adding the list
 		panel.add(inventoryList);
+		
+		// adding the cost of each item
+		panel.add(healthCost);
+		panel.add(manaCost);
+		panel.add(reviveCost);
+		panel.add(strCost);
+		panel.add(defCost);
 	}
 
 	private void createDescriptions() {
@@ -322,6 +306,7 @@ public class ShopScreen extends JFrame{
 	}
 
 	private void createLabels() {
+		// TODO: change Player Coins label by Player.getMoney();
 		playerCoins = new JLabel("Player Coins");
 		healthPotion = new JLabel("Health Potion");
 		manaPotion = new JLabel("Mana Potion");
@@ -334,6 +319,12 @@ public class ShopScreen extends JFrame{
 		revive = new JLabel(revivePot.getName());
 		strength = new JLabel(strBuff.getName());
 		defence = new JLabel(defBuff.getName());
+		
+		healthCost = new JLabel("Cost: " + healthPot.getCost());
+		manaCost = new JLabel("Cost: " + manaPot.getCost());
+		reviveCost = new JLabel("Cost: " + revivePot.getCost());
+		strCost = new JLabel("Cost: " + strBuff.getCost());
+		defCost = new JLabel("Cost:" + defBuff.getCost());
 	}
 
 	private void setLayoutAndAddComponentsToFrame() {
