@@ -99,7 +99,7 @@ public class Client implements Runnable {
 			}
 			
 			try{
-				Thread.sleep(5);
+				Thread.sleep(25);
 			}catch(Exception e)	{System.out.println("Error with sleeping thread.");}
 			
 		}

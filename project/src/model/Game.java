@@ -108,11 +108,15 @@ public Game(String playerName, List<Character> playerCharacters, String mapName)
 	public void setSelectedCharacter(CharacterInterface ch)
 	{
 		currentCharacter = ch;
+		setChanged();
+		notifyObservers(null);
 	}
 
 	public void setSelectedCharacter(int row, int col)
 	{
 		currentCharacter = map.getCharacter(row, col);
+		setChanged();
+		notifyObservers(null);
 	}
 
 	public boolean isOccupied(int row, int col)
