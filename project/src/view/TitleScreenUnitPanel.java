@@ -322,7 +322,7 @@ public class TitleScreenUnitPanel extends JPanel
 
 				if (button.getName() == "add")
 				{
-					if (unitList.getSelectedValue() != null)
+					if (unitList.getSelectedValue() != null && teamListModel.size() < 5)
 						teamListModel.addElement((String) unitList
 								.getSelectedValue());
 				}
