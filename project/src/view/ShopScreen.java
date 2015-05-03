@@ -306,7 +306,7 @@ public class ShopScreen extends JFrame{
 	}
 
 	private void createLabels() {
-		// TODO: change Player Coins label by Player.getMoney();
+		// TODO: change Player Coins label by Player.getMoney(); and add images for the items jLabels
 		playerCoins = new JLabel("Player Coins");
 		healthPotion = new JLabel("Health Potion");
 		manaPotion = new JLabel("Mana Potion");

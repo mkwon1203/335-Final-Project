@@ -89,7 +89,7 @@ public class TitleScreenUnitPanel extends JPanel
 		{
 			// TODO: change to new background image
 			background = ImageIO.read(new File(
-					"res/titleScreen/titleBackground.png"));
+					"res/unitScreen/unitSelectBackground.png"));
 		}
 		catch (IOException e)
 		{
