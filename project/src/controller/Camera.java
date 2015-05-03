@@ -1,6 +1,5 @@
 package controller;
 
-public class Camera
-{
+public class Camera {
 
 }
