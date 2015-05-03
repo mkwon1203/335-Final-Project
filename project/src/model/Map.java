@@ -131,6 +131,35 @@ public class Map
 		return true;
 	}
 	
+	public Block[][] loadBlocks(String levelName)
+	{
+		int[][] levelArrayInt = LoadGame.loadFile(levelName);
+		Block[][] toReturn = new Block[levelArrayInt.length][levelArrayInt[0].length];
+		
+		for (int row = 0; row < levelArrayInt.length; row++)
+		{
+			for (int col = 0; col < levelArrayInt[0].length; col++)
+			{
+				int blockInt = levelArrayInt[row][col];
+				
+				Block block = null;
+				
+				if (blockInt == 0)
+					block = new Floor();
+				else if (blockInt == 1)
+					block = new Wall();
+				else if (blockInt == 2)
+					block = new Air();
+				else
+					System.out.println("loadBlocks failed. critical error");
+				
+				toReturn[row][col] = block;
+			}
+		}
+		
+		return toReturn;
+	}
+	
 	public void loadPlayerSpawns(String levelName)
 	{
 		List<Point> playerSpawns = LoadGame.loadPlayerSpawns(levelName);

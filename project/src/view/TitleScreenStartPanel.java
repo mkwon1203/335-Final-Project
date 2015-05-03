@@ -87,7 +87,7 @@ public class TitleScreenStartPanel extends JPanel
 			loadGameButton.setContentAreaFilled(false);
 			loadGameButton.setBorderPainted(false);
 			loadGameButton.setRolloverIcon(new ImageIcon(ImageIO.read(new File(
-					"res/titleScreen/loadGam2.png"))));
+					"res/titleScreen/loadGame2.png"))));
 
 			backButton.setOpaque(false);
 			backButton.setContentAreaFilled(false);

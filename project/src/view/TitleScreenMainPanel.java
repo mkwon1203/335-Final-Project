@@ -155,11 +155,8 @@ public class TitleScreenMainPanel extends JPanel
 
 				if (button.getName() == "start")
 				{
-					// TitleScreen.TITLESTATE = 1;
-					// TODO: For milestone 1, just set gamestate to 1.
-					// TODO: change to titlestate = 1 later
-					Client.GAMESTATE = 1;
-					// SoundEffects.addSound("res/music/smb_over.mid");
+					TitleScreen.TITLESTATE = 1;
+					title.draw();
 				}
 
 				else if (button.getName() == "quit")
@@ -170,7 +167,7 @@ public class TitleScreenMainPanel extends JPanel
 				else if (button.getName() == "store")
 				{
 					// TODO: change this back to 2 later
-					TitleScreen.TITLESTATE = 5;
+					TitleScreen.TITLESTATE = 2;
 					title.draw();
 				}
 

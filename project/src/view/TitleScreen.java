@@ -21,9 +21,12 @@ public class TitleScreen extends JPanel
 	private static TitleScreen title = null;
 
 	// list of panels
-	private TitleScreenMainPanel main;
-	private TitleScreenAboutPanel about;
-	private TitleScreenUnitPanel unit;
+	private TitleScreenMainPanel main; // titlestate = 0
+	private TitleScreenStartPanel start; // 1
+	// private TitleScreenShopPanel shop;// 2
+	private TitleScreenAboutPanel about; // 3
+	private TitleScreenLevelPanel level; // 4
+	private TitleScreenUnitPanel unit; // 5
 
 	private TitleScreen()
 	{
@@ -69,6 +72,15 @@ public class TitleScreen extends JPanel
 		else if (TITLESTATE == 1)
 		{
 			// start button pressed from main title screen
+			if (start == null)
+			{
+				start = new TitleScreenStartPanel();
+				start.setBounds(0, 0, start.getPreferredSize().width,
+						start.getPreferredSize().height);
+			}
+			this.add(start);
+			start.setVisible(true);
+			start.repaint();
 		}
 		else if (TITLESTATE == 2)
 		{
@@ -90,7 +102,15 @@ public class TitleScreen extends JPanel
 		}
 		else if (TITLESTATE == 4)
 		{
-			
+			if (level == null)
+			{
+				level = new TitleScreenLevelPanel();
+				level.setBounds(0, 0, level.getPreferredSize().width,
+						level.getPreferredSize().height);
+			}
+			this.add(level);
+			level.setVisible(true);
+			level.repaint();
 		}
 		else if (TITLESTATE == 5)
 		{
