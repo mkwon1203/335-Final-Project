@@ -212,6 +212,7 @@ public class TitleScreenLevelPanel extends JPanel
 		mapList = new JList<String>(mapListModel);
 		// TODO: maybe change this later
 		mapList.setVisibleRowCount(6);
+		mapList.setFont(UIManager.getFont("List.font").deriveFont(16f));
 		mapList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		mapList.setOpaque(false);
 		mapList.setBackground(Color.DARK_GRAY);
