@@ -23,7 +23,7 @@ public class TitleScreen extends JPanel
 	// list of panels
 	private TitleScreenMainPanel main; // titlestate = 0
 	private TitleScreenStartPanel start; // 1
-	// private TitleScreenShopPanel shop;// 2
+	private TitleScreenShopPanel shop;// 2
 	private TitleScreenAboutPanel about; // 3
 	private TitleScreenLevelPanel level; // 4
 	private TitleScreenUnitPanel unit; // 5
@@ -85,7 +85,15 @@ public class TitleScreen extends JPanel
 		else if (TITLESTATE == 2)
 		{
 			// store interface
-
+			if (shop == null)
+			{
+				shop = new TitleScreenShopPanel();
+				shop.setBounds(0, 0, shop.getPreferredSize().width,
+						shop.getPreferredSize().height);
+			}
+			this.add(shop);
+			shop.setVisible(true);
+			shop.repaint();
 		}
 		else if (TITLESTATE == 3)
 		{
