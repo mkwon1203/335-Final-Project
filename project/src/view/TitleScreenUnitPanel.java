@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,10 +32,12 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import model.Knight;
 import model.Spearman;
 import controller.Client;
@@ -49,12 +52,14 @@ public class TitleScreenUnitPanel extends JPanel
 	private JButton addButton, removeButton, backButton, playButton;
 	private JList unitList, teamList;
 	private JScrollPane teamListScrollPane;
-	private JLabel unitPreviewLabel, unitDescriptionLabel;
+	private JLabel unitPreviewLabel, unitListLabel, teamListLabel;
 	private ButtonListener buttonListener;
 	private ListListener listListener;
 	private DefaultListModel<String> unitListModel, teamListModel;
 	private List<Character> team;
 	private TitleScreen title;
+	private JTextArea unitDescription;
+	private int listWidth, listHeight;
 
 	public TitleScreenUnitPanel()
 	{
@@ -89,7 +94,7 @@ public class TitleScreenUnitPanel extends JPanel
 		{
 			// TODO: change to new background image
 			background = ImageIO.read(new File(
-					"res/unitScreen/unitSelectBackground.png"));
+					"res/titleScreen/unitSelectBackground.png"));
 		}
 		catch (IOException e)
 		{
@@ -183,13 +188,13 @@ public class TitleScreenUnitPanel extends JPanel
 
 		// set button locations
 		// TODO: set the (correct) coordinates for the buttons
-		addButton.setBounds(275, 70, addButtonImage.getWidth(null),
+		addButton.setBounds(325, 70, addButtonImage.getWidth(null),
 				addButtonImage.getHeight(null));
-		removeButton.setBounds(275, 100, removeButtonImage.getWidth(null),
+		removeButton.setBounds(302, 100, removeButtonImage.getWidth(null),
 				removeButtonImage.getHeight(null));
-		backButton.setBounds(50, 500, backButtonImage.getWidth(null),
+		backButton.setBounds(100, 545, backButtonImage.getWidth(null),
 				backButtonImage.getHeight(null));
-		playButton.setBounds(500, 500, playButtonImage.getWidth(null),
+		playButton.setBounds(625, 545, playButtonImage.getWidth(null),
 				playButtonImage.getHeight(null));
 
 	}
@@ -221,17 +226,34 @@ public class TitleScreenUnitPanel extends JPanel
 
 		// TODO: change the initial values of these labels?
 		unitPreviewLabel = new JLabel(new ImageIcon(unitPreviewImage));
-		unitDescriptionLabel = new JLabel("unit description goes here");
+		unitDescription = new JTextArea("Unit Description");
+		unitListLabel = new JLabel("Units");
+		unitListLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+		unitListLabel.setForeground(Color.WHITE);
+		teamListLabel = new JLabel("My Team");
+		teamListLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+		teamListLabel.setForeground(Color.WHITE);
 	}
 
 	private void addLabel()
 	{
 		this.add(unitPreviewLabel);
-		this.add(unitDescriptionLabel);
+		this.add(unitDescription);
+		this.add(unitListLabel);
+		this.add(teamListLabel);
 
 		// TODO: set bounds for the 2 labels above
-		unitPreviewLabel.setBounds(275, 130, 300, 300);
-		unitDescriptionLabel.setBounds(275, 400, 300, 100);
+		unitPreviewLabel.setBounds(325, 190, 145, 135);
+		unitDescription.setBounds(325, 415, 150, 100);
+		unitListLabel.setBounds(50, 0, 100, 135);
+		
+		teamListLabel.setBounds(560, 0, 150, 135);
+		
+		// adding description text area settings
+		unitDescription.setEditable(false);
+		unitDescription.setWrapStyleWord(true);
+		unitDescription.setLineWrap(true);
+		unitDescription.setOpaque(false);
 	}
 
 	private void loadList()
@@ -255,8 +277,22 @@ public class TitleScreenUnitPanel extends JPanel
 		this.add(teamListScrollPane);
 
 		// TODO: set bounds for the unitList and scrollPane
-		unitList.setBounds(50, 70, 100, 135);
-		teamListScrollPane.setBounds(600, 70, 100, 135);
+		
+		// setting size of list
+		listWidth = 200;
+		listHeight = 350;
+		
+		// setting cell size
+		unitList.setFixedCellHeight(listHeight/5);
+		teamList.setFixedCellHeight(listHeight/5);
+		
+		// setting font
+		unitList.setFont(new Font("Arial", Font.PLAIN, 20));
+		teamList.setFont(new Font("Arial", Font.PLAIN, 20));
+		
+		// setting bounds
+		teamListScrollPane.setBounds(560, 100, listWidth, listHeight);
+		unitList.setBounds(40, 100, listWidth, listHeight);
 	}
 
 	public void paintComponent(Graphics g)
@@ -285,27 +321,27 @@ public class TitleScreenUnitPanel extends JPanel
 			// TODO: set unitPreviewLabel images
 			if (unitList.getSelectedValue().equals("Archer"))
 			{
-				unitDescriptionLabel.setText(Archer.getUnitDescription());
+				unitDescription.setText(Archer.getUnitDescription());
 				unitPreviewLabel.setIcon(new ImageIcon(archerPreviewImage));
 			}
 			else if (unitList.getSelectedValue().equals("Knight"))
 			{
-				unitDescriptionLabel.setText(Knight.getUnitDescription());
+				unitDescription.setText(Knight.getUnitDescription());
 				unitPreviewLabel.setIcon(new ImageIcon(knightPreviewImage));
 			}
 			else if (unitList.getSelectedValue().equals("Mage"))
 			{
-				unitDescriptionLabel.setText(Mage.getUnitDescription());
+				unitDescription.setText(Mage.getUnitDescription());
 				unitPreviewLabel.setIcon(new ImageIcon(magePreviewImage));
 			}
 			else if (unitList.getSelectedValue().equals("Priest"))
 			{
-				unitDescriptionLabel.setText(Priest.getUnitDescription());
+				unitDescription.setText(Priest.getUnitDescription());
 				unitPreviewLabel.setIcon(new ImageIcon(priestPreviewImage));
 			}
 			else if (unitList.getSelectedValue().equals("Spearman"))
 			{
-				unitDescriptionLabel.setText(Spearman.getUnitDescription());
+				unitDescription.setText(Spearman.getUnitDescription());
 				unitPreviewLabel.setIcon(new ImageIcon(spearmanPreviewImage));
 			}
 		} // end of actionPerformed
