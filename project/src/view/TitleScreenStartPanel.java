@@ -35,7 +35,7 @@ public class TitleScreenStartPanel extends JPanel
 		setPreferredSize(new Dimension(x, y));
 		setLayout(null);
 		// is background color neccesary at all?
-		setBackground(Color.RED);
+		setBackground(Color.BLACK);
 
 		listener = new MenuListener();
 
