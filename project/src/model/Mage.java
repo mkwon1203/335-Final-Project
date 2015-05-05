@@ -1,6 +1,11 @@
 package model;
 
+import java.awt.Image;
 import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Mage extends Character {
 
@@ -11,7 +16,7 @@ public class Mage extends Character {
 	private static final int MAGE_MOVEDISTANCE = 1;
 	private static final int MAGE_ATTACKDISTANCE = 1;
 	private static final String MAGE_IMAGEPATH = "res/sprites/units/mage.png";
-	private static final String MAGE_DESCRIPTION = "MAGE description";
+	private static final String MAGE_DESCRIPTION = "A Mage's attack will make the enemy tremble in fear, but if a Mage were to be cought in close quarters; they could be in danger.";
 
 	public Mage(Point initialPosition) {
 
@@ -23,6 +28,17 @@ public class Mage extends Character {
 	public static String getUnitDescription()
 	{
 		return MAGE_DESCRIPTION;
+	}
+	
+	public static Image returnTexture(){
+		try{
+			return ImageIO.read(new File(MAGE_IMAGEPATH));
+		}
+		catch (IOException ioex)
+		{
+			ioex.printStackTrace();
+		}
+		return null;
 	}
 
 	public void revive()

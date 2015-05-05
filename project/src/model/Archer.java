@@ -1,6 +1,11 @@
 package model;
 
+import java.awt.Image;
 import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Archer extends Character
 {
@@ -12,7 +17,7 @@ public class Archer extends Character
 	private static final int ARCHER_MOVEDISTANCE = 1;
 	private static final int ARCHER_ATTACKDISTANCE = 1;
 	private static final String ARCHER_IMAGEPATH = "res/sprites/units/archer.png";
-	private static final String ARCHER_DESCRIPTION = "archer description";
+	private static final String ARCHER_DESCRIPTION = "With medium defence, Archers are nimble and can attack their targets from a distance;";
 
 	public Archer(Point initialPosition)
 	{
@@ -24,6 +29,17 @@ public class Archer extends Character
 	public static String getUnitDescription()
 	{
 		return ARCHER_DESCRIPTION;
+	}
+	
+	public static Image returnTexture(){
+		try{
+			return ImageIO.read(new File(ARCHER_IMAGEPATH));
+		}
+		catch (IOException ioex)
+		{
+			ioex.printStackTrace();
+		}
+		return null;
 	}
 
 	public void revive()

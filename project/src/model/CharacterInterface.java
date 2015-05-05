@@ -242,5 +242,9 @@ public abstract class CharacterInterface
 		location = newLocation;
 	}
 	
+	public void setTexture(Image texture){
+		this.texture = texture;
+	}
+	
 	public abstract String toStringGUI();
 }

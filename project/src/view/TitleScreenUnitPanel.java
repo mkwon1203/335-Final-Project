@@ -12,34 +12,26 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.List;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.Knight;
-import model.Spearman;
 import controller.Client;
 
 public class TitleScreenUnitPanel extends JPanel
@@ -205,18 +197,15 @@ public class TitleScreenUnitPanel extends JPanel
 		{
 			// TODO: change to default preview image
 			unitPreviewImage = ImageIO.read(new File(
-					"res/titleScreen/addUnit.png"));
+					"res/sprites/statPanel/noUnit.png"));
+			unitPreviewImage = unitPreviewImage.getScaledInstance(128, 128, 0);
 			// TODO: change the paths for these images
-			archerPreviewImage = ImageIO.read(new File(
-					"res/unitScreen/Archer.png"));
-			knightPreviewImage = ImageIO.read(new File(
-					"res/unitScreen/Knight.png"));
-			magePreviewImage = ImageIO.read(new File(
-					"res/unitScreen/Mage.png"));
-			priestPreviewImage = ImageIO.read(new File(
-					"res/unitScreen/Priest.png"));
-			spearmanPreviewImage = ImageIO.read(new File(
-					"res/unitScreen/Spearman.png"));
+			
+			archerPreviewImage = model.Archer.returnTexture().getScaledInstance(128, 128, 0);
+			knightPreviewImage = model.Knight.returnTexture().getScaledInstance(128, 128, 0);
+			magePreviewImage = model.Mage.returnTexture().getScaledInstance(128, 128, 0);
+			priestPreviewImage = model.Priest.returnTexture().getScaledInstance(128, 128, 0);
+			spearmanPreviewImage = model.Spearman.returnTexture().getScaledInstance(128, 128, 0);
 		}
 		catch (IOException ex)
 		{
@@ -244,7 +233,7 @@ public class TitleScreenUnitPanel extends JPanel
 
 		// TODO: set bounds for the 2 labels above
 		unitPreviewLabel.setBounds(325, 190, 145, 135);
-		unitDescription.setBounds(325, 415, 150, 100);
+		unitDescription.setBounds(325, 405, 150, 120);
 		unitListLabel.setBounds(50, 0, 100, 135);
 		
 		teamListLabel.setBounds(560, 0, 150, 135);
@@ -261,11 +250,19 @@ public class TitleScreenUnitPanel extends JPanel
 		unitList = new JList(unitListModel);
 		unitList.setVisibleRowCount(unitListModel.size());
 		unitList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		unitList.setBackground(Color.DARK_GRAY);
+		unitList.setForeground(Color.WHITE);
+		unitList.setSelectionBackground(Color.DARK_GRAY);
+		unitList.setSelectionForeground(Color.CYAN);
 
 		teamList = new JList(teamListModel);
 		teamList.setVisibleRowCount(5);
 		teamList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+		teamList.setBackground(Color.DARK_GRAY);
+		teamList.setForeground(Color.WHITE);
+		teamList.setSelectionBackground(Color.DARK_GRAY);
+		teamList.setSelectionForeground(Color.RED);
+		
 		teamListScrollPane = new JScrollPane(teamList);
 
 		unitList.addListSelectionListener(listListener);
@@ -378,6 +375,7 @@ public class TitleScreenUnitPanel extends JPanel
 
 				else if (button.getName() == "play")
 				{
+					//TODO: Call a method somewhere to create and start game based off of chosen team.
 					Client.GAMESTATE = 1;
 				}
 			}

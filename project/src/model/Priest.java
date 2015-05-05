@@ -1,6 +1,9 @@
 package model;
 
+import java.awt.Image;
 import java.awt.Point;
+
+import controller.Client;
 
 public class Priest extends Character {
 
@@ -11,7 +14,7 @@ public class Priest extends Character {
 	private static final int PRIEST_MOVEDISTANCE = 1;
 	private static final int PRIEST_ATTACKDISTANCE = 1;
 	private static final String PRIEST_IMAGEPATH = "res/sprites/units/priest.png";
-	private static final String PRIEST_DESCRIPTION = "PRIEST description";
+	private static final String PRIEST_DESCRIPTION = "Priests are passive people. They don't believe in injuring other people or even monsters. They dedicate themselves to providing aid for the people that are close to them.";
 
 	public Priest(Point initialPosition) {
 		super("Priest", PRIEST_DESCRIPTION, PRIEST_HEALTH, PRIEST_MANA,
@@ -22,6 +25,11 @@ public class Priest extends Character {
 	public static String getUnitDescription()
 	{
 		return PRIEST_DESCRIPTION;
+	}
+	
+	public static Image returnTexture(){
+		Image[][] priestSprites = model.LoadSprites.loadSpriteSheet(PRIEST_IMAGEPATH, 4, 3, Client.BLOCKSIZE);
+		return priestSprites[0][1];
 	}
 
 	public void revive()

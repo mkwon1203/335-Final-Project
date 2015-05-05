@@ -1,16 +1,21 @@
 package model;
 
+import java.awt.Image;
 import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Knight extends Character {
 	private static final int KNIGHT_HEALTH = 100;
 	private static final int KNIGHT_MANA = 0;
-	private static final int KNIGHT_STRENGTH = 100;
+	private static final int KNIGHT_STRENGTH = 10;
 	private static final int KNIGHT_DEFENCE = 10;
-	private static final int KNIGHT_MOVEDISTANCE = 4;
+	private static final int KNIGHT_MOVEDISTANCE = 2;
 	private static final int KNIGHT_ATTACKDISTANCE = 1;
 	private static final String KNIGHT_IMAGEPATH = "res/sprites/units/knight.png";
-	private static final String KNIGHT_DESCRIPTION = "KNIGHT description";
+	private static final String KNIGHT_DESCRIPTION = "Knights are not very mobile, and their attacks are average, but they can survive more attacks than anyone else.";
 
 	public Knight(Point initialPosition) {
 
@@ -22,6 +27,17 @@ public class Knight extends Character {
 	public static String getUnitDescription()
 	{
 		return KNIGHT_DESCRIPTION;
+	}
+	
+	public static Image returnTexture(){
+		try{
+			return ImageIO.read(new File(KNIGHT_IMAGEPATH));
+		}
+		catch (IOException ioex)
+		{
+			ioex.printStackTrace();
+		}
+		return null;
 	}
 
 	public void revive()
