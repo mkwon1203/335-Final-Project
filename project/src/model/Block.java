@@ -81,6 +81,22 @@ public abstract class Block
 		animated = animate;
 	}
 	
+	public void setImage(String fileName)
+	{
+		try
+		{
+			this.texture = ImageIO.read(new File(fileName));
+		}
+		catch (FileNotFoundException fnfe)
+		{
+			fnfe.printStackTrace();
+		}
+		catch (IOException ex)
+		{
+			ex.printStackTrace();
+		}
+	}
+	
 	// placeholder for console GUI
 	public String toString()
 	{
