@@ -27,6 +27,7 @@ public class TitleScreen extends JPanel
 	private TitleScreenAboutPanel about; // 3
 	private TitleScreenLevelPanel level; // 4
 	private TitleScreenUnitPanel unit; // 5
+	private TitleScreenGameOverPanel gameOver; // 6
 
 	private TitleScreen()
 	{
@@ -131,6 +132,18 @@ public class TitleScreen extends JPanel
 			this.add(unit);
 			unit.setVisible(true);
 			unit.repaint();
+		}
+		else if (TITLESTATE == 6)
+		{
+			if (gameOver == null)
+			{
+				gameOver = new TitleScreenGameOverPanel();
+				gameOver.setBounds(0, 0, gameOver.getPreferredSize().width,
+						gameOver.getPreferredSize().height);
+			}
+			this.add(gameOver);
+			gameOver.setVisible(true);
+			gameOver.repaint();
 		}
 	}
 }

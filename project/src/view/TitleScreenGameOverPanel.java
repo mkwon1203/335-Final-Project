@@ -15,9 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.Client;
-
-public class TitleScreenAboutPanel extends JPanel
+public class TitleScreenGameOverPanel extends JPanel
 {
 	private Image background;
 	private Image backButtonImage;
@@ -27,12 +25,12 @@ public class TitleScreenAboutPanel extends JPanel
 	
 	private TitleScreen title;
 	
-	public TitleScreenAboutPanel()
+	public TitleScreenGameOverPanel()
 	{
 		this(800,612);
 	}
 	
-	public TitleScreenAboutPanel(int x, int y)
+	public TitleScreenGameOverPanel(int x, int y)
 	{
 		setPreferredSize(new Dimension(x, y));
 		setLayout(null);
@@ -46,8 +44,6 @@ public class TitleScreenAboutPanel extends JPanel
 		loadBackground();
 		loadButton();
 		addButton();
-		loadLabel();
-		addLabel();
 	}
 
 	private void loadBackground()
@@ -90,7 +86,7 @@ public class TitleScreenAboutPanel extends JPanel
 		}
 	}
 
-	private void addButton()
+	public void addButton()
 	{
 		this.add(backButton);
 
@@ -102,7 +98,7 @@ public class TitleScreenAboutPanel extends JPanel
 	{
 		// TODO: fill out the label
 		aboutLabel = new JLabel();
-		aboutLabel.setText("Description for our game, content of about screen");
+		aboutLabel.setText("GAME OVER");
 	}
 	
 	private void addLabel()
