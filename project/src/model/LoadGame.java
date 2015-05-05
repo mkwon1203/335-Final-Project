@@ -18,6 +18,10 @@ public class LoadGame {
 	public static int[][] loadFile(String fileName){
 		
 		//  Example file name: "testLevel"
+		LEVELWIDTH = 0;
+		LEVELHEIGHT = 0;
+		LEVELARRAY = null;
+		
 		fileName = "res/levels/" + fileName + ".lvl";
 		
 		try{
@@ -42,15 +46,16 @@ public class LoadGame {
 			}
 			
 			LEVELARRAY = new int[LEVELHEIGHT][LEVELWIDTH];
-			
-			loadScanner = new Scanner(new File(fileName));
-			while(loadScanner.hasNextInt()){
-				for(int y=0;y<LEVELHEIGHT;y++){
-					for(int x=0;x<LEVELWIDTH;x++){
-						LEVELARRAY[y][x] = loadScanner.nextInt();
+			try{
+				loadScanner = new Scanner(new File(fileName));
+				while(loadScanner.hasNextInt()){
+					for(int y=0;y<LEVELHEIGHT;y++){
+						for(int x=0;x<LEVELWIDTH;x++){
+							LEVELARRAY[y][x] = loadScanner.nextInt();
+						}
 					}
 				}
-			}
+			}catch(Exception ex){System.out.println("found something other than int.");}
 			
 			loadScanner.close();
 			
@@ -154,6 +159,37 @@ public class LoadGame {
 		}catch(IOException e){ System.out.println("Couldn't find file to load enemies."); }
 		
 		return playerSpawns;
+	}
+	
+	//This method can be used to get the descriptions from the level files.
+	//	Returns a String.
+	public static String loadLevelDescription(String fileName){
+		String levelDescription = "";
+		String path = "res/levels/" + fileName + ".lvl";
+		
+		try{
+			Scanner scan = new Scanner(new File(path));
+			String word = "";
+			
+			try{
+				word = scan.next();
+				while(!word.equals("<Description>"))
+					word = scan.next();
+			}catch(Exception ex){System.out.println("Couldn't find <Description> tag in file."); }
+			
+			word = scan.next();
+			while(!word.equals("</Description>")){
+				
+				levelDescription = levelDescription + " " + word;
+				
+				word = scan.next();
+			}
+			
+			levelDescription = levelDescription.trim();
+			
+		}catch(IOException e){ System.out.println("Couldn't find file to load enemies."); }
+		
+		return levelDescription;
 	}
 	
 }

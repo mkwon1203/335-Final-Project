@@ -35,3 +35,10 @@ goblin
 <PlayerSpawns>
 7 5 
 </PlayerSpawns>
+
+<Description>
+
+	This is the first map that was created for the project. It fits completely in
+	the standard window size. The simple layout makes this map good for any new players.
+
+</Description>

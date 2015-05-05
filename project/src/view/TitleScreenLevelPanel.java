@@ -1,13 +1,13 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,20 +17,16 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import model.Archer;
-import model.Knight;
-import model.Mage;
-import model.Priest;
-import model.Spearman;
+import model.Block;
 import controller.Client;
 
 public class TitleScreenLevelPanel extends JPanel
@@ -39,12 +35,17 @@ public class TitleScreenLevelPanel extends JPanel
 	private List<Image> mapPreviewImageList;
 	private Image backButtonImage, nextButtonImage;
 	private JButton backButton, nextButton;
-	private JLabel mapPreviewLabel, mapDescriptionLabel;
+	private JLabel mapPreviewLabel, levelsLabel;
+	private JTextArea mapDescription;
 	private JList<String> mapList;
 	private DefaultListModel<String> mapListModel;
 	private MenuListener listener;
 	private ListListener listListener;
 	private TitleScreen title;
+	
+	private Image preview;
+	
+	private String SELECTED;
 
 	public TitleScreenLevelPanel()
 	{
@@ -79,7 +80,7 @@ public class TitleScreenLevelPanel extends JPanel
 		{
 			// TODO: change the background image
 			background = ImageIO.read(new File(
-					"res/titleScreen/titleBackground.png"));
+					"res/titleScreen/levelSelectBackground.png"));
 		}
 		catch (IOException e)
 		{
@@ -90,15 +91,18 @@ public class TitleScreenLevelPanel extends JPanel
 	private void initializeModelList()
 	{
 		mapListModel = new DefaultListModel<String>();
-
+		String fileName;
+		
 		File folder = new File("res/levels");
 		File[] fileList = folder.listFiles();
 		for (int i = 0; i < fileList.length; i++)
 		{
 			if (fileList[i].getName().endsWith("lvl"))
 			{
-				System.out.println(fileList[i].getName());
-				mapListModel.addElement(fileList[i].getName());
+				fileName = fileList[i].getName().toString();
+				fileName = fileName.replace(".lvl", "");
+				//System.out.println(fileName);
+				mapListModel.addElement(fileName);
 			}
 		}
 	}
@@ -145,9 +149,9 @@ public class TitleScreenLevelPanel extends JPanel
 		this.add(nextButton);
 
 		// TODO: finalize the location of the buttons
-		backButton.setBounds(50, 500, backButtonImage.getWidth(null),
+		backButton.setBounds(120, 545, backButtonImage.getWidth(null),
 				backButtonImage.getHeight(null));
-		nextButton.setBounds(500, 500, nextButtonImage.getWidth(null),
+		nextButton.setBounds(590, 545, nextButtonImage.getWidth(null),
 				nextButtonImage.getHeight(null));
 	}
 
@@ -159,15 +163,12 @@ public class TitleScreenLevelPanel extends JPanel
 		{
 			// TODO: change to default preview image
 			mapPreviewImage = ImageIO.read(new File(
-					"res/titleScreen/addUnit.png"));
+					"res/titleScreen/noLevelSelected.png"));
 			// TODO: populate mapPreviewImageList with images
 			// by using mapListModel to get name of paths
 			for (int i = 0; i < mapListModel.size(); i++)
 			{
 				String fileName = mapListModel.getElementAt(i);
-				fileName.trim();
-				// chop off the .lvl part
-				fileName = fileName.substring(0, fileName.length() - 4);
 				mapPreviewImageList.add(ImageIO.read(new File("res/levels/"
 						+ fileName + ".png")));
 			}
@@ -178,19 +179,32 @@ public class TitleScreenLevelPanel extends JPanel
 		}
 
 		mapPreviewLabel = new JLabel(new ImageIcon(mapPreviewImage));
+		
+		Font labelFont = UIManager.getFont("Label.font");
+		labelFont = labelFont.deriveFont(24f);
+		levelsLabel = new JLabel("Levels");
+		levelsLabel.setFont(labelFont);
+		
 		// TODO: change defeault description here
-		mapDescriptionLabel = new JLabel("DEFAULT DESCRIPTION LABEL");
+		mapDescription = new JTextArea("DEFAULT DESCRIPTION LABEL");
+		mapDescription.setLineWrap(true);
+		mapDescription.setWrapStyleWord(true);
+		mapDescription.setOpaque(false);
+		mapDescription.setEditable(false);
+		mapDescription.setForeground(Color.BLACK);
+		
 	}
 
 	private void addLabel()
 	{
+		this.add(levelsLabel);
 		this.add(mapPreviewLabel);
-		this.add(mapDescriptionLabel);
+		this.add(mapDescription);
 
 		// TODO; correct the bounds
-		mapPreviewLabel.setBounds(500, 50, mapPreviewImage.getWidth(null),
-				mapPreviewImage.getHeight(null));
-		mapDescriptionLabel.setBounds(500, 350, 200, 200);
+		levelsLabel.setBounds(120, 27, 100, 20);
+		mapPreviewLabel.setBounds(490, 50, 256, 256);
+		mapDescription.setBounds(518, 390, 210, 80);
 	}
 
 	private void loadList()
@@ -198,7 +212,13 @@ public class TitleScreenLevelPanel extends JPanel
 		mapList = new JList<String>(mapListModel);
 		// TODO: maybe change this later
 		mapList.setVisibleRowCount(6);
+		mapList.setFont(UIManager.getFont("List.font").deriveFont(16f));
 		mapList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		mapList.setOpaque(false);
+		mapList.setBackground(Color.DARK_GRAY);
+		mapList.setForeground(Color.WHITE);
+		mapList.setSelectionBackground(Color.DARK_GRAY);
+		mapList.setSelectionForeground(Color.CYAN);
 
 		mapList.addListSelectionListener(listListener);
 	}
@@ -206,9 +226,51 @@ public class TitleScreenLevelPanel extends JPanel
 	private void addList()
 	{	
 		this.add(mapList);
-		mapList.setBounds(20, 20, 300, 300);
+		mapList.setBounds(60, 50, 200, 400);
 	}
-
+	
+	private synchronized void changeLevelDescription(String fileName){
+		try{
+		mapDescription.setText(model.LoadGame.loadLevelDescription(fileName));
+		}catch(Exception e){ mapDescription.setText("No description available."); }
+	}
+	
+	//This method draws the preview for the map.
+	private synchronized void drawLevelPreview(String fileName){
+		
+		SELECTED = mapList.getSelectedValue();
+		
+		Block[][] blocks = model.Map.loadBlocks(fileName);
+		
+		BufferedImage testImage = new BufferedImage(blocks[0].length * Client.BLOCKSIZE, 
+				blocks.length * Client.BLOCKSIZE, BufferedImage.TYPE_INT_RGB);
+		
+		Graphics g = testImage.getGraphics();
+		
+		//These for loops paint the map to an image before being scaled.
+		for(int row = 0; row < blocks.length; row++)
+			for(int col = 0; col < blocks[0].length; col++)
+				g.drawImage(blocks[row][col].getTexture(), 
+						col * Client.BLOCKSIZE, row * Client.BLOCKSIZE, null);
+		
+		
+		//These last few lines will scale the map image, add the image to the label, 
+		//	then dispose of the Graphics object.
+//		System.out.println("Width: " + testImage.getWidth() + " Height: " + testImage.getHeight());
+//		double ratio = (double)testImage.getWidth() / (double)testImage.getHeight();
+//		int newWidth = (int)(256/ratio);
+//		System.out.println("Width: " + newWidth + " Height: " + 256 + " Ratio: " + ratio);
+		
+		preview = testImage.getScaledInstance(256, 256, Image.SCALE_AREA_AVERAGING);
+		
+		ImageIcon i = new ImageIcon(preview);
+		mapPreviewLabel.setIcon(i);
+		g.dispose();
+		
+		mapPreviewLabel.setBounds(490, 50, i.getIconWidth(), i.getIconHeight());	
+	}
+	
+	@Override
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
@@ -222,20 +284,11 @@ public class TitleScreenLevelPanel extends JPanel
 		{
 			if (!mapList.isSelectionEmpty())
 			{
-				String mapName = (String) mapList.getSelectedValue();
-				int mapIndex = 0;
-				// TODO: change the map preview and description labels
-				// accordingly
-				for (int i = 0; i < mapListModel.size(); i++)
-				{
-					if (mapListModel.getElementAt(i).equals(mapName))
-					{
-						mapIndex = i;
-						break;
-					}
+				if(!mapList.getSelectedValue().equals(SELECTED)){
+					String mapName = mapList.getSelectedValue();
+					drawLevelPreview(mapName);
+					changeLevelDescription(mapName);
 				}
-				mapPreviewLabel.setIcon(new ImageIcon(mapPreviewImageList
-						.get(mapIndex)));
 			}
 		} // end of actionPerformed
 	} // end of ListListener

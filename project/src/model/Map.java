@@ -131,7 +131,7 @@ public class Map
 		return true;
 	}
 	
-	public Block[][] loadBlocks(String levelName)
+	public static Block[][] loadBlocks(String levelName)
 	{
 		int[][] levelArrayInt = LoadGame.loadFile(levelName);
 		Block[][] toReturn = new Block[levelArrayInt.length][levelArrayInt[0].length];

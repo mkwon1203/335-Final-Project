@@ -130,9 +130,9 @@ public class TitleScreenMainPanel extends JPanel
 
 		startButton.setBounds(500, 100, startButtonImage.getWidth(null),
 				startButtonImage.getHeight(null));
-		storeButton.setBounds(500, 175, storeButtonImage.getWidth(null),
+		storeButton.setBounds(575, 175, storeButtonImage.getWidth(null),
 				storeButtonImage.getHeight(null));
-		aboutButton.setBounds(500, 250, aboutButtonImage.getWidth(null),
+		aboutButton.setBounds(570, 250, aboutButtonImage.getWidth(null),
 				aboutButtonImage.getHeight(null));
 		exitButton.setBounds(575, 325, exitButtonImage.getWidth(null),
 				exitButtonImage.getHeight(null));
