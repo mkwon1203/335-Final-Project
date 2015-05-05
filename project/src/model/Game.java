@@ -3,8 +3,10 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Queue;
 import java.util.Random;
 
 public class Game extends Observable
@@ -13,6 +15,7 @@ public class Game extends Observable
 	private Player player;
 	private AI enemy;
 	private Map map;
+	private PathfindAlgorithm path;
 	private CharacterInterface currentCharacter; // currently selected
 													// character, mainly
 	public static int GAMEOVER;
@@ -32,6 +35,7 @@ public Game(String playerName, List<Character> playerCharacters, String mapName)
 		map.setPlayerLocations(playerCharacters);
 		player = new Player(playerName, playerCharacters);
 		enemy = new AIEasy(enemies);
+		path = new PathfindAlgorithm(map);
 		/*
 		 * map takes in the level file name
 		 * map creates its 2D array map with it
@@ -153,46 +157,14 @@ public Game(String playerName, List<Character> playerCharacters, String mapName)
 	{
 		// returns a List containing all points that given character can move to
 		Point currentPosition = ch.getLocation();
-		int currentRow = currentPosition.x;
-		int leftCol = currentPosition.y;
-		int rightCol = currentPosition.y;
 		int moveDistance = ch.getMoveDistance();
-
-		List<Point> rawMovablePositions = new ArrayList<Point>();
-		List<Point> movablePositions = new ArrayList<Point>();
-
-		if (ch.isAlive())
-		{
-			while (moveDistance >= 0)
-			{
-				for (int row = currentRow - moveDistance; row <= currentRow
-						+ moveDistance; row++)
-				{
-					Point l = new Point(row, leftCol);
-					if (!rawMovablePositions.contains(l))
-						rawMovablePositions.add(l);
-					Point r = new Point(row, rightCol);
-					if (!rawMovablePositions.contains(r))
-						rawMovablePositions.add(r);
-				}
-
-				leftCol--;
-				rightCol++;
-				moveDistance--;
-			}
-
-			// prune the list to make sure it only contains valid points
-			for (int i = 0; i < rawMovablePositions.size(); i++)
-			{
-				Point p = rawMovablePositions.get(i);
-
-				if (map.verifyBounds(p) && !map.getBlock(p).isSolid()
-						&& !map.isOccupied(p))
-					movablePositions.add(p);
-			}
-		}
-
-		return movablePositions;
+		
+		return path.movablePositions(currentPosition, moveDistance);
+	}
+	
+	public List<Point> findPath(Point start, Point end)
+	{
+		return path.findPath(start, end);
 	}
 
 	public boolean move(CharacterInterface ch, Point location)
@@ -280,13 +252,6 @@ public Game(String playerName, List<Character> playerCharacters, String mapName)
 		int verticalDistance = Math.abs(initialPoint.y - finalPoint.y);
 
 		return horizontalDistance + verticalDistance;
-	}
-
-	// path finding algorithm
-	public List<Point> pathFind(Point initialPoint, Point finalPoint)
-	{
-		// returns null if path isn't found
-		return null;
 	}
 
 	public boolean attack(CharacterInterface attacker, Point defenderPosition)

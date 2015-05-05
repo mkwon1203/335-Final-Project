@@ -309,6 +309,11 @@ public class Map
 		return levelArray[x][y].isSolid();
 	}
 	
+	public boolean canMoveTo(Point p)
+	{
+		return verifyBounds(p) && !isOccupied(p) && !isSolid(p);
+	}
+	
 	public boolean setCharacter(int x, int y, CharacterInterface ch)
 	{
 		if (!verifyBounds(x,y))
