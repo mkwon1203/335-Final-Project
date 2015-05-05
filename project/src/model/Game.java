@@ -159,7 +159,10 @@ public Game(String playerName, List<Character> playerCharacters, String mapName)
 		Point currentPosition = ch.getLocation();
 		int moveDistance = ch.getMoveDistance();
 		
-		return path.movablePositions(currentPosition, moveDistance);
+		if (ch.isAlive())
+			return path.movablePositions(currentPosition, moveDistance);
+		else
+			return new ArrayList<Point>();
 	}
 	
 	public List<Point> findPath(Point start, Point end)
@@ -171,7 +174,7 @@ public Game(String playerName, List<Character> playerCharacters, String mapName)
 	{
 		boolean movable = movablePositionList(ch).contains(location);
 
-		if (!ch.getMoveAvailable() || !movable)
+		if (!ch.getMoveAvailable() || !movable || !ch.isAlive())
 			return false;
 
 		// move the character

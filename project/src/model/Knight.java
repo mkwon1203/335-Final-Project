@@ -5,9 +5,9 @@ import java.awt.Point;
 public class Knight extends Character {
 	private static final int KNIGHT_HEALTH = 100;
 	private static final int KNIGHT_MANA = 0;
-	private static final int KNIGHT_STRENGTH = 10;
+	private static final int KNIGHT_STRENGTH = 100;
 	private static final int KNIGHT_DEFENCE = 10;
-	private static final int KNIGHT_MOVEDISTANCE = 1;
+	private static final int KNIGHT_MOVEDISTANCE = 4;
 	private static final int KNIGHT_ATTACKDISTANCE = 1;
 	private static final String KNIGHT_IMAGEPATH = "res/sprites/units/knight.png";
 	private static final String KNIGHT_DESCRIPTION = "KNIGHT description";
