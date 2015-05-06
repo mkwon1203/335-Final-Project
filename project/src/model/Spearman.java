@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import controller.Client;
+
 public class Spearman extends Character {
 
 	private static final int SPEARMAN_HEALTH = 100;
@@ -31,15 +33,10 @@ public class Spearman extends Character {
 	}
 	
 	public static Image returnTexture(){
-		try{
-			return ImageIO.read(new File(SPEARMAN_IMAGEPATH));
-		}
-		catch (IOException ioex)
-		{
-			ioex.printStackTrace();
-		}
-		return null;
+		Image[][] spearmanSprites = model.LoadSprites.loadSpriteSheet(SPEARMAN_IMAGEPATH, 4, 3, Client.BLOCKSIZE);
+		return spearmanSprites[0][1];
 	}
+
 	
 	public void revive()
 	{

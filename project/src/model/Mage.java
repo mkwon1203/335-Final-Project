@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import controller.Client;
+
 public class Mage extends Character {
 
 	private static final int MAGE_HEALTH = 100;
@@ -31,15 +33,10 @@ public class Mage extends Character {
 	}
 	
 	public static Image returnTexture(){
-		try{
-			return ImageIO.read(new File(MAGE_IMAGEPATH));
-		}
-		catch (IOException ioex)
-		{
-			ioex.printStackTrace();
-		}
-		return null;
+		Image[][] mageSprites = model.LoadSprites.loadSpriteSheet(MAGE_IMAGEPATH, 4, 3, Client.BLOCKSIZE);
+		return mageSprites[0][1];
 	}
+
 
 	public void revive()
 	{

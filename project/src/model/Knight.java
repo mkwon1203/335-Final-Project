@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import controller.Client;
+
 public class Knight extends Character {
 	private static final int KNIGHT_HEALTH = 100;
 	private static final int KNIGHT_MANA = 0;
@@ -30,15 +32,10 @@ public class Knight extends Character {
 	}
 	
 	public static Image returnTexture(){
-		try{
-			return ImageIO.read(new File(KNIGHT_IMAGEPATH));
-		}
-		catch (IOException ioex)
-		{
-			ioex.printStackTrace();
-		}
-		return null;
+		Image[][] knightSprites = model.LoadSprites.loadSpriteSheet(KNIGHT_IMAGEPATH, 4, 3, Client.BLOCKSIZE);
+		return knightSprites[0][1];
 	}
+
 
 	public void revive()
 	{

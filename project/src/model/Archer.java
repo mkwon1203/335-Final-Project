@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import controller.Client;
+
 public class Archer extends Character
 {
 
@@ -32,15 +34,10 @@ public class Archer extends Character
 	}
 	
 	public static Image returnTexture(){
-		try{
-			return ImageIO.read(new File(ARCHER_IMAGEPATH));
-		}
-		catch (IOException ioex)
-		{
-			ioex.printStackTrace();
-		}
-		return null;
+		Image[][] archerSprites = model.LoadSprites.loadSpriteSheet(ARCHER_IMAGEPATH, 4, 3, Client.BLOCKSIZE);
+		return archerSprites[0][1];
 	}
+
 
 	public void revive()
 	{
