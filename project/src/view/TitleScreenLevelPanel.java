@@ -166,12 +166,12 @@ public class TitleScreenLevelPanel extends JPanel
 					"res/titleScreen/noLevelSelected.png"));
 			// TODO: populate mapPreviewImageList with images
 			// by using mapListModel to get name of paths
-			for (int i = 0; i < mapListModel.size(); i++)
-			{
-				String fileName = mapListModel.getElementAt(i);
-				mapPreviewImageList.add(ImageIO.read(new File("res/levels/"
-						+ fileName + ".png")));
-			}
+//			for (int i = 0; i < mapListModel.size(); i++)
+//			{
+//				String fileName = mapListModel.getElementAt(i);
+//				mapPreviewImageList.add(ImageIO.read(new File("res/levels/"
+//						+ fileName + ".png")));
+//			}
 		}
 		catch (IOException ex)
 		{
