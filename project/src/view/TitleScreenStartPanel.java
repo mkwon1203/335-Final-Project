@@ -147,6 +147,10 @@ public class TitleScreenStartPanel extends JPanel
 				else if (button.getName() == "loadGame")
 				{
 					// TODO: figure out what to do here
+					// check if any saved game is available
+					
+					// saved game is there
+					// load up Game object, set gamestate to be 1
 				}
 
 				else if (button.getName() == "back")

@@ -43,7 +43,6 @@ public class TitleScreenUnitPanel extends JPanel
 			playButtonImage;
 	private JButton addButton, removeButton, backButton, playButton;
 	private JList unitList, teamList;
-	private JScrollPane teamListScrollPane;
 	private JLabel unitPreviewLabel, unitListLabel, teamListLabel;
 	private ButtonListener buttonListener;
 	private ListListener listListener;
@@ -52,6 +51,7 @@ public class TitleScreenUnitPanel extends JPanel
 	private TitleScreen title;
 	private JTextArea unitDescription;
 	private int listWidth, listHeight;
+	private Image errorImage;
 
 	public TitleScreenUnitPanel()
 	{
@@ -200,12 +200,19 @@ public class TitleScreenUnitPanel extends JPanel
 					"res/sprites/statPanel/noUnit.png"));
 			unitPreviewImage = unitPreviewImage.getScaledInstance(128, 128, 0);
 			// TODO: change the paths for these images
+
+			archerPreviewImage = model.Archer.returnTexture()
+					.getScaledInstance(128, 128, 0);
+			knightPreviewImage = model.Knight.returnTexture()
+					.getScaledInstance(128, 128, 0);
+			magePreviewImage = model.Mage.returnTexture().getScaledInstance(
+					128, 128, 0);
+			priestPreviewImage = model.Priest.returnTexture()
+					.getScaledInstance(128, 128, 0);
+			spearmanPreviewImage = model.Spearman.returnTexture()
+					.getScaledInstance(128, 128, 0);
 			
-			archerPreviewImage = model.Archer.returnTexture().getScaledInstance(128, 128, 0);
-			knightPreviewImage = model.Knight.returnTexture().getScaledInstance(128, 128, 0);
-			magePreviewImage = model.Mage.returnTexture().getScaledInstance(128, 128, 0);
-			priestPreviewImage = model.Priest.returnTexture().getScaledInstance(128, 128, 0);
-			spearmanPreviewImage = model.Spearman.returnTexture().getScaledInstance(128, 128, 0);
+			errorImage = ImageIO.read(new File("res/sprites/statPanel/noUnit.png"));
 		}
 		catch (IOException ex)
 		{
@@ -235,9 +242,9 @@ public class TitleScreenUnitPanel extends JPanel
 		unitPreviewLabel.setBounds(325, 190, 145, 135);
 		unitDescription.setBounds(325, 405, 150, 120);
 		unitListLabel.setBounds(50, 0, 100, 135);
-		
+
 		teamListLabel.setBounds(560, 0, 150, 135);
-		
+
 		// adding description text area settings
 		unitDescription.setEditable(false);
 		unitDescription.setWrapStyleWord(true);
@@ -262,8 +269,6 @@ public class TitleScreenUnitPanel extends JPanel
 		teamList.setForeground(Color.WHITE);
 		teamList.setSelectionBackground(Color.DARK_GRAY);
 		teamList.setSelectionForeground(Color.RED);
-		
-		teamListScrollPane = new JScrollPane(teamList);
 
 		unitList.addListSelectionListener(listListener);
 	}
@@ -271,24 +276,24 @@ public class TitleScreenUnitPanel extends JPanel
 	private void addList()
 	{
 		this.add(unitList);
-		this.add(teamListScrollPane);
+		this.add(teamList);
 
 		// TODO: set bounds for the unitList and scrollPane
-		
+
 		// setting size of list
 		listWidth = 200;
 		listHeight = 350;
-		
+
 		// setting cell size
-		unitList.setFixedCellHeight(listHeight/5);
-		teamList.setFixedCellHeight(listHeight/5);
-		
+		unitList.setFixedCellHeight(listHeight / 5);
+		teamList.setFixedCellHeight(listHeight / 5);
+
 		// setting font
 		unitList.setFont(new Font("Arial", Font.PLAIN, 20));
 		teamList.setFont(new Font("Arial", Font.PLAIN, 20));
-		
+
 		// setting bounds
-		teamListScrollPane.setBounds(560, 100, listWidth, listHeight);
+		teamList.setBounds(560, 100, listWidth, listHeight);
 		unitList.setBounds(40, 100, listWidth, listHeight);
 	}
 
@@ -355,7 +360,8 @@ public class TitleScreenUnitPanel extends JPanel
 
 				if (button.getName() == "add")
 				{
-					if (unitList.getSelectedValue() != null && teamListModel.size() < 5)
+					if (unitList.getSelectedValue() != null
+							&& teamListModel.size() < 5)
 						teamListModel.addElement((String) unitList
 								.getSelectedValue());
 				}
@@ -375,8 +381,36 @@ public class TitleScreenUnitPanel extends JPanel
 
 				else if (button.getName() == "play")
 				{
-					//TODO: Call a method somewhere to create and start game based off of chosen team.
-					Client.GAMESTATE = 1;
+					if (teamListModel.size() != 5)
+					{
+						// TODO: notify user they must select 5 units
+						unitPreviewLabel.setIcon(new ImageIcon(errorImage));
+						unitDescription
+								.setText("Please add more units to your team! Your team must contain 5 units to begin the game");
+					}
+					else
+					{
+						List<Character> playerCharacters = new ArrayList<Character>();
+						for (int i = 0; i < teamListModel.size(); i++)
+						{
+							String unit = teamListModel.getElementAt(i);
+							if (unit.equalsIgnoreCase("archer"))
+								playerCharacters.add(new Archer(null));
+							else if (unit.equalsIgnoreCase("knight"))
+								playerCharacters.add(new Knight(null));
+							else if (unit.equalsIgnoreCase("mage"))
+								playerCharacters.add(new Mage(null));
+							else if (unit.equalsIgnoreCase("priest"))
+								playerCharacters.add(new Priest(null));
+							else if (unit.equalsIgnoreCase("spearman"))
+								playerCharacters.add(new Spearman(null));
+						}
+
+						MainView.getMainView().getGame()
+								.initializePlayer(playerCharacters);
+
+						Client.GAMESTATE = 1;
+					}
 				}
 			}
 		} // end of actionPerformed

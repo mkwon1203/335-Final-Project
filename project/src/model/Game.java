@@ -25,35 +25,46 @@ public class Game extends Observable
 	public static final int GAMEOVER_PLAYERWIN_TIMELIMIT = 3;
 	public static final int GAMEOVER_ENEMYWIN_TIMELIMIT = 4;
 
-public Game(String playerName, List<Character> playerCharacters, String mapName)
+	public Game()
 	{
 		GAMEOVER = GAMEOVER_NOT;
 		turnCounter = 1;
+		
+//		List<Enemy> enemies = loadEnemies(mapName);
+//		map = new Map(mapName);
+//		map.setEnemyLocations(enemies);
+//		map.setPlayerLocations(playerCharacters);
+//		player = new Player(playerCharacters);
+//		enemy = new AIEasy(enemies);
+//		path = new PathfindAlgorithm(map);
+//		populateMap();
+//		currentCharacter = null;
+//		playerTurnStart();
+	}
+	
+	public void initializeMap(String mapName)
+	{
 		List<Enemy> enemies = loadEnemies(mapName);
 		map = new Map(mapName);
 		map.setEnemyLocations(enemies);
-		map.setPlayerLocations(playerCharacters);
-		player = new Player(playerName, playerCharacters);
 		enemy = new AIEasy(enemies);
 		path = new PathfindAlgorithm(map);
-		/*
-		 * map takes in the level file name
-		 * map creates its 2D array map with it
-		 * map creates list of enemies and assigns the coordinates of the enemies using the
-		 * 	level file name
-		 * map also takes in list of player units and assigns coordinates with levelfilename
-		 */
+	}
+	
+	public void initializePlayer(List<Character> playerCharacters)
+	{
+		map.setPlayerLocations(playerCharacters);
+		player = Player.getPlayer();
+		player.initializePlayer(playerCharacters);
 		populateMap();
-		currentCharacter = null;
 		playerTurnStart();
 	}
-
 
 	public List<Enemy> loadEnemies(String levelName)
 	{
 		List<String> enemyListString = LoadGame.loadEnemies(levelName);
 		List<Enemy> enemies = new ArrayList<Enemy>();
-		
+
 		for (String s : enemyListString)
 		{
 			if (s.equalsIgnoreCase("Goblin"))
@@ -65,10 +76,9 @@ public Game(String playerName, List<Character> playerCharacters, String mapName)
 			else
 				System.out.println("FATAL ERROR: LOAD ENEMY FAILED");
 		}
-		
+
 		return enemies;
 	}
-
 
 	public void populateMap()
 	{
@@ -158,13 +168,13 @@ public Game(String playerName, List<Character> playerCharacters, String mapName)
 		// returns a List containing all points that given character can move to
 		Point currentPosition = ch.getLocation();
 		int moveDistance = ch.getMoveDistance();
-		
+
 		if (ch.isAlive())
 			return path.movablePositions(currentPosition, moveDistance);
 		else
 			return new ArrayList<Point>();
 	}
-	
+
 	public List<Point> findPath(Point start, Point end)
 	{
 		return path.findPath(start, end);

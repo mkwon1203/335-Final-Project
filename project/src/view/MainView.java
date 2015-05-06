@@ -20,24 +20,27 @@ public class MainView extends JFrame implements Observer{
 	private Level level;
 	private Game game;
 	private Player player;
+	public static MainView mainview = new MainView();
 	
 	//temporary variables
 	private List<Character> playerCharacters;
 	
-	public MainView(){
+	private MainView(){
 		this(800,612);
 	}
 	
-	public MainView(int x, int y){
+	private MainView(int x, int y){
 		
 		title = TitleScreen.getTitleScreen();
+		game = new Game();
 		
 		createFrame(x, y);
 		
 	}
 	
-	public Game getGame(){
-		return game;
+	public static MainView getMainView()
+	{
+		return mainview;
 	}
 	
 	private void createFrame(int x, int y){
@@ -57,19 +60,17 @@ public class MainView extends JFrame implements Observer{
 		
 	}
 	
+	public Game getGame(){
+		return game;
+	}
+	
 	//This method should create the level panel, and add it 
 	//	to the frame.
 	public void addLevelToFrame(){
 		//TODO: Create and add the level panel to the frame.
 		
-		if(game == null){
-			playerCharacters = new ArrayList<Character>();
-			playerCharacters.add(new Knight(null));
-			
-			
-			game = new Game("Player1", playerCharacters, "milestone");
-			game.addObserver(this);
-		}
+		game.addObserver(this);
+		
 		if(level == null){
 			level = new Level(game, 800, 612);
 		}

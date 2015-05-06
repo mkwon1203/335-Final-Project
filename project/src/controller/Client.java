@@ -43,7 +43,7 @@ public class Client implements Runnable {
 		
 		GAMESTATE = 0;
 		
-		mainFrame = new MainView();
+		mainFrame = MainView.getMainView();
 		
 		//LoadGame.loadFile("res/levels/milestone.lvl");
 		//System.out.println("Width: " + LoadGame.LEVELWIDTH + " Height: " + LoadGame.LEVELHEIGHT);

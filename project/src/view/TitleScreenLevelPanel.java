@@ -42,9 +42,9 @@ public class TitleScreenLevelPanel extends JPanel
 	private MenuListener listener;
 	private ListListener listListener;
 	private TitleScreen title;
-	
+
 	private Image preview;
-	
+
 	private String SELECTED;
 
 	public TitleScreenLevelPanel()
@@ -92,7 +92,7 @@ public class TitleScreenLevelPanel extends JPanel
 	{
 		mapListModel = new DefaultListModel<String>();
 		String fileName;
-		
+
 		File folder = new File("res/levels");
 		File[] fileList = folder.listFiles();
 		for (int i = 0; i < fileList.length; i++)
@@ -101,7 +101,7 @@ public class TitleScreenLevelPanel extends JPanel
 			{
 				fileName = fileList[i].getName().toString();
 				fileName = fileName.replace(".lvl", "");
-				//System.out.println(fileName);
+				// System.out.println(fileName);
 				mapListModel.addElement(fileName);
 			}
 		}
@@ -179,12 +179,12 @@ public class TitleScreenLevelPanel extends JPanel
 		}
 
 		mapPreviewLabel = new JLabel(new ImageIcon(mapPreviewImage));
-		
+
 		Font labelFont = UIManager.getFont("Label.font");
 		labelFont = labelFont.deriveFont(24f);
 		levelsLabel = new JLabel("Levels");
 		levelsLabel.setFont(labelFont);
-		
+
 		// TODO: change defeault description here
 		mapDescription = new JTextArea("DEFAULT DESCRIPTION LABEL");
 		mapDescription.setLineWrap(true);
@@ -192,7 +192,7 @@ public class TitleScreenLevelPanel extends JPanel
 		mapDescription.setOpaque(false);
 		mapDescription.setEditable(false);
 		mapDescription.setForeground(Color.BLACK);
-		
+
 	}
 
 	private void addLabel()
@@ -224,52 +224,65 @@ public class TitleScreenLevelPanel extends JPanel
 	}
 
 	private void addList()
-	{	
+	{
 		this.add(mapList);
 		mapList.setBounds(60, 50, 200, 400);
 	}
-	
-	private synchronized void changeLevelDescription(String fileName){
-		try{
-		mapDescription.setText(model.LoadGame.loadLevelDescription(fileName));
-		}catch(Exception e){ mapDescription.setText("No description available."); }
+
+	private synchronized void changeLevelDescription(String fileName)
+	{
+		try
+		{
+			mapDescription.setText(model.LoadGame
+					.loadLevelDescription(fileName));
+		}
+		catch (Exception e)
+		{
+			mapDescription.setText("No description available.");
+		}
 	}
-	
-	//This method draws the preview for the map.
-	private synchronized void drawLevelPreview(String fileName){
-		
+
+	// This method draws the preview for the map.
+	private synchronized void drawLevelPreview(String fileName)
+	{
+
 		SELECTED = mapList.getSelectedValue();
-		
+
 		Block[][] blocks = model.Map.loadBlocks(fileName);
-		
-		BufferedImage testImage = new BufferedImage(blocks[0].length * Client.BLOCKSIZE, 
-				blocks.length * Client.BLOCKSIZE, BufferedImage.TYPE_INT_RGB);
-		
+
+		BufferedImage testImage = new BufferedImage(blocks[0].length
+				* Client.BLOCKSIZE, blocks.length * Client.BLOCKSIZE,
+				BufferedImage.TYPE_INT_RGB);
+
 		Graphics g = testImage.getGraphics();
-		
-		//These for loops paint the map to an image before being scaled.
-		for(int row = 0; row < blocks.length; row++)
-			for(int col = 0; col < blocks[0].length; col++)
-				g.drawImage(blocks[row][col].getTexture(), 
-						col * Client.BLOCKSIZE, row * Client.BLOCKSIZE, null);
-		
-		
-		//These last few lines will scale the map image, add the image to the label, 
-		//	then dispose of the Graphics object.
-//		System.out.println("Width: " + testImage.getWidth() + " Height: " + testImage.getHeight());
-//		double ratio = (double)testImage.getWidth() / (double)testImage.getHeight();
-//		int newWidth = (int)(256/ratio);
-//		System.out.println("Width: " + newWidth + " Height: " + 256 + " Ratio: " + ratio);
-		
-		preview = testImage.getScaledInstance(256, 256, Image.SCALE_AREA_AVERAGING);
-		
+
+		// These for loops paint the map to an image before being scaled.
+		for (int row = 0; row < blocks.length; row++)
+			for (int col = 0; col < blocks[0].length; col++)
+				g.drawImage(blocks[row][col].getTexture(), col
+						* Client.BLOCKSIZE, row * Client.BLOCKSIZE, null);
+
+		// These last few lines will scale the map image, add the image to the
+		// label,
+		// then dispose of the Graphics object.
+		// System.out.println("Width: " + testImage.getWidth() + " Height: " +
+		// testImage.getHeight());
+		// double ratio = (double)testImage.getWidth() /
+		// (double)testImage.getHeight();
+		// int newWidth = (int)(256/ratio);
+		// System.out.println("Width: " + newWidth + " Height: " + 256 +
+		// " Ratio: " + ratio);
+
+		preview = testImage.getScaledInstance(256, 256,
+				Image.SCALE_AREA_AVERAGING);
+
 		ImageIcon i = new ImageIcon(preview);
 		mapPreviewLabel.setIcon(i);
 		g.dispose();
-		
-		mapPreviewLabel.setBounds(490, 50, i.getIconWidth(), i.getIconHeight());	
+
+		mapPreviewLabel.setBounds(490, 50, i.getIconWidth(), i.getIconHeight());
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g)
 	{
@@ -284,7 +297,8 @@ public class TitleScreenLevelPanel extends JPanel
 		{
 			if (!mapList.isSelectionEmpty())
 			{
-				if(!mapList.getSelectedValue().equals(SELECTED)){
+				if (!mapList.getSelectedValue().equals(SELECTED))
+				{
 					String mapName = mapList.getSelectedValue();
 					drawLevelPreview(mapName);
 					changeLevelDescription(mapName);
@@ -311,8 +325,16 @@ public class TitleScreenLevelPanel extends JPanel
 				else if (button.getName() == "next")
 				{
 					// TODO: figure out what to do here
-					TitleScreen.TITLESTATE = 5;
-					title.draw();
+					if (mapList.isSelectionEmpty())
+					{
+						// TODO: notify player that map must be selected to continue
+					}
+					else
+					{
+						MainView.getMainView().getGame().initializeMap(mapList.getSelectedValue());
+						TitleScreen.TITLESTATE = 5;
+						title.draw();
+					}
 				}
 			}
 		} // end of ActionPerformed

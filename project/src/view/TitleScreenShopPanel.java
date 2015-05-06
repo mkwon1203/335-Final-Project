@@ -14,6 +14,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -35,6 +36,7 @@ import model.DefenceUp;
 import model.HealthPotion;
 import model.Item;
 import model.ManaPotion;
+import model.Player;
 import model.RevivePotion;
 import controller.Client;
 
@@ -62,6 +64,8 @@ public class TitleScreenShopPanel extends JPanel
 	private TitleScreen title;
     
 	private ButtonListener buttonListener;
+	
+	private Player player;
     
 	// creating the model items
 	private HealthPotion healthPotion = new HealthPotion();
@@ -85,6 +89,7 @@ public class TitleScreenShopPanel extends JPanel
 		buttonListener = new ButtonListener();
         
 		title = TitleScreen.getTitleScreen();
+		player = Player.getPlayer();
         
 		loadBackground();
 		initializeModelLists();
@@ -236,7 +241,7 @@ public class TitleScreenShopPanel extends JPanel
 		defenceDescription.setOpaque(false);
 		
 		// TODO: change it to player object's money
-		playerMoney = new JLabel("Player money goes here");
+		playerMoney = new JLabel(player.getMoney() + "");
 		
 		inventoryLabel = new JLabel("Inventory List");
 	}
@@ -412,19 +417,47 @@ public class TitleScreenShopPanel extends JPanel
 					// TODO: fill this out
 					// need to check for player money and also update that accordingly
 					if (selected == 1)
-						inventoryModel.addElement(healthPotion.getName());
-					if (selected == 2)
-						inventoryModel.addElement(manaPotion.getName());
-					if (selected == 3)
-						inventoryModel.addElement(revivePotion.getName());
-					if (selected == 4)
-						inventoryModel.addElement(attackUp.getName());
-					if (selected == 5)
-						inventoryModel.addElement(defenceUp.getName());
+					{
+						boolean buyItem = player.setMoney(-healthPotion.getCost());
+						if (buyItem)
+							inventoryModel.addElement(healthPotion.getName());
+					}
+					else if (selected == 2)
+					{
+						boolean buyItem = player.setMoney(-manaPotion.getCost());
+						if (buyItem)
+							inventoryModel.addElement(manaPotion.getName());
+					}
+					else if (selected == 3)
+					{
+						boolean buyItem = player.setMoney(-revivePotion.getCost());
+						if (buyItem)
+							inventoryModel.addElement(revivePotion.getName());
+					}
+					else if (selected == 4)
+					{
+						boolean buyItem = player.setMoney(-attackUp.getCost());
+						if (buyItem)
+							inventoryModel.addElement(attackUp.getName());
+					}
+					else if (selected == 5)
+					{
+						boolean buyItem = player.setMoney(-defenceUp.getCost());
+						if (buyItem)
+							inventoryModel.addElement(defenceUp.getName());
+					}
 					
+					playerMoney.setText(player.getMoney() + "");
 				}
 				else if (button.getName() == "back")
 				{
+					// have to populate player inventory
+					List<String> inventoryList = new ArrayList<String>();
+					for (int i = 0; i < inventoryModel.size(); i ++)
+					{
+						inventoryList.add(inventoryModel.getElementAt(i));
+					}
+					player.addToInventory(inventoryList);
 					TitleScreen.TITLESTATE = 0;
 					title.draw();
 				}

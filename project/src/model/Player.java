@@ -6,41 +6,48 @@ public class Player
 {
 	private Inventory inventory;
 	private List<Character> characters;
-	private String name;
 	private int money;
+	private static Player player;
 	
-	public Player(String nameInput, List<Character> characterInput)
+	private Player()
 	{
-		name = nameInput;
-		characters = characterInput;
 		inventory = new Inventory();
-		initializeInventory();
 		// starting money placeholder value
 		money = 100;
 	}
 	
-	private void initializeInventory()
+	public static Player getPlayer()
 	{
-		for (int i = 0; i < 5; i ++)
+		if (player == null)
+			player = new Player();
+		return player;
+	}
+	
+	public void resetPlayer()
+	{
+		player = new Player();
+	}
+	
+	public void initializePlayer(List<Character> characterInput)
+	{
+		characters = characterInput;
+	}
+	
+	public void addToInventory(List<String> inventoryInput)
+	{
+		// TODO: finish this
+		for (String itemName : inventoryInput)
 		{
-			Item health = new HealthPotion();
-			inventory.addItem(health);
-			Item mana = new ManaPotion();
-			inventory.addItem(mana);
-		}
-		
-		for (int i = 0; i < 1; i ++)
-		{
-			Item revive = new RevivePotion();
-			inventory.addItem(revive);
-		}
-		
-		for (int i = 0; i < 1; i ++)
-		{
-			Item att = new AttackUp();
-			inventory.addItem(att);
-			Item def = new DefenceUp();
-			inventory.addItem(def);
+			if (itemName.equalsIgnoreCase("health potion"))
+				inventory.addItem(new HealthPotion());
+			else if (itemName.equalsIgnoreCase("mana potion"))
+				inventory.addItem(new ManaPotion());
+			else if (itemName.equalsIgnoreCase("revive potion"))
+				inventory.addItem(new RevivePotion());
+			else if (itemName.equalsIgnoreCase("attack up"))
+				inventory.addItem(new AttackUp());
+			else if (itemName.equalsIgnoreCase("defence up"))
+				inventory.addItem(new DefenceUp());
 		}
 	}
 	
@@ -60,12 +67,6 @@ public class Player
 	public List<Character> getCharacters()
 	{
 		return characters;
-	}
-	
-	public String getName()
-	{
-		// name of player, aka profile name
-		return name;
 	}
 	
 	public int getMoney()

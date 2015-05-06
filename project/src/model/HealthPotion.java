@@ -7,7 +7,7 @@ public class HealthPotion extends Potion
 	public HealthPotion()
 	{
 		// placeholder values
-		super(1, "Health Potion", "Health potion description", "res/sprites/items/healthpotion.png");
+		super(25, "Health Potion", "Health potion description", "res/sprites/items/healthpotion.png");
 	}
 	
 	public boolean useItem(CharacterInterface ch)
