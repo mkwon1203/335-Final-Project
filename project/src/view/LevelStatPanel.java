@@ -28,13 +28,13 @@ public class LevelStatPanel extends JPanel{
 	
 	private JLabel unitImage, unitHealthLabel, unitManaLabel, unitNameLabel;
 	private JLabel unitStrengthLabel, unitDefenceLabel;
-	private JButton attackButton, endTurnButton;
+	private JButton attackButton, endTurnButton, useItemButton;
 	private JList<String> inventoryList;
 	private DefaultListModel<String> itemList;
 	private JScrollPane scroll;
 	
-	Image attackImage, endTurnImage;
-	Image statsScreen;
+	private Image attackImage, endTurnImage, useItemImage;
+	private Image statsScreen;
 	
 	public LevelStatPanel(Game game){
 		define(game, 800, 100);
@@ -88,7 +88,7 @@ public class LevelStatPanel extends JPanel{
 		
 		scroll = new JScrollPane(inventoryList);
 		
-		add(inventoryList);
+		add(scroll);
 		add(unitImage);
 		add(unitNameLabel);
 		add(unitHealthLabel);
@@ -102,7 +102,10 @@ public class LevelStatPanel extends JPanel{
 		itemList.removeAllElements();
 		
 		for(Item i : game.getPlayer().getInventory().getItems())
+		{
+			System.out.println(i.getName());
 			itemList.addElement(i.getName());
+		}
 		
 	}
 	
@@ -115,9 +118,12 @@ public class LevelStatPanel extends JPanel{
 			
 			attackImage = ImageIO.read(new File("res/sprites/statpanel/attack.png"));
 			endTurnImage = ImageIO.read(new File("res/sprites/statpanel/endTurn.png"));
+			// TODO: change the item path
+			useItemImage = ImageIO.read(new File("res/sprites/statpanel/attack.png"));
 			
 			attackButton = new JButton(new ImageIcon(attackImage));
 			endTurnButton = new JButton(new ImageIcon(endTurnImage));
+			useItemButton = new JButton(new ImageIcon(useItemImage));
 			
 			attackButton.setOpaque(false);
 			attackButton.setContentAreaFilled(false);
@@ -129,14 +135,23 @@ public class LevelStatPanel extends JPanel{
 			endTurnButton.setBorderPainted(false);
 			endTurnButton.setRolloverIcon(new ImageIcon(ImageIO.read(new File("res/sprites/statpanel/endTurn2.png"))));
 			
+			useItemButton.setOpaque(false);
+			useItemButton.setContentAreaFilled(false);
+			useItemButton.setBorderPainted(false);
+			// TODO: update the useItemButton image
+			useItemButton.setRolloverIcon(new ImageIcon(ImageIO.read(new File("res/sprites/statpanel/attack2.png"))));
+			
 			attackButton.setName("attack");
 			endTurnButton.setName("endTurn");
+			useItemButton.setName("useItem");
 			
 			add(attackButton);
 			add(endTurnButton);
+			add(useItemButton);
 			
 			attackButton.addActionListener(new StatPanelListener());
 			endTurnButton.addActionListener(new StatPanelListener());
+			useItemButton.addActionListener(new StatPanelListener());
 			
 		}catch(IOException e){
 			System.out.println("Couldn't find a stat button image file.");
@@ -191,6 +206,7 @@ public class LevelStatPanel extends JPanel{
 		
 		attackButton.setBounds(350, 15, attackImage.getWidth(null), attackImage.getHeight(null));
 		endTurnButton.setBounds(335, 60, endTurnImage.getWidth(null), endTurnImage.getHeight(null));
+		useItemButton.setBounds(500, 15, useItemImage.getWidth(null), useItemImage.getHeight(null));
 		
 		scroll.setBounds(640, 12, 150, 75);
 		unitImage.setBounds(40, 3, 64, 64);
@@ -269,6 +285,11 @@ public class LevelStatPanel extends JPanel{
 				} else if(button.getName() == "endTurn"){
 					if(game.isPlayersTurn())
 						game.advanceTurn();
+				}
+				
+				else if (button.getName() == "useItem")
+				{
+					//if ()
 				}
 				
 			}

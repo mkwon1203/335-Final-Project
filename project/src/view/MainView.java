@@ -103,7 +103,10 @@ public class MainView extends JFrame implements Observer{
 	public void draw(){
 		
 		if(Client.GAMESTATE == 0){
+			if (level != null && level.isDisplayable())
+				remove(level);
 			title.draw();
+			title.repaint();
 			add(title);
 			pack();
 		}else if(Client.GAMESTATE == 1){

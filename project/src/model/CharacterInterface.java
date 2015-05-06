@@ -25,6 +25,7 @@ public abstract class CharacterInterface
 	private boolean actionAvailable;
 	private String textureFilePath;
 	private boolean animated;
+	private Point screenCoordinate;
 
 	public CharacterInterface(String type, String description, int health,
 			int mana, int strength, int defence, Point location,
@@ -173,6 +174,11 @@ public abstract class CharacterInterface
 		return actionAvailable;
 	}
 	
+	public Point getScreenCoordinate()
+	{
+		return screenCoordinate;
+	}
+	
 	public void setAvailable(boolean availability)
 	{
 		available = availability;
@@ -247,6 +253,11 @@ public abstract class CharacterInterface
 	public void setLocation(Point newLocation)
 	{
 		location = newLocation;
+	}
+	
+	public void setScreenCoordinate(Point newCoordinate)
+	{
+		screenCoordinate = newCoordinate;
 	}
 	
 	public void setTexture(Image texture){

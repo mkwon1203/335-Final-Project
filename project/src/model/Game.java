@@ -316,6 +316,13 @@ public class Game extends Observable
 
 		// modify the defender health
 		defender.addHealth(-actualAttack);
+		
+		// add money to player if he killed an enemy unit
+		if (defender instanceof Enemy)
+		{
+			if (!defender.isAlive())
+				player.setMoney(((Enemy)defender).getValue());
+		}
 
 		wait(attacker);
 		return true;

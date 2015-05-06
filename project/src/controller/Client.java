@@ -5,6 +5,7 @@ package controller;
 import model.LoadGame;
 import view.MainView;
 import model.Game;
+import view.TitleScreen;
 
 public class Client implements Runnable {
 	
@@ -70,7 +71,10 @@ public class Client implements Runnable {
 			
 			//TODO: Temporary, will eventually just end game and prompt a menu.
 			if(game.isGameOver()){
-				isRunning = false;
+				//isRunning = false;
+				GAMESTATE = 0;
+				TitleScreen.TITLESTATE = 6;
+				draw();
 				System.out.println("Game Ended");
 			}
 			
