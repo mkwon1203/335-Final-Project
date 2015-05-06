@@ -18,10 +18,18 @@
 
 <Enemies>
 goblin
+goblin
+goblin
+rat
+darkwizard
 </Enemies>
 
 <EnemySpawns>
-2 1
+10 14
+9 14
+9 15
+9 16
+9 17
 </EnemySpawns>
 
 <PlayerSpawns>

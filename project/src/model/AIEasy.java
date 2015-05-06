@@ -7,6 +7,7 @@ import java.util.Random;
 public class AIEasy implements AI
 {
 	List<Enemy> enemies;
+	private Animation animate;
 
 	public AIEasy(List<Enemy> enemyInput)
 	{
@@ -46,6 +47,10 @@ public class AIEasy implements AI
 					int i = rand.nextInt(movable.size());
 					Point toMove = movable.get(i);
 					
+					e.setAnimated(true);
+					animate = new Animation(currentGame.findPath(e, toMove), e);
+					animate.execute();
+					
 					currentGame.move(e, toMove);
 					
 					// now see if we can attack, if so do it otherwise wait
@@ -57,7 +62,8 @@ public class AIEasy implements AI
 				}
 				else
 				{
-					currentGame.wait(e);
+					if(!Animation.UNITMOVING)
+						currentGame.wait(e);
 				}
 			}
 			else
