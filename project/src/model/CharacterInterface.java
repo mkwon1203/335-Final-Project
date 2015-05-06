@@ -46,9 +46,10 @@ public abstract class CharacterInterface
 		this.attackDistance = attackDistance;
 		this.textureFilePath = texture;
 		try{
-			this.texture = ImageIO.read(new File(texture));
+			Image[][] priestSprites = model.LoadSprites.loadSpriteSheet(texture, 4, 3, Client.BLOCKSIZE);
+			this.texture = priestSprites[0][1];
 		}
-		catch (IOException ioex)
+		catch (Exception ioex)
 		{
 			ioex.printStackTrace();
 		}
