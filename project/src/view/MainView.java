@@ -20,7 +20,7 @@ public class MainView extends JFrame implements Observer{
 	private Level level;
 	private Game game;
 	private Player player;
-	public static MainView mainview = new MainView();
+	public static MainView mainview;
 	
 	//temporary variables
 	private List<Character> playerCharacters;
@@ -40,6 +40,8 @@ public class MainView extends JFrame implements Observer{
 	
 	public static MainView getMainView()
 	{
+		if (mainview == null)
+			mainview = new MainView();
 		return mainview;
 	}
 	
