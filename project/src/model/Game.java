@@ -175,9 +175,9 @@ public class Game extends Observable
 			return new ArrayList<Point>();
 	}
 
-	public List<Point> findPath(Point start, Point end)
+	public List<Point> findPath(CharacterInterface ch, Point end)
 	{
-		return path.findPath(start, end);
+		return path.findPath(ch, end);
 	}
 
 	public boolean move(CharacterInterface ch, Point location)
@@ -200,6 +200,16 @@ public class Game extends Observable
 	public boolean move(CharacterInterface ch, int row, int col)
 	{
 		return move(ch, new Point(row, col));
+	}
+	
+	public boolean canMoveTo(CharacterInterface ch, Point location)
+	{
+		boolean movable = movablePositionList(ch).contains(location);
+		
+		if (!ch.getMoveAvailable() || !movable || !ch.isAlive())
+			return false;
+		
+		return true;
 	}
 
 	public List<CharacterInterface> attackableCharacterList(

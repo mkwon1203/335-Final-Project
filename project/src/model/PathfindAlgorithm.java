@@ -18,10 +18,11 @@ public class PathfindAlgorithm
 		g = new Node[map.getLevelRow()][map.getLevelCol()];
 	}
 
-	public List<Point> findPath(Point start, Point end)
+	public List<Point> findPath(CharacterInterface ch, Point end)
 	{
 		// TODO: replace with PathNotFoundException ?
-		if (!movablePositions(start, 6).contains(end))
+		Point start = ch.getLocation();
+		if (!movablePositions(start, ch.getMoveDistance()).contains(end))
 			return null;
 
 		List<Point> toReturn = new ArrayList<Point>();
