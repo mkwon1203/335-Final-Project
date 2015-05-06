@@ -43,49 +43,49 @@ public class TitleScreenShopPanel extends JPanel
 	private Image background;
 	private Image buyButtonImage, backButtonImage;
 	private JButton buyButton, backButton;
-
+    
 	private Image healthImage, manaImage, reviveImage, attackImage,
-			defenceImage;
+    defenceImage;
 	private JLabel healthLabel, manaLabel, reviveLabel, attackLabel,
-			defenceLabel;
+    defenceLabel;
 	private JLabel healthName, manaName, reviveName, attackName, defenceName;
 	private JTextArea healthDescription, manaDescription, reviveDescription,
-			attackDescription, defenceDescription;
+    attackDescription, defenceDescription;
 	private JLabel healthCost, manaCost, reviveCost, attackCost, defenceCost;
-	private JLabel playerMoney;
+	private JLabel playerMoney, inventoryLabel;
 	private JList<String> inventory;
 	private JScrollPane inventoryScrollPane;
 	private DefaultListModel<String> inventoryModel;
 	private Border selectedBorder = BorderFactory.createLineBorder(Color.GREEN,
-			5);
+                                                                   5);
 	private int selected = 0;
 	private TitleScreen title;
-
+    
 	private ButtonListener buttonListener;
-
+    
 	// creating the model items
 	private HealthPotion healthPotion = new HealthPotion();
 	private ManaPotion manaPotion = new ManaPotion();
 	private RevivePotion revivePotion = new RevivePotion();
 	private AttackUp attackUp = new AttackUp();
 	private DefenceUp defenceUp = new DefenceUp();
-
+    
 	public TitleScreenShopPanel()
 	{
 		this(800, 612);
 	}
-
+    
 	public TitleScreenShopPanel(int x, int y)
 	{
 		setPreferredSize(new Dimension(x, y));
 		setLayout(null);
 		// is background color neccesary at all?
 		setBackground(Color.BLACK);
-
+        
 		buttonListener = new ButtonListener();
-
+        
 		title = TitleScreen.getTitleScreen();
-
+        
 		loadBackground();
 		initializeModelLists();
 		loadButton();
@@ -96,26 +96,26 @@ public class TitleScreenShopPanel extends JPanel
 		addList();
 		registerListeners();
 	}
-
+    
 	private void loadBackground()
 	{
 		try
 		{
 			// TODO: change to new background image
 			background = ImageIO.read(new File(
-					"res/titleScreen/unitSelectBackground.png"));
+                                               "res/titleScreen/storeBackground.png"));
 		}
 		catch (IOException e)
 		{
 			System.out.println("Couldn't find shop panel background picture.");
 		}
 	}
-
+    
 	private void initializeModelLists()
 	{
 		inventoryModel = new DefaultListModel<String>();
 	}
-
+    
 	private void loadButton()
 	{
 		try
@@ -123,28 +123,28 @@ public class TitleScreenShopPanel extends JPanel
 			// load up images for the buttons
 			buyButtonImage = ImageIO.read(new File("res/titleScreen/buy.png"));
 			backButtonImage = ImageIO
-					.read(new File("res/titleScreen/back.png"));
-
+            .read(new File("res/titleScreen/back.png"));
+            
 			// initialize buttons
 			buyButton = new JButton(new ImageIcon(buyButtonImage));
 			backButton = new JButton(new ImageIcon(backButtonImage));
-
+            
 			// set button look and feel
 			buyButton.setOpaque(false);
 			buyButton.setContentAreaFilled(false);
 			buyButton.setBorderPainted(false);
 			buyButton.setRolloverIcon(new ImageIcon(ImageIO.read(new File(
-					"res/titleScreen/buy2.png"))));
-
+                                                                          "res/titleScreen/buy2.png"))));
+            
 			backButton.setOpaque(false);
 			backButton.setContentAreaFilled(false);
 			backButton.setBorderPainted(false);
 			backButton.setRolloverIcon(new ImageIcon(ImageIO.read(new File(
-					"res/titleScreen/back2.png"))));
-
+                                                                           "res/titleScreen/back2.png"))));
+            
 			buyButton.setName("buy");
 			backButton.setName("back");
-
+            
 			// attach action listeners
 			buyButton.addActionListener(buttonListener);
 			backButton.addActionListener(buttonListener);
@@ -154,18 +154,18 @@ public class TitleScreenShopPanel extends JPanel
 			System.out.println("Couldn't find button image.");
 		}
 	}
-
+    
 	private void addButton()
 	{
 		this.add(buyButton);
 		this.add(backButton);
-
-		buyButton.setBounds(375, 425, buyButtonImage.getWidth(null),
-				buyButtonImage.getHeight(null));
-		backButton.setBounds(375, 500, backButtonImage.getWidth(null),
-				backButtonImage.getHeight(null));
+        
+		buyButton.setBounds(650, 485, buyButtonImage.getWidth(null),
+                            buyButtonImage.getHeight(null));
+		backButton.setBounds(415, 485, backButtonImage.getWidth(null),
+                             backButtonImage.getHeight(null));
 	}
-
+    
 	private void loadLabel()
 	{
 		// load images first
@@ -206,28 +206,28 @@ public class TitleScreenShopPanel extends JPanel
 		healthDescription.setWrapStyleWord(true);
 		healthDescription.setLineWrap(true);
 		healthDescription.setOpaque(false);
-
+        
 		// mana description
 		manaDescription = new JTextArea(manaPotion.getDescription());
 		manaDescription.setEditable(false);
 		manaDescription.setWrapStyleWord(true);
 		manaDescription.setLineWrap(true);
 		manaDescription.setOpaque(false);
-
+        
 		// revive description
 		reviveDescription = new JTextArea(revivePotion.getDescription());
 		reviveDescription.setEditable(false);
 		reviveDescription.setWrapStyleWord(true);
 		reviveDescription.setLineWrap(true);
 		reviveDescription.setOpaque(false);
-
+        
 		// strength description
 		attackDescription = new JTextArea(attackUp.getDescription());
 		attackDescription.setEditable(false);
 		attackDescription.setWrapStyleWord(true);
 		attackDescription.setLineWrap(true);
 		attackDescription.setOpaque(false);
-
+        
 		// defence description
 		defenceDescription = new JTextArea(defenceUp.getDescription());
 		defenceDescription.setEditable(false);
@@ -237,8 +237,10 @@ public class TitleScreenShopPanel extends JPanel
 		
 		// TODO: change it to player object's money
 		playerMoney = new JLabel("Player money goes here");
+		
+		inventoryLabel = new JLabel("Inventory List");
 	}
-
+    
 	private void addLabel()
 	{
 		this.add(healthLabel);
@@ -262,56 +264,63 @@ public class TitleScreenShopPanel extends JPanel
 		this.add(defenceName);
 		this.add(defenceCost);
 		this.add(playerMoney);
+		this.add(inventoryLabel);
 		
-		healthLabel.setBounds(50, 50, 80, 80);
-		healthDescription.setBounds(175, 90, 150, 60);
-		healthName.setBounds(175, 50, 150, 30);
-		healthCost.setBounds(50, 135, 80, 20);
-
-		manaLabel.setBounds(375, 50, 80, 80);
-		manaDescription.setBounds(500, 90, 150, 60);
-		manaName.setBounds(500, 50, 150, 30);
-		manaCost.setBounds(375, 135, 80, 20);
-
-		reviveLabel.setBounds(50, 175, 80, 80);
-		reviveDescription.setBounds(175, 215, 150, 60);
-		reviveName.setBounds(175, 175, 150, 30);
-		reviveCost.setBounds(50, 260, 80, 20);
-
-		attackLabel.setBounds(375, 175, 80, 80);
-		attackDescription.setBounds(500, 215, 150, 60);
-		attackName.setBounds(500, 175, 150, 30);
-		attackCost.setBounds(375, 260, 80, 20);
-
-		defenceLabel.setBounds(375, 300, 80, 80);
-		defenceDescription.setBounds(500, 340, 150, 60);
-		defenceName.setBounds(500, 300, 150, 30);
-		defenceCost.setBounds(375, 385, 80, 20);
+		healthLabel.setBounds(52, 52, 80, 80);
+		healthName.setBounds(214, 38, 150, 30);
+		healthDescription.setBounds(190, 65, 138, 60);
+		healthCost.setBounds(72, 133, 35, 20);
+        
+		manaLabel.setBounds(425, 52, 80, 80);
+		manaName.setBounds(588, 38, 150, 30);
+		manaDescription.setBounds(560, 65, 138, 60);
+		manaCost.setBounds(442, 133, 35, 20);
+        
+		reviveLabel.setBounds(52, 175, 80, 80);
+		reviveName.setBounds(214, 158, 150, 30);
+		reviveDescription.setBounds(190, 185, 138, 60);
+		reviveCost.setBounds(72, 253, 35, 20);
+        
+		attackLabel.setBounds(425, 175, 80, 80);
+		attackName.setBounds(588, 158, 150, 30);
+		attackDescription.setBounds(560, 185, 138, 60);
+		attackCost.setBounds(442, 253, 35, 20);
+        
+		defenceLabel.setBounds(425, 296, 80, 80);
+		defenceName.setBounds(588, 278, 150, 30);
+		defenceDescription.setBounds(560, 305, 138, 60);
+		defenceCost.setBounds(442, 375, 35, 20);
 		
-		playerMoney.setBounds(0, 0, 100, 30);
+		playerMoney.setBounds(35, 5, 78, 30);
+		playerMoney.setForeground(Color.WHITE);
+		
+		inventoryLabel.setBounds(150, 300, 100, 30);
+		inventoryLabel.setForeground(Color.WHITE);
 	}
-
+    
 	private void loadList()
 	{
 		inventory = new JList<String>(inventoryModel);
+		inventory.setBackground(Color.DARK_GRAY);
+		inventory.setForeground(Color.WHITE);
 		inventoryScrollPane = new JScrollPane(inventory);
 	}
-
+    
 	private void addList()
 	{
 		this.add(inventoryScrollPane);
 		
-		inventoryScrollPane.setBounds(50, 300, 275, 275);
+		inventoryScrollPane.setBounds(82, 330, 213, 235);
 	}
-
+    
 	private void registerListeners()
 	{
 		healthLabel.addMouseListener(new MouseAdapter()
-		{
+                                     {
 			public void mouseClicked(MouseEvent e)
 			{
 				selected = 1;
-
+                
 				// set the correct borders
 				healthLabel.setBorder(selectedBorder);
 				manaLabel.setBorder(null);
@@ -320,13 +329,13 @@ public class TitleScreenShopPanel extends JPanel
 				defenceLabel.setBorder(null);
 			}
 		});
-
+        
 		manaLabel.addMouseListener(new MouseAdapter()
-		{
+                                   {
 			public void mouseClicked(MouseEvent e)
 			{
 				selected = 2;
-
+                
 				// set the correct borders
 				healthLabel.setBorder(null);
 				manaLabel.setBorder(selectedBorder);
@@ -335,13 +344,13 @@ public class TitleScreenShopPanel extends JPanel
 				defenceLabel.setBorder(null);
 			}
 		});
-
+        
 		reviveLabel.addMouseListener(new MouseAdapter()
-		{
+                                     {
 			public void mouseClicked(MouseEvent e)
 			{
 				selected = 3;
-
+                
 				// set the correct borders
 				healthLabel.setBorder(null);
 				manaLabel.setBorder(null);
@@ -350,13 +359,13 @@ public class TitleScreenShopPanel extends JPanel
 				defenceLabel.setBorder(null);
 			}
 		});
-
+        
 		attackLabel.addMouseListener(new MouseAdapter()
-		{
+                                     {
 			public void mouseClicked(MouseEvent e)
 			{
 				selected = 4;
-
+                
 				// set the correct borders
 				healthLabel.setBorder(null);
 				manaLabel.setBorder(null);
@@ -365,13 +374,13 @@ public class TitleScreenShopPanel extends JPanel
 				defenceLabel.setBorder(null);
 			}
 		});
-
+        
 		defenceLabel.addMouseListener(new MouseAdapter()
-		{
+                                      {
 			public void mouseClicked(MouseEvent e)
 			{
 				selected = 5;
-
+                
 				// set the correct borders
 				healthLabel.setBorder(null);
 				manaLabel.setBorder(null);
@@ -380,7 +389,7 @@ public class TitleScreenShopPanel extends JPanel
 				defenceLabel.setBorder(selectedBorder);
 			}
 		});
-
+        
 	}
 	
 	public void paintComponent(Graphics g)
@@ -388,7 +397,7 @@ public class TitleScreenShopPanel extends JPanel
 		super.paintComponent(g);
 		g.drawImage(background, 0, 0, null);
 	}
-
+    
 	private class ButtonListener implements ActionListener
 	{
 		@Override
@@ -397,7 +406,7 @@ public class TitleScreenShopPanel extends JPanel
 			if (e.getSource() instanceof JButton)
 			{
 				JButton button = (JButton) e.getSource();
-
+                
 				if (button.getName() == "buy")
 				{
 					// TODO: fill this out
