@@ -284,7 +284,7 @@ public class LevelStatPanel extends JPanel{
 						}
 					}
 				} else if(button.getName() == "endTurn"){
-					if(game.isPlayersTurn())
+					if(game.isPlayersTurn() && !model.Animation.UNITMOVING)
 						game.advanceTurn();
 				}
 				
