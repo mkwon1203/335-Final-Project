@@ -14,6 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import controller.Client;
 
@@ -22,8 +24,9 @@ public class TitleScreenAboutPanel extends JPanel
 	private Image background;
 	private Image backButtonImage;
 	private JButton backButton;
-	private JLabel aboutLabel;
+	private JTextArea aboutLabel;
 	private MenuListener listener;
+	private JScrollPane aboutScrollPane;
 	
 	private TitleScreen title;
 	
@@ -38,24 +41,24 @@ public class TitleScreenAboutPanel extends JPanel
 		setLayout(null);
 		// is background color neccesary at all?
 		setBackground(Color.BLACK);
-
+        
 		listener = new MenuListener();
-
+        
 		title = TitleScreen.getTitleScreen();
-
+        
 		loadBackground();
 		loadButton();
 		addButton();
-		loadLabel();
-		addLabel();
+		loadTextArea();
+		addTextArea();
 	}
-
+    
 	private void loadBackground()
 	{
 		try
 		{
 			background = ImageIO.read(new File(
-					"res/titleScreen/titleBackground.png"));
+                                               "res/titleScreen/titleBackground.png"));
 			// backgroundLabel = new JLabel(new ImageIcon(titlePic));
 		}
 		catch (IOException e)
@@ -63,22 +66,22 @@ public class TitleScreenAboutPanel extends JPanel
 			System.out.println("Couldn't find title picture.");
 		}
 	}
-
+    
 	// This method is just to load in the images for the title screen's buttons
 	private void loadButton()
 	{
 		try
 		{
 			backButtonImage = ImageIO.read(new File(
-					"res/titleScreen/back.png"));
-
+                                                    "res/titleScreen/back.png"));
+            
 			backButton = new JButton(new ImageIcon(backButtonImage));
-
+            
 			backButton.setOpaque(false);
 			backButton.setContentAreaFilled(false);
 			backButton.setBorderPainted(false);
 			backButton.setRolloverIcon(new ImageIcon(ImageIO.read(new File(
-					"res/titleScreen/back2.png"))));
+                                                                           "res/titleScreen/back2.png"))));
 			
 			backButton.setName("back");
 			
@@ -89,27 +92,30 @@ public class TitleScreenAboutPanel extends JPanel
 			System.out.println("Couldn't find button image.");
 		}
 	}
-
+    
 	private void addButton()
 	{
 		this.add(backButton);
-
+        
 		backButton.setBounds(500, 100, backButtonImage.getWidth(null),
-				backButtonImage.getHeight(null));
+                             backButtonImage.getHeight(null));
 	}
 	
-	private void loadLabel()
+	private void loadTextArea()
 	{
 		// TODO: fill out the label
-		aboutLabel = new JLabel();
-		aboutLabel.setText("Description for our game, content of about screen");
+		aboutLabel = new JTextArea();
+		aboutLabel.setText("This TRPG game was created by team GMCM for a final project at the University of Arizona. Team members include Christopher Grundy, Min Kwon, Josue Morga, and Shunchen Cao.");
+		aboutLabel.setBounds(500,200, 250,250);
+		aboutLabel.setEditable(false);
+		aboutLabel.setWrapStyleWord(true);
+		aboutLabel.setLineWrap(true);
+		aboutLabel.setOpaque(false);
 	}
 	
-	private void addLabel()
+	private void addTextArea()
 	{
 		this.add(aboutLabel);
-		
-		aboutLabel.setBounds(0,-100, 300,300);
 	}
 	
 	public void paintComponent(Graphics g)
@@ -126,7 +132,7 @@ public class TitleScreenAboutPanel extends JPanel
 			if (e.getSource() instanceof JButton)
 			{
 				JButton button = (JButton) e.getSource();
-
+                
 				if (button.getName() == "back")
 				{
 					TitleScreen.TITLESTATE = 0;
