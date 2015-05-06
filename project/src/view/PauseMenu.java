@@ -16,8 +16,7 @@ import javax.swing.JPanel;
 
 import controller.Client;
 
-//TODO: extend JPanel instead of JFrame and remove main method
-public class PauseMenu extends JFrame{
+public class PauseMenu extends JPanel{
 	private Image saveImage, resumeImage, quitImage;
 	private JButton saveButton, resumeButton, quitButton;
 	private ButtonListener buttonListener;
@@ -118,15 +117,5 @@ public class PauseMenu extends JFrame{
 			
 		}
 		
-	}
-	
-	public static void main (String[] args) {
-		PauseMenu menu = new PauseMenu(800,600);
-		menu.setSize(800,600);
-		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		menu.getContentPane().setBackground(Color.BLACK);
-		menu.setBackground(Color.BLACK);
-		menu.setVisible(true);
 	}
 }
