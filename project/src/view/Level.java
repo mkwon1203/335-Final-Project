@@ -12,6 +12,7 @@ import model.LoadSprites;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import controller.Client;
@@ -30,6 +31,9 @@ public class Level extends JPanel
 	private List<Enemy> aiUnits;
 	
 	private Point clickLocation;
+	private boolean currentlyAnimated = false;
+	
+	private Animation animation;
 	
 	Image screen;
 	
@@ -82,7 +86,6 @@ public class Level extends JPanel
 		
 		screen = createVolatileImage(gamePanel.getWidth(), gamePanel.getHeight());
 		Graphics2D g = (Graphics2D)screen.getGraphics();
-		
 		
 		if(game != null){
 			
@@ -147,7 +150,11 @@ public class Level extends JPanel
 		playerUnits = game.getPlayer().getCharacters();
 		aiUnits = game.getAI().getEnemies();
 		for(Character c : playerUnits){
-			g.drawImage(c.getTexture(), c.getLocation().y * Client.BLOCKSIZE, c.getLocation().x * Client.BLOCKSIZE, null);
+			if(!c.isAnimated()){
+				g.drawImage(c.getTexture(), c.getLocation().y * Client.BLOCKSIZE, c.getLocation().x * Client.BLOCKSIZE, null);
+			}else if(c.isAnimated()){
+				g.drawImage(c.getTexture(), c.getScreenCoordinate().x, c.getScreenCoordinate().y, null);
+			}
 		}
 		
 		for(Enemy e : aiUnits){
@@ -157,133 +164,122 @@ public class Level extends JPanel
 	}
 	
 	
-	private class Animation extends SwingWorker<Boolean, Integer>{
+	private class Animation extends SwingWorker<Boolean, Point>{
 		
-		public static final int NORTH = 3;
-		public static final int SOUTH = 0;
-		public static final int EAST = 2;
-		public static final int WEST = 1;
+		private int framesX;
+		private int speed;
+		private int index;
+		private Point currentFrame, coordinates;
+		private List<Point> path;
+		private int frameDirection;
+		private int currentIndex;
+		
+		private CharacterInterface unit;
+		
+		private int currentDirection;
+		private final int SOUTH = 0;
+		private final int WEST = 1;
+		private final int EAST = 2;
+		private final int NORTH = 3;
+		
+		private boolean textureChanged;
 		
 		private Image[][] images;
-		private Character unit;
-		private List<Point> path;
-		private Point coordinates;
-		private int frameCounter, speed, previousDirection, currentFrame;
-		private boolean changeImage;
+		private Image currentImage;
 		
-		
-		public Animation(List<Point> path, Character unit){
-			images = LoadSprites.loadSpriteSheet(unit.getTextureFilePath(), 4, 3, Client.BLOCKSIZE);
-			this.unit = unit;
+		public Animation(List<Point> path, CharacterInterface unit){
+			
+			images = model.LoadSprites.loadSpriteSheet(unit.getTextureFilePath(), 4, 3, Client.BLOCKSIZE);
+			this.currentImage = images[0][1];
+			textureChanged = false;
+			
+			for(int x = 0; x < path.size(); x++)
+				path.set(x, new Point(path.get(x).y * Client.BLOCKSIZE, path.get(x).x * Client.BLOCKSIZE));
+			
+			for(Point p : path)
+				System.out.println("target Path: " + p);
+			
 			this.path = path;
-			this.coordinates = new Point(unit.getLocation().x * Client.BLOCKSIZE, unit.getLocation().y * Client.BLOCKSIZE);
-			this.frameCounter = 0;
-			this.speed = 2;
-			this.currentFrame = 1;
-			this.previousDirection = 0;
-			this.changeImage = false;
+			
+			unit.setTexture(currentImage);
+			
+			this.coordinates = unit.getScreenCoordinate();
+			System.out.println("Starting position: " + coordinates);
+			currentFrame = new Point(0,1);
+			framesX = images[0].length;
+			frameDirection = 1;
+			currentDirection = 0;
+			currentIndex = 0;
+			speed = 5;
+			index = 0;
 		}
 		
-		public void setIdleImage(Character c, int direction){
+		private void nextFrame(int direction){
+			currentFrame.y = direction;
+			textureChanged = true;
 			
-			switch(direction){
+			currentFrame.x += frameDirection;
+			if(currentFrame.x >= framesX - 1)
+				frameDirection = -1;
+			else if(currentFrame.x <= 0)
+				frameDirection = 1;
 			
-			case SOUTH:
-				c.setTexture(images[SOUTH][1]);
-				break;
-				
-			case WEST:
-				c.setTexture(images[WEST][1]);
-				break;
-				
-			case EAST:
-				c.setTexture(images[EAST][1]);
-				break;
-				
-			case NORTH:
-				c.setTexture(images[NORTH][1]);
-				break;
+			currentImage = images[currentFrame.y][currentFrame.x];
+			System.out.println("texture changed. " + currentFrame);
 			
-			}
 		}
 		
 		@Override
 		protected Boolean doInBackground() throws Exception {
 			
-			for(Point p : path){
-				p = new Point(p.x * Client.BLOCKSIZE, p.y * Client.BLOCKSIZE);
+			while(currentIndex != path.size()){
+				index++;
 				
-				if(p.x > coordinates.x){
-					while(p.x > coordinates.x){
-						coordinates.x++;
-						if(speed % frameCounter == 0){
-							changeImage = true;
-							if(++currentFrame >= 2)
-								currentFrame = 0;
-						}
-						publish(EAST);
-					}
-				}else if(p.x < coordinates.x){
-					while(p.x < coordinates.x){
-						coordinates.x--;
-						if(speed % frameCounter == 0){
-							changeImage = true;
-							if(++currentFrame >= 2)
-								currentFrame = 0;
-						}
-						publish(WEST);
-					}
-				}else if(p.y > coordinates.y){
-					while(p.y > coordinates.y){
-						coordinates.y++;
-						if(speed % frameCounter == 0){
-							changeImage = true;
-							if(++currentFrame >= 2)
-								currentFrame = 0;
-						}
-						publish(NORTH);
-					}
-				}else if(p.y < coordinates.y){
-					while(p.y < coordinates.y){
-						coordinates.y--;
-						if(speed % frameCounter == 0){
-							changeImage = true;
-							if(++currentFrame >= 2)
-								currentFrame = 0;
-						}
-						publish(SOUTH);
-					}
+				if(path.get(currentIndex).x < coordinates.x){
+					currentDirection = WEST;
+					coordinates.x--;
+				}else if(path.get(currentIndex).x > coordinates.x){
+					currentDirection = EAST;
+					coordinates.x++;
+				}else if(path.get(currentIndex).y < coordinates.y){
+					currentDirection = SOUTH;
+					coordinates.y--;
+				}else if(path.get(currentIndex).y > coordinates.y){
+					currentDirection = NORTH;
+					coordinates.y++;
 				}
 				
-				Thread.sleep(25);
-			}//End of for each loop
-			
+				if(index > speed){
+					index = 0;
+					nextFrame(currentDirection);
+				}
+				
+				publish(coordinates);
+				
+				if(coordinates.equals(path.get(currentIndex)))
+					currentIndex++;
+				
+				Thread.sleep(250);
+			}
 			return true;
 		}
 		
 		protected void done() {
-			setIdleImage(unit, previousDirection);
+			System.out.println("Thread stopped");
+			currentlyAnimated = false;
 			super.done();
 		}
 
 		@Override
-		protected void process(List<Integer> arg0) {
-			if(changeImage){
-				Image currentImage = images[arg0.get(arg0.size() - 1)][currentFrame];
-				unit.setTexture(currentImage);
-				changeImage = false;
-			}
+		protected void process(List<Point> arg0) {
 			
-			Image blank = createVolatileImage(Client.BLOCKSIZE, Client.BLOCKSIZE);
-			Graphics g = blank.getGraphics();
+			if(textureChanged)
+				this.unit.setTexture(currentImage);
 			
-			g.drawImage(unit.getTexture(), 0, 0, null);
+			this.unit.setScreenCoordinate(coordinates);
+			//System.out.println("CurrentFrame: " + currentFrame);
+			System.out.println("Coordinates: " + coordinates);
 			
-			g = gamePanel.getGraphics();
-			g.drawImage(blank, coordinates.x, coordinates.y, null);
-			g.dispose();
-			
-			previousDirection = arg0.get(arg0.size() - 1);
 		}
 		
 	}//End of Animator inner-class
@@ -309,9 +305,14 @@ public class Level extends JPanel
 					
 					if(game.isPlayersTurn()){
 						
-						if(game.isCharacterSelected())
-							if(!b.isOccupied())
+						if(game.isCharacterSelected()){
+							if(!b.isOccupied()){
+								game.getSelectedCharacter().setAnimated(true);
+								animation = new Animation(game.findPath(game.getSelectedCharacter().getLocation(), clickLocation), game.getSelectedCharacter());
+								animation.execute();
 								game.move(game.getSelectedCharacter(), clickLocation);
+							}
+						}
 						
 						if(b.isOccupied())
 							game.setSelectedCharacter(game.getCharacterAt(clickLocation.x, clickLocation.y));

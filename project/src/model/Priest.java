@@ -11,7 +11,7 @@ public class Priest extends Character {
 	private static final int PRIEST_MANA = 0;
 	private static final int PRIEST_STRENGTH = 10;
 	private static final int PRIEST_DEFENCE = 10;
-	private static final int PRIEST_MOVEDISTANCE = 1;
+	private static final int PRIEST_MOVEDISTANCE = 3;
 	private static final int PRIEST_ATTACKDISTANCE = 1;
 	private static final String PRIEST_IMAGEPATH = "res/sprites/units/priest.png";
 	private static final String PRIEST_DESCRIPTION = "Priests are passive people. They don't believe in injuring other people or even monsters. They dedicate themselves to providing aid for the people that are close to them.";
