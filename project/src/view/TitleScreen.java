@@ -1,6 +1,7 @@
 package view;
 
 import controller.Client;
+import controller.SoundEffects;
 import model.*;
 
 import java.awt.*;
@@ -60,6 +61,9 @@ public class TitleScreen extends JPanel
 		if (TITLESTATE == 0)
 		{
 			// very start of title screen
+			if(!SoundEffects.containsSoundClip("res/music/8bitDungeonTitle.wav"))
+				SoundEffects.addSound("res/music/8bitDungeonTitle.wav");
+			
 			if (main == null)
 			{
 				main = new TitleScreenMainPanel();

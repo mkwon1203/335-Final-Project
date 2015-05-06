@@ -15,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.SoundEffects;
+
 public class TitleScreenGameOverPanel extends JPanel
 {
 	private Image background;
@@ -125,6 +127,7 @@ public class TitleScreenGameOverPanel extends JPanel
 
 				if (button.getName() == "back")
 				{
+					SoundEffects.clearSoundClips();
 					TitleScreen.TITLESTATE = 0;
 					title.draw();
 				}

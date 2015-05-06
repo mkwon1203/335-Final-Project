@@ -95,6 +95,7 @@ public class Client implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		while(isRunning){
+			SoundEffects.update();
 			
 			if(GAMESTATE > 0){
 				//System.out.println("Game Started");

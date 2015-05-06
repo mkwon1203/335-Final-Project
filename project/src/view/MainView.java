@@ -2,6 +2,7 @@
 package view;
 
 import controller.Client;
+import controller.SoundEffects;
 import model.Character;
 import model.Knight;
 import model.Game;
@@ -83,7 +84,10 @@ public class MainView extends JFrame implements Observer{
 	
 	public void update(){
 		
-		if(Client.GAMESTATE == 1){
+		if(Client.GAMESTATE < 1){
+			if(SoundEffects.getSoundClipArraySize() <= 0 || !SoundEffects.containsSoundClip("res/music/8bitDungeonTitle.wav"))
+				SoundEffects.addSound("res/music/8bitDungeonTitle.wav");
+		}else if(Client.GAMESTATE == 1){
 			
 			if(title.isDisplayable()){
 				remove(title);
@@ -91,10 +95,17 @@ public class MainView extends JFrame implements Observer{
 				addLevelToFrame();
 				level.drawMap();
 				level.getStatPanel().draw();
+				if(SoundEffects.containsSoundClip("res/music/8bitDungeonTitle.wav"))
+					SoundEffects.removeSoundClip("res/music/8bitDungeonTitle.wav");
+				SoundEffects.addSound("res/music/8bitDungeon.wav");
 			}
 			
 			if(level == null)
 				addLevelToFrame();
+			
+//			System.out.println("Sound Clips: " + SoundEffects.getSoundClipArraySize());
+			if(SoundEffects.getSoundClipArraySize() <= 0 || !SoundEffects.containsSoundClip("res/music/8bitDungeon.wav"))
+				SoundEffects.addSound("res/music/8bitDungeon.wav");
 			
 		}
 		
