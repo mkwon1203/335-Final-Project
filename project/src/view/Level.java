@@ -7,12 +7,10 @@ import model.Game;
 import model.Block;
 import model.Character;
 import model.Enemy;
-import model.LoadSprites;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import controller.Client;
@@ -23,6 +21,8 @@ import java.awt.event.MouseEvent;
 public class Level extends JPanel
 {
 	
+	public static boolean UNITMOVING = false;
+	
 	private JPanel gamePanel;
 	private Game game;
 	private LevelStatPanel statPanel;
@@ -31,7 +31,6 @@ public class Level extends JPanel
 	private List<Enemy> aiUnits;
 	
 	private Point clickLocation;
-	private boolean currentlyAnimated = false;
 	
 	private Animation animation;
 	
@@ -105,9 +104,9 @@ public class Level extends JPanel
 			List<Character> playerCharacters = game.getPlayer().getCharacters();
 			for(Character c : playerCharacters){
 				g.setColor(Color.RED);
-				g.fillRect(c.getLocation().y * Client.BLOCKSIZE + 1, c.getLocation().x * Client.BLOCKSIZE - 10, 30, 5);
+				g.fillRect(c.getScreenCoordinate().x + 1, c.getScreenCoordinate().y - 10, 30, 5);
 				g.setColor(Color.GREEN);
-				g.fillRect(c.getLocation().y * Client.BLOCKSIZE + 1, c.getLocation().x * Client.BLOCKSIZE - 10, (int)(c.getPercentHealth() * 30), 5);
+				g.fillRect(c.getScreenCoordinate().x + 1, c.getScreenCoordinate().y - 10, (int)(c.getPercentHealth() * 30), 5);
 			}
 			
 			List<Enemy> aiCharacters = game.getAI().getEnemies();
@@ -185,23 +184,17 @@ public class Level extends JPanel
 		private boolean textureChanged;
 		
 		private Image[][] images;
-		private Image currentImage;
 		
 		public Animation(List<Point> path, CharacterInterface unit){
 			
 			images = model.LoadSprites.loadSpriteSheet(unit.getTextureFilePath(), 4, 3, Client.BLOCKSIZE);
-			this.currentImage = images[0][1];
 			textureChanged = false;
+			this.unit = unit;
 			
 			for(int x = 0; x < path.size(); x++)
 				path.set(x, new Point(path.get(x).y * Client.BLOCKSIZE, path.get(x).x * Client.BLOCKSIZE));
 			
-			for(Point p : path)
-				System.out.println("target Path: " + p);
-			
 			this.path = path;
-			
-			unit.setTexture(currentImage);
 			
 			this.coordinates = unit.getScreenCoordinate();
 			System.out.println("Starting position: " + coordinates);
@@ -210,7 +203,7 @@ public class Level extends JPanel
 			frameDirection = 1;
 			currentDirection = 0;
 			currentIndex = 0;
-			speed = 5;
+			speed = 3;
 			index = 0;
 		}
 		
@@ -224,7 +217,6 @@ public class Level extends JPanel
 			else if(currentFrame.x <= 0)
 				frameDirection = 1;
 			
-			currentImage = images[currentFrame.y][currentFrame.x];
 			System.out.println("texture changed. " + currentFrame);
 			
 		}
@@ -242,10 +234,10 @@ public class Level extends JPanel
 					currentDirection = EAST;
 					coordinates.x++;
 				}else if(path.get(currentIndex).y < coordinates.y){
-					currentDirection = SOUTH;
+					currentDirection = NORTH;
 					coordinates.y--;
 				}else if(path.get(currentIndex).y > coordinates.y){
-					currentDirection = NORTH;
+					currentDirection = SOUTH;
 					coordinates.y++;
 				}
 				
@@ -259,14 +251,16 @@ public class Level extends JPanel
 				if(coordinates.equals(path.get(currentIndex)))
 					currentIndex++;
 				
-				Thread.sleep(250);
+				Thread.sleep(30);
 			}
 			return true;
 		}
 		
 		protected void done() {
 			System.out.println("Thread stopped");
-			currentlyAnimated = false;
+			unit.setTexture(images[currentDirection][1]);
+			unit.setAnimated(false);
+			UNITMOVING = false;
 			super.done();
 		}
 
@@ -274,12 +268,12 @@ public class Level extends JPanel
 		protected void process(List<Point> arg0) {
 			
 			if(textureChanged)
-				this.unit.setTexture(currentImage);
+				this.unit.setTexture(images[currentFrame.y][currentFrame.x]);
 			
-			this.unit.setScreenCoordinate(coordinates);
+			this.unit.setScreenCoordinate(arg0.get(arg0.size() - 1));
 			//System.out.println("CurrentFrame: " + currentFrame);
-			System.out.println("Coordinates: " + coordinates);
-			
+			//System.out.println("Coordinates: " + coordinates);
+			UNITMOVING = true;
 		}
 		
 	}//End of Animator inner-class
@@ -307,15 +301,20 @@ public class Level extends JPanel
 						
 						if(game.isCharacterSelected()){
 							if(!b.isOccupied()){
-								game.getSelectedCharacter().setAnimated(true);
-								animation = new Animation(game.findPath(game.getSelectedCharacter().getLocation(), clickLocation), game.getSelectedCharacter());
-								animation.execute();
-								game.move(game.getSelectedCharacter(), clickLocation);
+								if(!game.getSelectedCharacter().isAnimated()){
+									if(game.canMoveTo(game.getSelectedCharacter(), clickLocation)){
+										game.getSelectedCharacter().setAnimated(true);
+										animation = new Animation(game.findPath(game.getSelectedCharacter(), clickLocation), game.getSelectedCharacter());
+										animation.execute();
+										game.move(game.getSelectedCharacter(), clickLocation);
+									}
+								}
 							}
 						}
 						
 						if(b.isOccupied())
-							game.setSelectedCharacter(game.getCharacterAt(clickLocation.x, clickLocation.y));
+							if(!game.getCharacterAt(clickLocation.x, clickLocation.y).isAnimated())
+								game.setSelectedCharacter(game.getCharacterAt(clickLocation.x, clickLocation.y));
 						
 					}
 				}
