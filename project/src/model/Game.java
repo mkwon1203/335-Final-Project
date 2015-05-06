@@ -402,24 +402,11 @@ public class Game extends Observable
 		return magicUsed;
 	}
 
-	public boolean useItem(CharacterInterface ch, String itemName)
+	public boolean useItem(CharacterInterface ch, Item item)
 	{
 		// uses item given on the given character
 		if (!ch.getActionAvailable())
 			return false;
-		
-		Item item = null;
-		
-		if (itemName.equalsIgnoreCase("health potion"))
-			item = new HealthPotion();
-		else if (itemName.equalsIgnoreCase("mana potion"))
-			item = new ManaPotion();
-		else if (itemName.equalsIgnoreCase("revive potion"))
-			item = new RevivePotion();
-		else if (itemName.equalsIgnoreCase("attack up"))
-			item = new AttackUp();
-		else if (itemName.equalsIgnoreCase("defence up"))
-			item = new DefenceUp();
 
 		// assume the given item came from player's inventory
 		boolean itemUsed = player.useItem(ch, item);

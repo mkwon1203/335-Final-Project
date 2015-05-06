@@ -104,7 +104,6 @@ public class LevelStatPanel extends JPanel{
 		
 		for(Item i : game.getPlayer().getInventory().getItems())
 		{
-			System.out.println(i.getName());
 			itemList.addElement(i.getName());
 		}
 		
@@ -292,9 +291,11 @@ public class LevelStatPanel extends JPanel{
 				{
 					if(!inventoryList.isSelectionEmpty() && game.isCharacterSelected())
 					{
-						String itemName = inventoryList.getSelectedValue();
+						int i = inventoryList.getSelectedIndex();
+						Item toUse = game.getPlayer().getInventory().getItems().get(i);
 						
-						game.useItem(game.getSelectedCharacter(), itemName);
+						game.useItem(game.getSelectedCharacter(), toUse);
+						updateInventory();
 					}
 				}
 				
