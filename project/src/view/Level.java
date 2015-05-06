@@ -7,6 +7,7 @@ import model.Game;
 import model.Block;
 import model.Character;
 import model.Enemy;
+import model.LoadSprites;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -154,6 +155,138 @@ public class Level extends JPanel
 		}
 		
 	}
+	
+	
+	private class Animation extends SwingWorker<Boolean, Integer>{
+		
+		public static final int NORTH = 3;
+		public static final int SOUTH = 0;
+		public static final int EAST = 2;
+		public static final int WEST = 1;
+		
+		private Image[][] images;
+		private Character unit;
+		private List<Point> path;
+		private Point coordinates;
+		private int frameCounter, speed, previousDirection, currentFrame;
+		private boolean changeImage;
+		
+		
+		public Animation(List<Point> path, Character unit){
+			images = LoadSprites.loadSpriteSheet(unit.getTextureFilePath(), 4, 3, Client.BLOCKSIZE);
+			this.unit = unit;
+			this.path = path;
+			this.coordinates = new Point(unit.getLocation().x * Client.BLOCKSIZE, unit.getLocation().y * Client.BLOCKSIZE);
+			this.frameCounter = 0;
+			this.speed = 2;
+			this.currentFrame = 1;
+			this.previousDirection = 0;
+			this.changeImage = false;
+		}
+		
+		public void setIdleImage(Character c, int direction){
+			
+			switch(direction){
+			
+			case SOUTH:
+				c.setTexture(images[SOUTH][1]);
+				break;
+				
+			case WEST:
+				c.setTexture(images[WEST][1]);
+				break;
+				
+			case EAST:
+				c.setTexture(images[EAST][1]);
+				break;
+				
+			case NORTH:
+				c.setTexture(images[NORTH][1]);
+				break;
+			
+			}
+		}
+		
+		@Override
+		protected Boolean doInBackground() throws Exception {
+			
+			for(Point p : path){
+				p = new Point(p.x * Client.BLOCKSIZE, p.y * Client.BLOCKSIZE);
+				
+				if(p.x > coordinates.x){
+					while(p.x > coordinates.x){
+						coordinates.x++;
+						if(speed % frameCounter == 0){
+							changeImage = true;
+							if(++currentFrame >= 2)
+								currentFrame = 0;
+						}
+						publish(EAST);
+					}
+				}else if(p.x < coordinates.x){
+					while(p.x < coordinates.x){
+						coordinates.x--;
+						if(speed % frameCounter == 0){
+							changeImage = true;
+							if(++currentFrame >= 2)
+								currentFrame = 0;
+						}
+						publish(WEST);
+					}
+				}else if(p.y > coordinates.y){
+					while(p.y > coordinates.y){
+						coordinates.y++;
+						if(speed % frameCounter == 0){
+							changeImage = true;
+							if(++currentFrame >= 2)
+								currentFrame = 0;
+						}
+						publish(NORTH);
+					}
+				}else if(p.y < coordinates.y){
+					while(p.y < coordinates.y){
+						coordinates.y--;
+						if(speed % frameCounter == 0){
+							changeImage = true;
+							if(++currentFrame >= 2)
+								currentFrame = 0;
+						}
+						publish(SOUTH);
+					}
+				}
+				
+				Thread.sleep(25);
+			}//End of for each loop
+			
+			return true;
+		}
+		
+		protected void done() {
+			setIdleImage(unit, previousDirection);
+			super.done();
+		}
+
+		@Override
+		protected void process(List<Integer> arg0) {
+			if(changeImage){
+				Image currentImage = images[arg0.get(arg0.size() - 1)][currentFrame];
+				unit.setTexture(currentImage);
+				changeImage = false;
+			}
+			
+			Image blank = createVolatileImage(Client.BLOCKSIZE, Client.BLOCKSIZE);
+			Graphics g = blank.getGraphics();
+			
+			g.drawImage(unit.getTexture(), 0, 0, null);
+			
+			g = gamePanel.getGraphics();
+			g.drawImage(blank, coordinates.x, coordinates.y, null);
+			g.dispose();
+			
+			previousDirection = arg0.get(arg0.size() - 1);
+		}
+		
+	}//End of Animator inner-class
 	
 	//This inner-class is the mouse listener that handles user input during the game.
 	public class InputListener extends MouseInputAdapter{

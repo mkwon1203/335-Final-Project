@@ -23,6 +23,7 @@ public abstract class CharacterInterface
 	private boolean available;
 	private boolean moveAvailable;
 	private boolean actionAvailable;
+	private String textureFilePath;
 
 	public CharacterInterface(String type, String description, int health,
 			int mana, int strength, int defence, Point location,
@@ -39,6 +40,7 @@ public abstract class CharacterInterface
 		this.isAlive = isAlive;
 		this.moveDistance = moveDistance;
 		this.attackDistance = attackDistance;
+		this.textureFilePath = texture;
 		try{
 			this.texture = ImageIO.read(new File(texture));
 		}
@@ -58,6 +60,10 @@ public abstract class CharacterInterface
 	public String getDescription()
 	{
 		return description;
+	}
+	
+	public String getTextureFilePath(){
+		return textureFilePath;
 	}
 
 	/**

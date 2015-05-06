@@ -23,13 +23,6 @@ public class Animate {
 //		addSprites();
 	}
 	
-	//This method adds the 
-//	private void addSprites(){
-//		for(int row = 0; row < images.length; row++)
-//			for(int col = 0; col < images[0].length; col++)
-//				frames.add(images[row][col]);
-//	}
-	
 	//Sets the idle image for given character based on the direction
 	//	 they are facing.
 	public void setIdleImage(Character c, int direction){
@@ -61,90 +54,104 @@ public class Animate {
 		//TODO: Find out if this shit will actually work.
 		//OH GOD! PLEASE FUCKING WORK THE WAY I WANT YOU TO!!!!
 		//TODO: Remove swear words from comments.
-		SwingWorker<Boolean, Integer> worker = new SwingWorker<Boolean, Integer>(){
-			
-			private Point coordinates = unit.getLocation();
-			private boolean changeImage = false;
-			private int frameCounter = 0;
-			private int currentFrame = 0;
-			private int previousDirection = 0;
-			
-			@Override
-			protected Boolean doInBackground() throws Exception {
-				
-				for(Point p : path){
-					
-					if(p.x > unit.getLocation().x){
-						while(p.x > unit.getLocation().x){
-							coordinates.x++;
-							if(speed % frameCounter == 0){
-								changeImage = true;
-								if(++currentFrame >= 2)
-									currentFrame = 0;
-							}
-							publish(EAST);
-						}
-					}else if(p.x < unit.getLocation().x){
-						while(p.x < unit.getLocation().x){
-							coordinates.x--;
-							if(speed % frameCounter == 0){
-								changeImage = true;
-								if(++currentFrame >= 2)
-									currentFrame = 0;
-							}
-							publish(WEST);
-						}
-					}else if(p.y > unit.getLocation().y){
-						while(p.y > unit.getLocation().y){
-							coordinates.y++;
-							if(speed % frameCounter == 0){
-								changeImage = true;
-								if(++currentFrame >= 2)
-									currentFrame = 0;
-							}
-							publish(NORTH);
-						}
-					}else if(p.y < unit.getLocation().y){
-						while(p.y < unit.getLocation().y){
-							coordinates.y--;
-							if(speed % frameCounter == 0){
-								changeImage = true;
-								if(++currentFrame >= 2)
-									currentFrame = 0;
-							}
-							publish(SOUTH);
-						}
-					}
-					
-					Thread.sleep(25);
-				}//End of for each loop
-				
-				return true;
-			}
-
-			@Override
-			protected void done() {
-				setIdleImage(unit, previousDirection);
-				super.done();
-			}
-
-			@Override
-			protected void process(List<Integer> arg0) {
-				if(changeImage){
-					Image currentImage = images[arg0.get(arg0.size() - 1)][currentFrame];
-					unit.setTexture(currentImage);
-					changeImage = false;
-				}
-				
-				//TODO: Add some way to manually change a unit's coordinates from here.
-				// Kind of like this line below.
-//				unit.setCoordinates(coordinates.x * Client.BLOCKSIZE, coordinates.y * Client.BLOCKSIZE);
-				previousDirection = arg0.get(arg0.size() - 1);
-			}
-			
-		}; //End of SwingWorker
+		Animator worker = new Animator(path, unit, speed);
 		
 		worker.execute();
 	}//End of animate method
 	
-}
+	
+	private class Animator extends SwingWorker<Boolean, Integer>{
+		
+		private Point coordinates;
+		private boolean changeImage = false;
+		private int frameCounter = 0;
+		private int currentFrame = 0;
+		private int previousDirection = 0;
+		private List<Point> path;
+		private Character unit;
+		private int speed;
+		
+		
+		public Animator(List<Point> path, Character unit, int speed){
+			this.path = path;
+			this.unit = unit;
+			this.speed = speed;
+			this.coordinates = unit.getLocation();
+		}
+		
+		@Override
+		protected Boolean doInBackground() throws Exception {
+			
+			for(Point p : path){
+				
+				if(p.x > unit.getLocation().x){
+					while(p.x > unit.getLocation().x){
+						coordinates.x++;
+						if(speed % frameCounter == 0){
+							changeImage = true;
+							if(++currentFrame >= 2)
+								currentFrame = 0;
+						}
+						publish(EAST);
+					}
+				}else if(p.x < unit.getLocation().x){
+					while(p.x < unit.getLocation().x){
+						coordinates.x--;
+						if(speed % frameCounter == 0){
+							changeImage = true;
+							if(++currentFrame >= 2)
+								currentFrame = 0;
+						}
+						publish(WEST);
+					}
+				}else if(p.y > unit.getLocation().y){
+					while(p.y > unit.getLocation().y){
+						coordinates.y++;
+						if(speed % frameCounter == 0){
+							changeImage = true;
+							if(++currentFrame >= 2)
+								currentFrame = 0;
+						}
+						publish(NORTH);
+					}
+				}else if(p.y < unit.getLocation().y){
+					while(p.y < unit.getLocation().y){
+						coordinates.y--;
+						if(speed % frameCounter == 0){
+							changeImage = true;
+							if(++currentFrame >= 2)
+								currentFrame = 0;
+						}
+						publish(SOUTH);
+					}
+				}
+				
+				Thread.sleep(25);
+			}//End of for each loop
+			
+			return true;
+		}
+
+		@Override
+		protected void done() {
+			setIdleImage(unit, previousDirection);
+			super.done();
+		}
+
+		@Override
+		protected void process(List<Integer> arg0) {
+			if(changeImage){
+				Image currentImage = images[arg0.get(arg0.size() - 1)][currentFrame];
+				unit.setTexture(currentImage);
+				changeImage = false;
+			}
+			
+			//TODO: Add some way to manually change a unit's coordinates from here.
+			// Kind of like this line below.
+//			unit.setCoordinates(coordinates.x * Client.BLOCKSIZE, coordinates.y * Client.BLOCKSIZE);
+			previousDirection = arg0.get(arg0.size() - 1);
+		}
+		
+	} //End of Animator inner-class
+	
+}//End of Animate Class
