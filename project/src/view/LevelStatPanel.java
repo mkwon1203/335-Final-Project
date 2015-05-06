@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import model.CharacterInterface;
 import model.Game;
+import model.HealthPotion;
 import model.Item;
 
 import java.io.File;
@@ -289,7 +290,12 @@ public class LevelStatPanel extends JPanel{
 				
 				else if (button.getName() == "useItem")
 				{
-					//if ()
+					if(!inventoryList.isSelectionEmpty() && game.isCharacterSelected())
+					{
+						String itemName = inventoryList.getSelectedValue();
+						
+						game.useItem(game.getSelectedCharacter(), itemName);
+					}
 				}
 				
 			}

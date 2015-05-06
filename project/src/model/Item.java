@@ -52,4 +52,15 @@ public abstract class Item implements Comparable<Item>{
 	{
 		return name.compareTo(other.getName());
 	}
+	
+	@Override
+	public boolean equals(Object other)
+	{
+		if (other instanceof Item)
+		{
+			return ((Item) other).getName().equals(name);
+		}
+		
+		return false;
+	}
 }

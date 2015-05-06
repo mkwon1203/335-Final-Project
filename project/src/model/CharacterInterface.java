@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import controller.Client;
+
 public abstract class CharacterInterface
 {
 	private String type;
@@ -253,6 +255,8 @@ public abstract class CharacterInterface
 	public void setLocation(Point newLocation)
 	{
 		location = newLocation;
+		if (screenCoordinate == null)
+			setScreenCoordinate(new Point(newLocation.y*Client.BLOCKSIZE, newLocation.x*Client.BLOCKSIZE));
 	}
 	
 	public void setScreenCoordinate(Point newCoordinate)
