@@ -139,9 +139,8 @@ public class Rat extends Enemy {
 		return true;
 	}
 
-	@Override
-	public String toStringGUI()
+	public boolean isMaxHealth()
 	{
-		return "R";
+		return getHealth() == RAT_HEALTH;
 	}
 }

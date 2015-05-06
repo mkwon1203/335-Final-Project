@@ -150,9 +150,8 @@ public class Knight extends Character {
 		return true;
 	}
 
-	@Override
-	public String toStringGUI()
+	public boolean isMaxHealth()
 	{
-		return "K";
+		return getHealth() == KNIGHT_HEALTH;
 	}
 }

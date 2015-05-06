@@ -49,15 +49,4 @@ public class Door extends Block
 				setImage("res/sprites/horizontalClosedDoor.png");
 		}
 	}
-
-	@Override
-	public String toStringGUI()
-	{
-		return "[ D ]";
-	}
-
-	@Override
-	public void draw()
-	{
-	}
 }

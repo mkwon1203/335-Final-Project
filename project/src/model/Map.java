@@ -150,7 +150,12 @@ public class Map
 					block = new Wall();
 				else if (blockInt == 2)
 					block = new Air();
+				else if (blockInt == 3)
+					block = new Door(Door.VERTICAL);
+				else if (blockInt == 4)
+					block = new Door(Door.HORIZONTAL);
 				else
+					//TODO: maybe turn this into exception
 					System.out.println("loadBlocks failed. critical error");
 				
 				toReturn[row][col] = block;
@@ -335,59 +340,5 @@ public class Map
 	public void clearCharacters()
 	{
 		// run through array, clear all characters off the blocks
-	}
-
-	public String toString()
-	{
-		String toReturn = "";
-
-		for (int i = 0; i < levelArray.length; i++)
-		{
-			for (int j = 0; j < levelArray[0].length; j++)
-			{
-				Block curr = levelArray[i][j];
-
-				toReturn += curr.toString() + " ";
-			}
-			toReturn += "\n";
-		}
-
-		return toReturn;
-	}
-	
-	public String toStringGUI()
-	{
-		String toReturn = "";
-
-		for (int i = 0; i < levelArray.length; i++)
-		{
-			for (int j = 0; j < levelArray[0].length; j++)
-			{
-				Block curr = levelArray[i][j];
-
-				toReturn += curr.toStringGUI() + " ";
-			}
-			toReturn += "\n";
-		}
-
-		return toReturn;
-	}
-	
-	public String toStringGUI2()
-	{
-		String toReturn = "";
-
-		for (int i = 0; i < levelArray[0].length; i++)
-		{
-			for (int j = 0; j < levelArray.length; j++)
-			{
-				Block curr = levelArray[j][i];
-
-				toReturn += curr.toStringGUI() + " ";
-			}
-			toReturn += "\n";
-		}
-
-		return toReturn;
 	}
 }

@@ -139,10 +139,8 @@ public class DarkWizard extends Enemy
 		return true;
 	}
 
-	@Override
-	public String toStringGUI()
+	public boolean isMaxHealth()
 	{
-		return "D";
+		return getHealth() == DARKWIZARD_HEALTH;
 	}
-
 }

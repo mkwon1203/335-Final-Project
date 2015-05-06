@@ -13,16 +13,4 @@ public class Wall extends Block
 		// placeholder values
 		super(true, false, "res/sprites/wall.png", "Wall");
 	}
-
-	@Override
-	public void draw()
-	{
-	}
-
-	@Override
-	public String toStringGUI()
-	{
-		return "[W]";
-	}
-
 }

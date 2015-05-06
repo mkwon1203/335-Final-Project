@@ -8,7 +8,7 @@ import controller.Client;
 public class Priest extends Character {
 
 	private static final int PRIEST_HEALTH = 100;
-	private static final int PRIEST_MANA = 0;
+	private static final int PRIEST_MANA = 100;
 	private static final int PRIEST_STRENGTH = 10;
 	private static final int PRIEST_DEFENCE = 10;
 	private static final int PRIEST_MOVEDISTANCE = 3;
@@ -97,14 +97,20 @@ public class Priest extends Character {
 		 * 
 		 * case 2 and 3 returns true
 		 */
-		if (getMana() == PRIEST_MANA || !isAlive())
+		if (!isAlive())
 			return false;
-		else if (getMana() + delta > PRIEST_MANA)
-			setMana(PRIEST_MANA);
-		else if (getMana() + delta <= 0)
-			setMana(0);
+		if (delta > 0)
+		{
+			if (getMana() == PRIEST_MANA)
+				return false;
+			else if (getMana() + delta > PRIEST_MANA)
+				setMana(PRIEST_MANA);
+		}
 		else
+		{
+			// delta is negative
 			setMana(getMana() + delta);
+		}
 		
 		return true;
 	}
@@ -145,9 +151,23 @@ public class Priest extends Character {
 		return true;
 	}
 
-	@Override
-	public String toStringGUI()
+	public boolean isMaxHealth()
 	{
-		return "P";
+		return getHealth() == PRIEST_HEALTH;
+	}
+	
+	public boolean useMagic(CharacterInterface target)
+	{
+		int magicCost = -10;
+		int magicEffect = 25;
+		
+		if (getMana() < magicCost)
+			return false;
+		
+		// subtract mana accordingly
+		addMana(magicCost);
+		
+		// priest will heal
+		return target.addHealth(magicEffect);
 	}
 }

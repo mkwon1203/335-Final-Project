@@ -137,9 +137,8 @@ public class Goblin extends Enemy {
 		return true;
 	}
 
-	@Override
-	public String toStringGUI()
+	public boolean isMaxHealth()
 	{
-		return "G";
+		return getHealth() == GOBLIN_HEALTH;
 	}
 }

@@ -152,10 +152,9 @@ public class Archer extends Character
 
 		return true;
 	}
-
-	@Override
-	public String toStringGUI()
+	
+	public boolean isMaxHealth()
 	{
-		return "A";
+		return getHealth() == ARCHER_HEALTH;
 	}
 }

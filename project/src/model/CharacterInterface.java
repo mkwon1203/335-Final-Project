@@ -279,5 +279,5 @@ public abstract class CharacterInterface
 		animated = animate;
 	}
 	
-	public abstract String toStringGUI();
+	public abstract boolean isMaxHealth();
 }

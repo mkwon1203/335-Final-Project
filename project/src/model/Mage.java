@@ -103,14 +103,20 @@ public class Mage extends Character {
 		 * 
 		 * case 2 and 3 returns true
 		 */
-		if (getMana() == MAGE_MANA || !isAlive())
+		if (!isAlive())
 			return false;
-		else if (getMana() + delta > MAGE_MANA)
-			setMana(MAGE_MANA);
-		else if (getMana() + delta <= 0)
-			setMana(0);
+		if (delta > 0)
+		{
+			if (getMana() == MAGE_MANA)
+				return false;
+			else if (getMana() + delta > MAGE_MANA)
+				setMana(MAGE_MANA);
+		}
 		else
+		{
+			// delta is negative
 			setMana(getMana() + delta);
+		}
 		
 		return true;
 	}
@@ -151,9 +157,23 @@ public class Mage extends Character {
 		return true;
 	}
 
-	@Override
-	public String toStringGUI()
+	public boolean isMaxHealth()
 	{
-		return "M";
+		return getHealth() == MAGE_HEALTH;
+	}
+	
+	public boolean useMagic(CharacterInterface target)
+	{
+		int magicCost = -10;
+		int magicEffect = -50;
+		
+		if (getMana() < magicCost)
+			return false;
+		
+		// subtract mana accordingly
+		addMana(magicCost);
+		
+		// mage will attack
+		return target.addHealth(magicEffect);
 	}
 }

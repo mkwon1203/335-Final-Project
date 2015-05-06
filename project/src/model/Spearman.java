@@ -151,9 +151,8 @@ public class Spearman extends Character {
 		return true;
 	}
 
-	@Override
-	public String toStringGUI()
+	public boolean isMaxHealth()
 	{
-		return "S";
+		return getHealth() == SPEARMAN_HEALTH;
 	}
 }

@@ -29,17 +29,6 @@ public class Game extends Observable
 	{
 		GAMEOVER = GAMEOVER_NOT;
 		turnCounter = 1;
-		
-//		List<Enemy> enemies = loadEnemies(mapName);
-//		map = new Map(mapName);
-//		map.setEnemyLocations(enemies);
-//		map.setPlayerLocations(playerCharacters);
-//		player = new Player(playerCharacters);
-//		enemy = new AIEasy(enemies);
-//		path = new PathfindAlgorithm(map);
-//		populateMap();
-//		currentCharacter = null;
-//		playerTurnStart();
 	}
 	
 	public void initializeMap(String mapName)
@@ -194,6 +183,8 @@ public class Game extends Observable
 		map.setCharacter(location, ch);
 
 		ch.setMoveAvailable(false);
+		setChanged();
+		notifyObservers(null);
 		return true;
 	}
 
@@ -255,9 +246,9 @@ public class Game extends Observable
 	{
 		// checks to make sure attacker and defender lies on same horizontal
 		// or vertical line
-		if (attacker.getLocation().x != defender.getLocation().x
-				&& attacker.getLocation().y != defender.getLocation().y)
-			return false;
+//		if (attacker.getLocation().x != defender.getLocation().x
+//				&& attacker.getLocation().y != defender.getLocation().y)
+//			return false;
 
 		// checks to make sure defender is within attackable distance of
 		// attacker
@@ -335,6 +326,8 @@ public class Game extends Observable
 		}
 
 		wait(attacker);
+		setChanged();
+		notifyObservers(null);
 		return true;
 	}
 
@@ -349,6 +342,64 @@ public class Game extends Observable
 	{
 		// do log function
 		return 100 - defence;
+	}
+	
+	public List<CharacterInterface> magicUsableCharacterList(CharacterInterface ch)
+	{
+		List<CharacterInterface> magicUsableCharacters = new ArrayList<CharacterInterface>();
+
+		if (ch.isAlive())
+		{
+			if (ch instanceof Priest)
+			{
+				List<Character> characters = player.getCharacters();
+
+				for (Character c : characters)
+				{
+					if (attackable(ch, c) && c.isAlive() && !c.isMaxHealth())
+						magicUsableCharacters.add(c);
+				}
+			}
+			else if (ch instanceof Mage)
+			{
+				List<Enemy> enemies = enemy.getEnemies();
+				
+				for (Enemy e : enemies)
+				{
+					if (attackable(ch, e) && e.isAlive())
+						magicUsableCharacters.add(e);
+				}
+			}
+		}
+
+		return magicUsableCharacters;
+	}
+
+	public boolean useMagic(CharacterInterface magicUser, CharacterInterface target)
+	{
+		if (!magicUser.isAlive() || !magicUser.getActionAvailable() ||
+				!magicUsableCharacterList(magicUser).contains(target))
+			return false;
+		
+		if ((magicUser instanceof Priest && target instanceof Enemy) ||
+				(magicUser instanceof Mage && target instanceof Character))
+			return false;
+
+		boolean magicUsed = false;
+		// magic sequence start
+		if (magicUser instanceof Priest)
+			magicUsed = ((Priest) magicUser).useMagic(target);
+		else if (magicUser instanceof Mage)
+			magicUsed = ((Mage) magicUser).useMagic(target);
+
+		if (magicUsed)
+		{
+			wait(magicUser);
+			setChanged();
+			notifyObservers(null);
+		}
+		
+		return magicUsed;
 	}
 
 	public boolean useItem(CharacterInterface ch, String itemName)
@@ -374,7 +425,11 @@ public class Game extends Observable
 		boolean itemUsed = player.useItem(ch, item);
 
 		if (itemUsed)
+		{
 			wait(ch);
+			setChanged();
+			notifyObservers(null);
+		}
 
 		return itemUsed;
 	}
@@ -389,6 +444,8 @@ public class Game extends Observable
 		ch.setMoveAvailable(false);
 		ch.setActionAvailable(false);
 		ch.setAvailable(false);
+		setChanged();
+		notifyObservers(null);
 		return true;
 	}
 
@@ -533,15 +590,5 @@ public class Game extends Observable
 		}
 
 		return playerDead || enemyDead || timeoutPlayerWin || timeoutEnemyWin;
-	}
-
-	public String toStringGUI()
-	{
-		return map.toStringGUI();
-	}
-
-	public String toStringGUI2()
-	{
-		return map.toStringGUI2();
 	}
 }
