@@ -24,6 +24,7 @@ public abstract class CharacterInterface
 	private boolean moveAvailable;
 	private boolean actionAvailable;
 	private String textureFilePath;
+	private boolean animated;
 
 	public CharacterInterface(String type, String description, int health,
 			int mana, int strength, int defence, Point location,
@@ -250,6 +251,16 @@ public abstract class CharacterInterface
 	
 	public void setTexture(Image texture){
 		this.texture = texture;
+	}
+	
+	public boolean isAnimated()
+	{
+		return animated;
+	}
+	
+	public void setAnimated(boolean animate)
+	{
+		animated = animate;
 	}
 	
 	public abstract String toStringGUI();
