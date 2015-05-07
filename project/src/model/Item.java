@@ -25,29 +25,53 @@ public abstract class Item implements Comparable<Item>{
 		}
 	}
 	
+	/**
+	 * Returns the cost of the item
+	 * @return	cost of item as int
+	 */
 	public int getCost()
 	{
 		return cost;
 	}
 	
+	/**
+	 * Returns the name of the item
+	 * @return	name of item as String
+	 */
 	public String getName()
 	{
 		return name;
 	}
 	
+	/**
+	 * Returns the description of the item
+	 * @return	description of item as String
+	 */
 	public String getDescription()
 	{
 		return description;
 	}
 	
+	/**
+	 * Returns the image of the item
+	 * @return	image of item as Image object
+	 */
 	public Image getTexture()
 	{
 		return texture;
 	}
 	
+	/**
+	 * The item uses itself on the given character ch and returns
+	 * a boolean value to declare whether or not using the item
+	 * was succesful
+	 * @param ch	the character that the item will be used on
+	 * @return true if item was succesfully used
+	 * 			false if item was not used
+	 */
 	public abstract boolean useItem(CharacterInterface ch);
 	
-	// comparing is done with the name of the item
+	
 	public int compareTo(Item other)
 	{
 		return name.compareTo(other.getName());

@@ -7,11 +7,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Queue;
 import java.util.Random;
 
 public class Game extends Observable implements Serializable
@@ -117,7 +114,6 @@ public class Game extends Observable implements Serializable
 		return turnCounter;
 	}
 
-	// returns the map object
 	public Map getMap()
 	{
 		return map;
@@ -274,12 +270,6 @@ public class Game extends Observable implements Serializable
 	public boolean attackable(CharacterInterface attacker,
 			CharacterInterface defender)
 	{
-		// checks to make sure attacker and defender lies on same horizontal
-		// or vertical line
-		// if (attacker.getLocation().x != defender.getLocation().x
-		// && attacker.getLocation().y != defender.getLocation().y)
-		// return false;
-
 		// checks to make sure defender is within attackable distance of
 		// attacker
 		int distance = distance(attacker.getLocation(), defender.getLocation());
@@ -289,9 +279,6 @@ public class Game extends Observable implements Serializable
 
 	public int distance(Point initialPoint, Point finalPoint)
 	{
-		/*
-		 * needs revision when moveDistance can be >1 later on maybe
-		 */
 		int horizontalDistance = Math.abs(initialPoint.x - finalPoint.x);
 		int verticalDistance = Math.abs(initialPoint.y - finalPoint.y);
 

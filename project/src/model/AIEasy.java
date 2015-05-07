@@ -1,12 +1,13 @@
 package model;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
 import controller.SoundEffects;
 
-public class AIEasy implements AI
+public class AIEasy implements AI, Serializable
 {
 	List<Enemy> enemies;
 	private Animation animate;
@@ -16,12 +17,27 @@ public class AIEasy implements AI
 		enemies = enemyInput;
 	}
 
+	/**
+	 * Returns the list of units that the AI controls
+	 * @return	List of Enemy objeects belonging to the AI
+	 */
 	@Override
 	public List<Enemy> getEnemies()
 	{
 		return enemies;
 	}
 
+	/**
+	 * The AI will take in a Game object and make its move with
+	 * all of its units inside this method.
+	 * AIEasy will cycle through all of its units. For each unit
+	 * it will attempt to attack any nearby enemies, which would be
+	 * Player's Characters. If no Character is within range, then
+	 * the unit will move in a random direction and again check
+	 * if a Character is within attacking range. If so, it will attack
+	 * and otherwise, it will wait for the current turn.
+	 * @param currentGame	The game object that AI will use to make its moves
+	 */
 	@Override
 	public void makeMove(Game currentGame)
 	{

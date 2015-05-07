@@ -150,10 +150,6 @@ public class Map
 					block = new Wall();
 				else if (blockInt == 2)
 					block = new Air();
-				else if (blockInt == 3)
-					block = new Door(Door.VERTICAL);
-				else if (blockInt == 4)
-					block = new Door(Door.HORIZONTAL);
 				else
 					//TODO: maybe turn this into exception
 					System.out.println("loadBlocks failed. critical error");

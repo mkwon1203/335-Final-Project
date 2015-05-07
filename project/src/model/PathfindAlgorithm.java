@@ -12,15 +12,25 @@ public class PathfindAlgorithm
 	private Map map;
 	private Node[][] g; // graph of Nodes
 
+	/**
+	 * Constructor of PathfindAlgorith, taking in a map object as input
+	 * @param map
+	 */
 	public PathfindAlgorithm(Map map)
 	{
 		this.map = map;
 		g = new Node[map.getLevelRow()][map.getLevelCol()];
 	}
 
+	/**
+	 * Returns list of Points that the character will follow to reach
+	 * the given end point
+	 * @param ch	Character to be moving
+	 * @param end	Point that the character will try to reach
+	 * @return		List of points outlining the path of character to reach the given point
+	 */
 	public List<Point> findPath(CharacterInterface ch, Point end)
 	{
-		// TODO: replace with PathNotFoundException ?
 		Point start = ch.getLocation();
 		if (!movablePositions(start, ch.getMoveDistance()).contains(end))
 			return null;
@@ -39,6 +49,12 @@ public class PathfindAlgorithm
 		return toReturn;
 	}
 
+	/**
+	 * Helper method to create a "graph" of Nodes to use inside
+	 * movablePositions method
+	 * @param p	the origin point from which the graph will be created
+	 * @param moveDistance	The distance away from the origin point that the Nodes must exist at
+	 */
 	private void populateGraph(Point p, int moveDistance)
 	{
 		int currentRow = p.x;
@@ -62,6 +78,12 @@ public class PathfindAlgorithm
 		}
 	}
 
+	/**
+	 * Returns list of all Points that can be reached from given point, in regards to given moveDistance
+	 * @param start	Point to start from
+	 * @param moveDistance	How far you can go from the start point
+	 * @return	List of points that you can move to 
+	 */
 	public List<Point> movablePositions(Point start, int moveDistance)
 	{
 		populateGraph(start, moveDistance);
@@ -98,8 +120,10 @@ public class PathfindAlgorithm
 		return toReturn;
 	}
 
-	/*
-	 * helper method, returns all adjacent nodes to the input node N
+	/**
+	 * Helper method that returns all nodes adjacent to given node n
+	 * @param n	Given node to find all adjacent nodes of
+	 * @return	List of all adjacent nodes to n
 	 */
 	private List<Node> adj(Node n)
 	{
@@ -123,6 +147,10 @@ public class PathfindAlgorithm
 		return toReturn;
 	}
 
+	/**
+	 * private class to be used in the graph
+	 *
+	 */
 	private class Node
 	{
 		private Point key;

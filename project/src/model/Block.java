@@ -73,34 +73,57 @@ public abstract class Block
 	}
 
 	/**
-	 * Returns the texture of 
-	 * @return
+	 * Returns the texture of the block as an Image
+	 * @return	Image of the block
 	 */
 	public Image getTexture()
 	{
 		return texture;
 	}
 
+	/**
+	 * Returns whether or not a character is currently on the block.
+	 * 
+	 * @return true if character is on the block
+	 * 			false if there is no character on the block
+	 */
 	public boolean isOccupied()
 	{
 		return character != null;
 	}
 
+	/**
+	 * Sets the character on the block to be the input character, ch
+	 * @param ch	the CharacterInterface to be put on the block
+	 */
 	public void setCharacter(CharacterInterface ch)
 	{
 		character = ch;
 	}
 
+	/**
+	 * Sets the block to be the input solid value
+	 * @param solid	the input boolean to determine whether the block will
+	 * 			become solid or not
+	 */
 	public void setSolid(boolean solid)
 	{
 		solidState = solid;
 	}
 
+	/**
+	 * Sets the block's animated value
+	 * @param animate	the new animated value of the block
+	 */
 	public void setAnimated(boolean animate)
 	{
 		animated = animate;
 	}
 
+	/**
+	 * Sets the block's Image value
+	 * @param fileName	the file path of the new Image for the block
+	 */
 	public void setImage(String fileName)
 	{
 		try
