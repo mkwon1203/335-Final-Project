@@ -133,6 +133,7 @@ public class MainView extends JFrame implements Observer{
 		}else if(Client.GAMESTATE == 1){
 			
 			level.drawMap();
+			level.requestFocusInWindow();
 			//level.getStatPanel().draw();
 			
 		}
