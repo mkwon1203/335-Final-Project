@@ -101,6 +101,7 @@ public class TitleScreenGameOverPanel extends JPanel
 		// TODO: fill out the label
 		aboutLabel = new JLabel();
 		aboutLabel.setText("GAME OVER");
+		aboutLabel.setForeground(Color.BLACK);
 	}
 	
 	private void addLabel()

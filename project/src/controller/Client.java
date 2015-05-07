@@ -73,6 +73,7 @@ public class Client implements Runnable {
 			if(game.isGameOver()){
 				//isRunning = false;
 				GAMESTATE = 0;
+				game.resetGame();
 				TitleScreen.TITLESTATE = 6;
 				draw();
 				System.out.println("Game Ended");

@@ -599,7 +599,7 @@ public class Game extends Observable
 		boolean timeoutPlayerWin = false;
 		boolean timeoutEnemyWin = false;
 
-		if (turnCounter > 200)
+		if (turnCounter > 2)
 		{
 			// determine cumulative health of player units
 			int playerHealth = 0;
@@ -631,5 +631,10 @@ public class Game extends Observable
 		}
 
 		return playerDead || enemyDead || timeoutPlayerWin || timeoutEnemyWin;
+	}
+	
+	public void resetGame()
+	{
+		turnCounter = 1;
 	}
 }
