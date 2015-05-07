@@ -7,12 +7,12 @@ import controller.Client;
 
 public class Knight extends Character {
 	private static final int KNIGHT_HEALTH = 100;
-	private static final int KNIGHT_MANA = 0;
+	private static final int KNIGHT_MANA = 100;
 	private static final int KNIGHT_STRENGTH = 5;
 	private static final int KNIGHT_DEFENCE = 10;
 	private static final int KNIGHT_MOVEDISTANCE = 2;
 	private static final int KNIGHT_ATTACKDISTANCE = 1;
-	private static final String KNIGHT_IMAGEPATH = "res/sprites/units/knight.png";
+	private static final String KNIGHT_IKNIGHTPATH = "res/sprites/units/knight.png";
 	private static final String KNIGHT_DESCRIPTION = "Knights are not very mobile, and their attacks are average, but they can survive more attacks than anyone else.";
 	private static final String KNIGHT_ATTACKSOUND = "res/sounds/sword_sound.wav";
 	
@@ -20,7 +20,7 @@ public class Knight extends Character {
 
 		super("Knight", KNIGHT_DESCRIPTION, KNIGHT_HEALTH, KNIGHT_MANA,
 				KNIGHT_STRENGTH, KNIGHT_DEFENCE, initialPosition, true,
-				KNIGHT_MOVEDISTANCE, KNIGHT_ATTACKDISTANCE, KNIGHT_IMAGEPATH, KNIGHT_ATTACKSOUND);
+				KNIGHT_MOVEDISTANCE, KNIGHT_ATTACKDISTANCE, KNIGHT_IKNIGHTPATH, KNIGHT_ATTACKSOUND);
 	}
 	
 	public static String getUnitDescription()
@@ -29,7 +29,7 @@ public class Knight extends Character {
 	}
 	
 	public static Image returnTexture(){
-		Image[][] knightSprites = model.LoadSprites.loadSpriteSheet(KNIGHT_IMAGEPATH, 4, 3, Client.BLOCKSIZE);
+		Image[][] knightSprites = model.LoadSprites.loadSpriteSheet(KNIGHT_IKNIGHTPATH, 4, 3, Client.BLOCKSIZE);
 		return knightSprites[0][1];
 	}
 
@@ -99,14 +99,20 @@ public class Knight extends Character {
 		 * 
 		 * case 2 and 3 returns true
 		 */
-		if (getMana() == KNIGHT_MANA || !isAlive())
+		if (!isAlive())
 			return false;
-		else if (getMana() + delta > KNIGHT_MANA)
-			setMana(KNIGHT_MANA);
-		else if (getMana() + delta <= 0)
-			setMana(0);
+		if (delta > 0)
+		{
+			if (getMana() == KNIGHT_MANA)
+				return false;
+			else if (getMana() + delta > KNIGHT_MANA)
+				setMana(KNIGHT_MANA);
+		}
 		else
+		{
+			// delta is negative
 			setMana(getMana() + delta);
+		}
 		
 		return true;
 	}
@@ -150,5 +156,16 @@ public class Knight extends Character {
 	public boolean isMaxHealth()
 	{
 		return getHealth() == KNIGHT_HEALTH;
+	}
+	
+	public boolean useMagic(Point p)
+	{
+		int magicCost = -50;
+		
+		if (getMana() < magicCost)
+			return false;
+		
+		addMana(magicCost);
+		return true;
 	}
 }

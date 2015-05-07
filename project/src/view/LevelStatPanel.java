@@ -3,10 +3,14 @@ package view;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import model.Block;
 import model.CharacterInterface;
 import model.Game;
 import model.HealthPotion;
 import model.Item;
+import model.Knight;
+import model.Mage;
+import model.Priest;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +19,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -38,7 +43,7 @@ public class LevelStatPanel extends JPanel
 	private Image statsScreen;
 
 	private boolean attackSelected;
-	
+
 	private CharacterInterface previousCharacter;
 
 	public LevelStatPanel(Game game)
@@ -312,7 +317,7 @@ public class LevelStatPanel extends JPanel
 			waitButton.setBounds(500, 60, 0, 0);
 			actualAttackButton.setBounds(350, 15, attackImage.getWidth(null),
 					attackImage.getHeight(null));
-			backButton.setBounds(335, 60, backImage.getWidth(null),
+			backButton.setBounds(350, 60, backImage.getWidth(null),
 					backImage.getHeight(null));
 			skillButton.setBounds(500, 15, skillImage.getWidth(null),
 					skillImage.getHeight(null));
@@ -455,18 +460,39 @@ public class LevelStatPanel extends JPanel
 				{
 					if (game.isPlayersTurn() && game.isCharacterSelected())
 					{
-						List<CharacterInterface> magicUsableCharacters = game
-								.magicUsableCharacterList(game
-										.getSelectedCharacter());
-						for (CharacterInterface c : magicUsableCharacters)
+						if (game.getSelectedCharacter() instanceof Mage
+								|| game.getSelectedCharacter() instanceof Priest)
 						{
-							if (game.useMagic(game.getSelectedCharacter(), c))
+							List<CharacterInterface> magicUsableCharacters = game
+									.magicUsableCharacterList(game
+											.getSelectedCharacter());
+							for (CharacterInterface c : magicUsableCharacters)
 							{
-								System.out.println("magic successful");
-								// TODO: maybe uncomment these
-								attackSelected = false;
-								draw();
-								break;
+								if (game.useMagic(game.getSelectedCharacter(),
+										c))
+								{
+									System.out.println("magic successful");
+									// TODO: maybe uncomment these
+									attackSelected = false;
+									draw();
+									break;
+								}
+							}
+						}
+						else if (game.getSelectedCharacter() instanceof Knight)
+						{
+							List<Point> adjacentBlocks = game
+									.useMagicAdjacentBlock(game
+											.getSelectedCharacter());
+							for (Point p : adjacentBlocks)
+							{
+								if (game.useMagic(game.getSelectedCharacter(), p))
+								{
+									System.out.println("knight magic scuccessful");
+									attackSelected = false;
+									draw();
+									break;
+								}
 							}
 						}
 					}

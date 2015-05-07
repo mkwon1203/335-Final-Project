@@ -30,7 +30,7 @@ public class Game extends Observable
 		GAMEOVER = GAMEOVER_NOT;
 		turnCounter = 1;
 	}
-	
+
 	public void initializeMap(String mapName)
 	{
 		List<Enemy> enemies = loadEnemies(mapName);
@@ -39,7 +39,7 @@ public class Game extends Observable
 		enemy = new AIEasy(enemies);
 		path = new PathfindAlgorithm(map);
 	}
-	
+
 	public void initializePlayer(List<Character> playerCharacters)
 	{
 		map.setPlayerLocations(playerCharacters);
@@ -63,7 +63,7 @@ public class Game extends Observable
 			if (!alreadySelected.contains(i))
 			{
 				alreadySelected.add(i);
-				
+
 				String enemyName = enemyListString.get(i);
 				if (enemyName.equalsIgnoreCase("Goblin"))
 					enemies.add(new Goblin(null));
@@ -200,14 +200,14 @@ public class Game extends Observable
 	{
 		return move(ch, new Point(row, col));
 	}
-	
+
 	public boolean canMoveTo(CharacterInterface ch, Point location)
 	{
 		boolean movable = movablePositionList(ch).contains(location);
-		
+
 		if (!ch.getMoveAvailable() || !movable || !ch.isAlive())
 			return false;
-		
+
 		return true;
 	}
 
@@ -254,9 +254,9 @@ public class Game extends Observable
 	{
 		// checks to make sure attacker and defender lies on same horizontal
 		// or vertical line
-//		if (attacker.getLocation().x != defender.getLocation().x
-//				&& attacker.getLocation().y != defender.getLocation().y)
-//			return false;
+		// if (attacker.getLocation().x != defender.getLocation().x
+		// && attacker.getLocation().y != defender.getLocation().y)
+		// return false;
 
 		// checks to make sure defender is within attackable distance of
 		// attacker
@@ -325,12 +325,12 @@ public class Game extends Observable
 
 		// modify the defender health
 		defender.addHealth(-actualAttack);
-		
+
 		// add money to player if he killed an enemy unit
 		if (defender instanceof Enemy)
 		{
 			if (!defender.isAlive())
-				player.setMoney(((Enemy)defender).getValue());
+				player.setMoney(((Enemy) defender).getValue());
 		}
 
 		wait(attacker);
@@ -351,8 +351,9 @@ public class Game extends Observable
 		// do log function
 		return 100 - defence;
 	}
-	
-	public List<CharacterInterface> magicUsableCharacterList(CharacterInterface ch)
+
+	public List<CharacterInterface> magicUsableCharacterList(
+			CharacterInterface ch)
 	{
 		List<CharacterInterface> magicUsableCharacters = new ArrayList<CharacterInterface>();
 
@@ -371,7 +372,7 @@ public class Game extends Observable
 			else if (ch instanceof Mage)
 			{
 				List<Enemy> enemies = enemy.getEnemies();
-				
+
 				for (Enemy e : enemies)
 				{
 					if (attackable(ch, e) && e.isAlive())
@@ -383,14 +384,15 @@ public class Game extends Observable
 		return magicUsableCharacters;
 	}
 
-	public boolean useMagic(CharacterInterface magicUser, CharacterInterface target)
+	public boolean useMagic(CharacterInterface magicUser,
+			CharacterInterface target)
 	{
-		if (!magicUser.isAlive() || !magicUser.getActionAvailable() ||
-				!magicUsableCharacterList(magicUser).contains(target))
+		if (!magicUser.isAlive() || !magicUser.getActionAvailable()
+				|| !magicUsableCharacterList(magicUser).contains(target))
 			return false;
-		
-		if ((magicUser instanceof Priest && target instanceof Enemy) ||
-				(magicUser instanceof Mage && target instanceof Character))
+
+		if ((magicUser instanceof Priest && target instanceof Enemy)
+				|| (magicUser instanceof Mage && target instanceof Character))
 			return false;
 
 		boolean magicUsed = false;
@@ -406,7 +408,51 @@ public class Game extends Observable
 			setChanged();
 			notifyObservers(null);
 		}
-		
+
+		return magicUsed;
+	}
+
+	public List<Point> useMagicAdjacentBlock(CharacterInterface ch)
+	{
+		Point p = ch.getLocation();
+		Point top = new Point(p.x - 1, p.y);
+		Point left = new Point(p.x, p.y - 1);
+		Point right = new Point(p.x, p.y + 1);
+		Point bot = new Point(p.x + 1, p.y);
+
+		List<Point> toReturn = new ArrayList<Point>();
+
+		if (ch instanceof Knight)
+		{
+			if (map.verifyBounds(top) && map.isSolid(top))
+				toReturn.add(top);
+			if (map.verifyBounds(left) && map.isSolid(left))
+				toReturn.add(left);
+			if (map.verifyBounds(right) && map.isSolid(right))
+				toReturn.add(right);
+			if (map.verifyBounds(bot) && map.isSolid(bot))
+				toReturn.add(bot);
+		}
+		return toReturn;
+	}
+
+	public boolean useMagic(CharacterInterface ch, Point p)
+	{
+		if (!ch.isAlive() || !(ch instanceof Knight)
+				|| !useMagicAdjacentBlock(ch).contains(p))
+			return false;
+
+		if (!(map.getBlock(p) instanceof Wall))
+			return false;
+
+		boolean magicUsed = ((Knight) ch).useMagic(p);
+		if (magicUsed)
+		{
+			map.setBlock(p, new Floor());
+			wait(ch);
+			setChanged();
+			notifyObservers(null);
+		}
 		return magicUsed;
 	}
 
