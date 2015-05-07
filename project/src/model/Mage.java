@@ -161,14 +161,14 @@ public class Mage extends Character {
 	
 	public boolean useMagic(CharacterInterface target)
 	{
-		int magicCost = -33;
+		int magicCost = 33;
 		int magicEffect = -15;
 		
 		if (getMana() < magicCost)
 			return false;
 		
 		// subtract mana accordingly
-		addMana(magicCost);
+		addMana(-magicCost);
 		
 		// mage will attack
 		return target.addHealth(magicEffect);

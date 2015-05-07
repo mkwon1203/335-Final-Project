@@ -163,14 +163,14 @@ public class Priest extends Character {
 	
 	public boolean useMagic(CharacterInterface target)
 	{
-		int magicCost = -10;
+		int magicCost = 10;
 		int magicEffect = 20;
 		
 		if (getMana() < magicCost)
 			return false;
 		
 		// subtract mana accordingly
-		addMana(magicCost);
+		addMana(-magicCost);
 		
 		// priest will heal
 		return target.addHealth(magicEffect);

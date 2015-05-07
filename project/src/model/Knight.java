@@ -160,12 +160,12 @@ public class Knight extends Character {
 	
 	public boolean useMagic(Point p)
 	{
-		int magicCost = -50;
+		int magicCost = 50;
 		
 		if (getMana() < magicCost)
 			return false;
 		
-		addMana(magicCost);
+		addMana(-magicCost);
 		return true;
 	}
 }
