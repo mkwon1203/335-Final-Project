@@ -1,18 +1,8 @@
 package view;
 
-import controller.Client;
 import controller.SoundEffects;
-import model.*;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.io.*;
-import java.util.Observable;
-import java.util.Observer;
-
-import javax.imageio.ImageIO;
-import javax.swing.event.*;
 import javax.swing.*;
 
 public class TitleScreen extends JPanel
