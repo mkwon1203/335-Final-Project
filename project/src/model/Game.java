@@ -51,19 +51,27 @@ public class Game extends Observable
 
 	public List<Enemy> loadEnemies(String levelName)
 	{
+		int enemyCount = LoadGame.loadEnemySpawns(levelName).size();
 		List<String> enemyListString = LoadGame.loadEnemies(levelName);
 		List<Enemy> enemies = new ArrayList<Enemy>();
+		List<Integer> alreadySelected = new ArrayList<Integer>();
+		Random rand = new Random();
 
-		for (String s : enemyListString)
+		while (enemies.size() < enemyCount)
 		{
-			if (s.equalsIgnoreCase("Goblin"))
-				enemies.add(new Goblin(null));
-			else if (s.equalsIgnoreCase("Rat"))
-				enemies.add(new Rat(null));
-			else if (s.equalsIgnoreCase("DarkWizard"))
-				enemies.add(new DarkWizard(null));
-			else
-				System.out.println("FATAL ERROR: LOAD ENEMY FAILED");
+			int i = rand.nextInt(enemyListString.size());
+			if (!alreadySelected.contains(i))
+			{
+				alreadySelected.add(i);
+				
+				String enemyName = enemyListString.get(i);
+				if (enemyName.equalsIgnoreCase("Goblin"))
+					enemies.add(new Goblin(null));
+				else if (enemyName.equalsIgnoreCase("Rat"))
+					enemies.add(new Rat(null));
+				else if (enemyName.equalsIgnoreCase("DarkWizard"))
+					enemies.add(new DarkWizard(null));
+			}
 		}
 
 		return enemies;
