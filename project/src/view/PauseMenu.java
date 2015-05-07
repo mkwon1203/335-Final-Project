@@ -6,7 +6,10 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -36,6 +39,19 @@ public class PauseMenu extends JPanel{
 		addButton();
 	}
 	
+	public boolean saveGame(String saveFileName){
+		try{
+			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(saveFileName));
+			os.writeObject(MainView.getMainView().getGame());
+			os.close();
+			return true;
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
     
 	private void loadButton() {
         try
@@ -105,7 +121,7 @@ public class PauseMenu extends JPanel{
                 
 				if (button.getName() == "save")
 				{
-					
+					saveGame("SavedGame.bin");
 				}
 				else if (button.getName() == "resume"){
 					Client.GAMESTATE = 1;

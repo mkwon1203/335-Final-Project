@@ -1,6 +1,11 @@
 package model;
 
 import java.awt.Point;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -9,15 +14,18 @@ import java.util.Observable;
 import java.util.Queue;
 import java.util.Random;
 
-public class Game extends Observable
+public class Game extends Observable implements Serializable
 {
 	private int turnCounter;
 	private Player player;
 	private AI enemy;
 	private Map map;
 	private PathfindAlgorithm path;
+	private String saveFileName = "SavedGame.bin";
 	private CharacterInterface currentCharacter; // currently selected
 													// character, mainly
+	
+	
 	public static int GAMEOVER;
 	public static final int GAMEOVER_NOT = -1;
 	public static final int GAMEOVER_PLAYERWIN_DEATHMATCH = 1;
@@ -29,6 +37,20 @@ public class Game extends Observable
 	{
 		GAMEOVER = GAMEOVER_NOT;
 		turnCounter = 1;
+	}
+	
+	public boolean saveGame(){
+		try{
+			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(saveFileName));
+			os.writeObject(this);
+			os.close();
+			return true;
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public void initializeMap(String mapName)
