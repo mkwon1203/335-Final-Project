@@ -8,6 +8,7 @@ import model.Game;
 import model.Block;
 import model.Character;
 import model.Enemy;
+import model.InvalidLocationException;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -185,30 +186,32 @@ public class Level extends JPanel
 			case 1:
 				if(Client.GAMESTATE == 1){
 					
+					try{
 					clickLocation = new Point((int)((e.getY() - Camera.CAMERAPOSITION.y) / Client.BLOCKSIZE), (int)((e.getX() - Camera.CAMERAPOSITION.x) / Client.BLOCKSIZE));
-					System.out.println("Click location: " + clickLocation);
-					Block b = game.getMap().getBlock(clickLocation);
-					
-					if(game.isPlayersTurn()){
+						System.out.println("Click location: " + clickLocation);
+						Block b = game.getMap().getBlock(clickLocation);
 						
-						if(game.isCharacterSelected()){
-							if(!b.isOccupied()){
-								if(!game.getSelectedCharacter().isAnimated()){
-									if(game.canMoveTo(game.getSelectedCharacter(), clickLocation)){
-										game.getSelectedCharacter().setAnimated(true);
-										animation = new Animation(game.findPath(game.getSelectedCharacter(), clickLocation), game.getSelectedCharacter());
-										animation.execute();
-										game.move(game.getSelectedCharacter(), clickLocation);
+						if(game.isPlayersTurn()){
+							
+							if(game.isCharacterSelected()){
+								if(!b.isOccupied()){
+									if(!game.getSelectedCharacter().isAnimated()){
+										if(game.canMoveTo(game.getSelectedCharacter(), clickLocation)){
+											game.getSelectedCharacter().setAnimated(true);
+											animation = new Animation(game.findPath(game.getSelectedCharacter(), clickLocation), game.getSelectedCharacter());
+											animation.execute();
+											game.move(game.getSelectedCharacter(), clickLocation);
+										}
 									}
 								}
 							}
+							
+							if(b.isOccupied())
+								if(!game.getCharacterAt(clickLocation.x, clickLocation.y).isAnimated())
+									game.setSelectedCharacter(game.getCharacterAt(clickLocation.x, clickLocation.y));
+							
 						}
-						
-						if(b.isOccupied())
-							if(!game.getCharacterAt(clickLocation.x, clickLocation.y).isAnimated())
-								game.setSelectedCharacter(game.getCharacterAt(clickLocation.x, clickLocation.y));
-						
-					}
+					}catch(InvalidLocationException ex){ }
 				}
 				break;
 				

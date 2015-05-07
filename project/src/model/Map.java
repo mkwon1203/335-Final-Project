@@ -201,21 +201,21 @@ public class Map
 	 * @return the Block object at the given point p null if the coordinate is
 	 *         out of bounds
 	 */
-	public Block getBlock(Point p)
+	public Block getBlock(Point p) throws InvalidLocationException
 	{
 		// check to make sure p lies within boundary of 2D array
 		if (!verifyBounds(p))
 			// point p is not a valid point in relation to map
-			return null;
+			throw new InvalidLocationException();
 
 		return levelArray[p.x][p.y];
 	}
 	
 	// overloaded method, using 2 ints for x and y instead of point
-	public Block getBlock(int x, int y)
+	public Block getBlock(int x, int y) throws InvalidLocationException
 	{
 		if (!verifyBounds(x,y))
-			return null;
+			throw new InvalidLocationException();
 		
 		return levelArray[x][y];
 	}
