@@ -81,12 +81,14 @@ public class SoundEffects {
    	
    	public static void removeSoundClip(String soundFileName){
    		
-   		for(int i = 0; i < clipNames.size(); i++){
-   			if(clipNames.get(i).equals(soundFileName)){
-   				clips.get(i).stop();
-   				clips.remove(i);
-   				clipNames.remove(i);
-   			}
+   		if(clips.size() > 0){
+	   		for(int i = 0; i < clipNames.size(); i++){
+	   			if(clipNames.get(i).equals(soundFileName)){
+	   				clips.get(i).stop();
+	   				clips.remove(i);
+	   				clipNames.remove(i);
+	   			}
+	   		}
    		}
    		
    	}

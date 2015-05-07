@@ -129,6 +129,7 @@ public class TitleScreenGameOverPanel extends JPanel
 				if (button.getName() == "back")
 				{
 					SoundEffects.clearSoundClips();
+					SoundEffects.addSound("res/music/8bitDungeonTitle.wav");
 					TitleScreen.TITLESTATE = 0;
 					title.draw();
 				}
