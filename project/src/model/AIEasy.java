@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.util.List;
 import java.util.Random;
 
+import controller.SoundEffects;
+
 public class AIEasy implements AI
 {
 	List<Enemy> enemies;
@@ -57,8 +59,10 @@ public class AIEasy implements AI
 					attackable = currentGame.attackableCharacterList(e);
 					if (attackable.isEmpty())
 						currentGame.wait(e);
-					else
+					else{
 						currentGame.attack(e, attackable.get(0));
+						SoundEffects.addSound(e.getAttackSoundPath());
+					}
 				}
 				else
 				{
@@ -70,6 +74,7 @@ public class AIEasy implements AI
 			{
 				// attack right away
 				currentGame.attack(e, attackable.get(0));
+				SoundEffects.addSound(e.getAttackSoundPath());
 			}
 		}
 	}

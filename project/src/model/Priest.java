@@ -7,19 +7,20 @@ import controller.Client;
 
 public class Priest extends Character {
 
-	private static final int PRIEST_HEALTH = 100;
+	private static final int PRIEST_HEALTH = 25;
 	private static final int PRIEST_MANA = 100;
-	private static final int PRIEST_STRENGTH = 10;
-	private static final int PRIEST_DEFENCE = 10;
+	private static final int PRIEST_STRENGTH = 4;
+	private static final int PRIEST_DEFENCE = 3;
 	private static final int PRIEST_MOVEDISTANCE = 3;
-	private static final int PRIEST_ATTACKDISTANCE = 1;
+	private static final int PRIEST_ATTACKDISTANCE = 3;
 	private static final String PRIEST_IMAGEPATH = "res/sprites/units/priest.png";
 	private static final String PRIEST_DESCRIPTION = "Priests are passive people. They don't believe in injuring other people or even monsters. They dedicate themselves to providing aid for the people that are close to them.";
-
+	private static final String PRIEST_ATTACKSOUND = "res/sounds/1-up.wav";
+	
 	public Priest(Point initialPosition) {
 		super("Priest", PRIEST_DESCRIPTION, PRIEST_HEALTH, PRIEST_MANA,
 				PRIEST_STRENGTH, PRIEST_DEFENCE, initialPosition, true,
-				PRIEST_MOVEDISTANCE, PRIEST_ATTACKDISTANCE, PRIEST_IMAGEPATH);
+				PRIEST_MOVEDISTANCE, PRIEST_ATTACKDISTANCE, PRIEST_IMAGEPATH, PRIEST_ATTACKSOUND);
 	}
 	
 	public static String getUnitDescription()
@@ -159,7 +160,7 @@ public class Priest extends Character {
 	public boolean useMagic(CharacterInterface target)
 	{
 		int magicCost = -10;
-		int magicEffect = 25;
+		int magicEffect = 20;
 		
 		if (getMana() < magicCost)
 			return false;

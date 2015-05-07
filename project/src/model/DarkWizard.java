@@ -6,12 +6,13 @@ public class DarkWizard extends Enemy
 {
 	private static final int DARKWIZARD_HEALTH = 100;
 	private static final int DARKWIZARD_MANA = 0;
-	private static final int DARKWIZARD_STRENGTH = 10;
-	private static final int DARKWIZARD_DEFENCE = 10;
-	private static final int DARKWIZARD_MOVEDISTANCE = 1;
-	private static final int DARKWIZARD_ATTACKDISTANCE = 1;
+	private static final int DARKWIZARD_STRENGTH = 8;
+	private static final int DARKWIZARD_DEFENCE = 2;
+	private static final int DARKWIZARD_MOVEDISTANCE = 3;
+	private static final int DARKWIZARD_ATTACKDISTANCE = 3;
 	private static final String DARKWIZARD_IMAGEPATH = "res/sprites/units/darkwizard.png";
 	private static final String DARKWIZARD_DESCRIPTION = "DARKWIZARD description";
+	private static final String DARKWIZARD_ATTACKSOUND = "res/sounds/magic_sound.wav";
 	private static final int DARKWIZARD_VALUE = 5;
 
 	public DarkWizard(Point initialPosition)
@@ -20,7 +21,7 @@ public class DarkWizard extends Enemy
 		super("Darkwizard", DARKWIZARD_DESCRIPTION, DARKWIZARD_HEALTH,
 				DARKWIZARD_MANA, DARKWIZARD_STRENGTH, DARKWIZARD_DEFENCE,
 				initialPosition, true, DARKWIZARD_MOVEDISTANCE,
-				DARKWIZARD_ATTACKDISTANCE, DARKWIZARD_IMAGEPATH, DARKWIZARD_VALUE);
+				DARKWIZARD_ATTACKDISTANCE, DARKWIZARD_IMAGEPATH, DARKWIZARD_VALUE, DARKWIZARD_ATTACKSOUND);
 	}
 	
 	public static String getUnitDescription()

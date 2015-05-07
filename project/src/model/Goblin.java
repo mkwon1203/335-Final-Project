@@ -3,20 +3,21 @@ package model;
 import java.awt.Point;
 
 public class Goblin extends Enemy {
-	private static final int GOBLIN_HEALTH = 25;
+	private static final int GOBLIN_HEALTH = 50;
 	private static final int GOBLIN_MANA = 0;
 	private static final int GOBLIN_STRENGTH = 7;
-	private static final int GOBLIN_DEFENCE = 5;
-	private static final int GOBLIN_MOVEDISTANCE = 1;
+	private static final int GOBLIN_DEFENCE = 6;
+	private static final int GOBLIN_MOVEDISTANCE = 2;
 	private static final int GOBLIN_ATTACKDISTANCE = 1;
 	private static final String GOBLIN_IMAGEPATH = "res/sprites/units/goblin.png";
 	private static final String GOBLIN_DESCRIPTION = "GOBLIN description";
+	private static final String GOBLIN_ATTACKSOUND = "res/sounds/sword_sound.wav";
 	private static final int GOBLIN_VALUE = 5;
 
 	public Goblin(Point initialPosition) {
 		super("Goblin", GOBLIN_DESCRIPTION, GOBLIN_HEALTH, GOBLIN_MANA,
 				GOBLIN_STRENGTH, GOBLIN_DEFENCE, initialPosition, true,
-				GOBLIN_MOVEDISTANCE, GOBLIN_ATTACKDISTANCE, GOBLIN_IMAGEPATH, GOBLIN_VALUE);
+				GOBLIN_MOVEDISTANCE, GOBLIN_ATTACKDISTANCE, GOBLIN_IMAGEPATH, GOBLIN_VALUE, GOBLIN_ATTACKSOUND);
 	}
 	
 	public static String getUnitDescription()

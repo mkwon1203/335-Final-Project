@@ -2,28 +2,25 @@ package model;
 
 import java.awt.Image;
 import java.awt.Point;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import controller.Client;
 
 public class Knight extends Character {
 	private static final int KNIGHT_HEALTH = 100;
 	private static final int KNIGHT_MANA = 0;
-	private static final int KNIGHT_STRENGTH = 10;
+	private static final int KNIGHT_STRENGTH = 5;
 	private static final int KNIGHT_DEFENCE = 10;
 	private static final int KNIGHT_MOVEDISTANCE = 2;
 	private static final int KNIGHT_ATTACKDISTANCE = 1;
 	private static final String KNIGHT_IMAGEPATH = "res/sprites/units/knight.png";
 	private static final String KNIGHT_DESCRIPTION = "Knights are not very mobile, and their attacks are average, but they can survive more attacks than anyone else.";
-
+	private static final String KNIGHT_ATTACKSOUND = "res/sounds/sword_sound.wav";
+	
 	public Knight(Point initialPosition) {
 
 		super("Knight", KNIGHT_DESCRIPTION, KNIGHT_HEALTH, KNIGHT_MANA,
 				KNIGHT_STRENGTH, KNIGHT_DEFENCE, initialPosition, true,
-				KNIGHT_MOVEDISTANCE, KNIGHT_ATTACKDISTANCE, KNIGHT_IMAGEPATH);
+				KNIGHT_MOVEDISTANCE, KNIGHT_ATTACKDISTANCE, KNIGHT_IMAGEPATH, KNIGHT_ATTACKSOUND);
 	}
 	
 	public static String getUnitDescription()

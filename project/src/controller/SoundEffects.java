@@ -25,7 +25,7 @@ public class SoundEffects {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFileName));
 			clips.add(AudioSystem.getClip());
 			clipNames.add(soundFileName);
-         
+			
 			Clip currClip = clips.get(clips.size() - 1);
          
 			currClip.open(audioInputStream);

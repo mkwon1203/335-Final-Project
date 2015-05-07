@@ -1,24 +1,24 @@
 package model;
 
-import java.awt.Image;
 import java.awt.Point;
 
 public class Rat extends Enemy {
 
-	private static final int RAT_HEALTH = 100;
+	private static final int RAT_HEALTH = 25;
 	private static final int RAT_MANA = -1;
-	private static final int RAT_STRENGTH = 10;
-	private static final int RAT_DEFENCE = 10;
-	private static final int RAT_MOVEDISTANCE = 1;
+	private static final int RAT_STRENGTH = 5;
+	private static final int RAT_DEFENCE = 3;
+	private static final int RAT_MOVEDISTANCE = 4;
 	private static final int RAT_ATTACKDISTANCE = 1;
 	private static final String RAT_IMAGEPATH = "res/sprites/units/rat.png";
 	private static final String RAT_DESCRIPTION = "RAT description";
+	private static final String RAT_ATTACKSOUND = "res/sounds/sword_sound.wav";
 	private static final int RAT_VALUE = 5;
 
 	public Rat(Point initialPosition) {
 		super("Rat", RAT_DESCRIPTION, RAT_HEALTH, RAT_MANA, RAT_STRENGTH,
 				RAT_DEFENCE, initialPosition, true, RAT_MOVEDISTANCE,
-				RAT_ATTACKDISTANCE, RAT_IMAGEPATH, RAT_VALUE);
+				RAT_ATTACKDISTANCE, RAT_IMAGEPATH, RAT_VALUE, RAT_ATTACKSOUND);
 	}
 	
 	public static String getUnitDescription()

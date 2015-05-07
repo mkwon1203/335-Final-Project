@@ -2,10 +2,6 @@ package model;
 
 import java.awt.Image;
 import java.awt.Point;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import controller.Client;
 
@@ -28,11 +24,12 @@ public abstract class CharacterInterface
 	private String textureFilePath;
 	private boolean animated;
 	private Point screenCoordinate;
+	private String attackSoundPath;
 
 	public CharacterInterface(String type, String description, int health,
 			int mana, int strength, int defence, Point location,
 			boolean isAlive, int moveDistance, int attackDistance,
-			String texture)
+			String texture, String attackSoundPath)
 	{
 		this.type = type;
 		this.description = description;
@@ -45,6 +42,7 @@ public abstract class CharacterInterface
 		this.moveDistance = moveDistance;
 		this.attackDistance = attackDistance;
 		this.textureFilePath = texture;
+		this.attackSoundPath = attackSoundPath;
 		try{
 			Image[][] priestSprites = model.LoadSprites.loadSpriteSheet(texture, 4, 3, Client.BLOCKSIZE);
 			this.texture = priestSprites[0][1];
@@ -55,6 +53,10 @@ public abstract class CharacterInterface
 		}
 		// hard coded for now, might change to be included as parameter
 		available = true;
+	}
+	
+	public String getAttackSoundPath(){
+		return attackSoundPath;
 	}
 	
 	public String getType()

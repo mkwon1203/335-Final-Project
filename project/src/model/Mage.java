@@ -2,29 +2,26 @@ package model;
 
 import java.awt.Image;
 import java.awt.Point;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import controller.Client;
 
 public class Mage extends Character {
 
-	private static final int MAGE_HEALTH = 100;
-	private static final int MAGE_MANA = 0;
+	private static final int MAGE_HEALTH = 30;
+	private static final int MAGE_MANA = 100;
 	private static final int MAGE_STRENGTH = 10;
-	private static final int MAGE_DEFENCE = 10;
-	private static final int MAGE_MOVEDISTANCE = 1;
-	private static final int MAGE_ATTACKDISTANCE = 1;
+	private static final int MAGE_DEFENCE = 3;
+	private static final int MAGE_MOVEDISTANCE = 3;
+	private static final int MAGE_ATTACKDISTANCE = 3;
 	private static final String MAGE_IMAGEPATH = "res/sprites/units/mage.png";
 	private static final String MAGE_DESCRIPTION = "A Mage's attack will make the enemy tremble in fear, but if a Mage were to be cought in close quarters; they could be in danger.";
-
+	private static final String MAGE_ATTACKSOUND = "res/sounds/magic_sound.wav";
+	
 	public Mage(Point initialPosition) {
 
 		super("Mage", MAGE_DESCRIPTION, MAGE_HEALTH, MAGE_MANA, MAGE_STRENGTH,
 				MAGE_DEFENCE, initialPosition, true, MAGE_MOVEDISTANCE,
-				MAGE_ATTACKDISTANCE, MAGE_IMAGEPATH);
+				MAGE_ATTACKDISTANCE, MAGE_IMAGEPATH, MAGE_ATTACKSOUND);
 	}
 	
 	public static String getUnitDescription()
@@ -164,8 +161,8 @@ public class Mage extends Character {
 	
 	public boolean useMagic(CharacterInterface target)
 	{
-		int magicCost = -10;
-		int magicEffect = -50;
+		int magicCost = -33;
+		int magicEffect = -15;
 		
 		if (getMana() < magicCost)
 			return false;

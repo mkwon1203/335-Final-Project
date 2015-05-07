@@ -14,10 +14,11 @@ import javax.swing.event.MouseInputAdapter;
 
 import java.util.List;
 
+import controller.Camera;
 import controller.Client;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class Level extends JPanel
 {
@@ -85,6 +86,9 @@ public class Level extends JPanel
 		screen = createVolatileImage(gamePanel.getWidth(), gamePanel.getHeight());
 		Graphics2D g = (Graphics2D)screen.getGraphics();
 		
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
+		
 		if(game != null){
 			
 			Block[][] level = game.getMap().getLevel();
@@ -92,7 +96,7 @@ public class Level extends JPanel
 			//Draws the map itself
 			for(int y = 0; y < game.getMap().getLevelRow(); y++){
 				for(int x = 0; x < game.getMap().getLevelCol(); x++){
-					g.drawImage(level[y][x].getTexture(), x * Client.BLOCKSIZE, y * Client.BLOCKSIZE, null);
+					g.drawImage(level[y][x].getTexture(), x * Client.BLOCKSIZE + Camera.CAMERAPOSITION.x, y * Client.BLOCKSIZE + Camera.CAMERAPOSITION.y, null);
 				}
 			}
 			
@@ -103,17 +107,17 @@ public class Level extends JPanel
 			List<Character> playerCharacters = game.getPlayer().getCharacters();
 			for(Character c : playerCharacters){
 				g.setColor(Color.RED);
-				g.fillRect(c.getScreenCoordinate().x + 1, c.getScreenCoordinate().y - 10, 30, 5);
+				g.fillRect(c.getScreenCoordinate().x + 1 + Camera.CAMERAPOSITION.x, c.getScreenCoordinate().y - 10 + Camera.CAMERAPOSITION.y, 30, 5);
 				g.setColor(Color.GREEN);
-				g.fillRect(c.getScreenCoordinate().x + 1, c.getScreenCoordinate().y - 10, (int)(c.getPercentHealth() * 30), 5);
+				g.fillRect(c.getScreenCoordinate().x + 1 + Camera.CAMERAPOSITION.x, c.getScreenCoordinate().y - 10 + Camera.CAMERAPOSITION.y, (int)(c.getPercentHealth() * 30), 5);
 			}
 			
 			List<Enemy> aiCharacters = game.getAI().getEnemies();
 			for(Enemy c : aiCharacters){
 				g.setColor(Color.RED);
-				g.fillRect(c.getScreenCoordinate().x + 1, c.getScreenCoordinate().y - 10, 30, 5);
+				g.fillRect(c.getScreenCoordinate().x + 1 + Camera.CAMERAPOSITION.x, c.getScreenCoordinate().y - 10 + Camera.CAMERAPOSITION.y, 30, 5);
 				g.setColor(Color.GREEN);
-				g.fillRect(c.getScreenCoordinate().x + 1, c.getScreenCoordinate().y - 10, (int)(c.getPercentHealth() * 30), 5);
+				g.fillRect(c.getScreenCoordinate().x + 1 + Camera.CAMERAPOSITION.x, c.getScreenCoordinate().y - 10 + Camera.CAMERAPOSITION.y, (int)(c.getPercentHealth() * 30), 5);
 			}
 			
 			
@@ -124,14 +128,14 @@ public class Level extends JPanel
 					for(Point p : movableTiles){
 						if(!game.getSelectedCharacter().getLocation().equals(p)){
 							g.setColor(Color.GREEN);
-							g.drawRect(p.y * Client.BLOCKSIZE, p.x * Client.BLOCKSIZE, Client.BLOCKSIZE, Client.BLOCKSIZE);
+							g.drawRect(p.y * Client.BLOCKSIZE + Camera.CAMERAPOSITION.x, p.x * Client.BLOCKSIZE + Camera.CAMERAPOSITION.y, Client.BLOCKSIZE, Client.BLOCKSIZE);
 						}
 					}
 					
 					List<CharacterInterface> attackableCharacters = game.attackableCharacterList(game.getSelectedCharacter());
 					for(CharacterInterface c : attackableCharacters){
 						g.setColor(Color.RED);
-						g.drawRect(c.getLocation().y * Client.BLOCKSIZE, c.getLocation().x * Client.BLOCKSIZE, Client.BLOCKSIZE, Client.BLOCKSIZE);
+						g.drawRect(c.getLocation().y * Client.BLOCKSIZE + Camera.CAMERAPOSITION.x, c.getLocation().x * Client.BLOCKSIZE + Camera.CAMERAPOSITION.y, Client.BLOCKSIZE, Client.BLOCKSIZE);
 					}
 				}
 			}
@@ -149,17 +153,17 @@ public class Level extends JPanel
 		aiUnits = game.getAI().getEnemies();
 		for(Character c : playerUnits){
 			if(!c.isAnimated()){
-				g.drawImage(c.getTexture(), c.getLocation().y * Client.BLOCKSIZE, c.getLocation().x * Client.BLOCKSIZE, null);
+				g.drawImage(c.getTexture(), c.getLocation().y * Client.BLOCKSIZE + Camera.CAMERAPOSITION.x, c.getLocation().x * Client.BLOCKSIZE + Camera.CAMERAPOSITION.y, null);
 			}else if(c.isAnimated()){
-				g.drawImage(c.getTexture(), c.getScreenCoordinate().x, c.getScreenCoordinate().y, null);
+				g.drawImage(c.getTexture(), c.getScreenCoordinate().x + Camera.CAMERAPOSITION.x, c.getScreenCoordinate().y + Camera.CAMERAPOSITION.y, null);
 			}
 		}
 		
 		for(Enemy e : aiUnits){
 			if(!e.isAnimated()){
-				g.drawImage(e.getTexture(), e.getLocation().y * Client.BLOCKSIZE, e.getLocation().x * Client.BLOCKSIZE, null);
+				g.drawImage(e.getTexture(), e.getLocation().y * Client.BLOCKSIZE + Camera.CAMERAPOSITION.x, e.getLocation().x * Client.BLOCKSIZE + Camera.CAMERAPOSITION.y, null);
 			}else if(e.isAnimated()){
-				g.drawImage(e.getTexture(), e.getScreenCoordinate().x, e.getScreenCoordinate().y, null);
+				g.drawImage(e.getTexture(), e.getScreenCoordinate().x + Camera.CAMERAPOSITION.x, e.getScreenCoordinate().y + Camera.CAMERAPOSITION.y, null);
 			}
 		}
 		
@@ -181,7 +185,8 @@ public class Level extends JPanel
 			case 1:
 				if(Client.GAMESTATE == 1){
 					
-					clickLocation = new Point((int)(e.getY() / Client.BLOCKSIZE), (int)(e.getX() / Client.BLOCKSIZE));
+					clickLocation = new Point((int)((e.getY() - Camera.CAMERAPOSITION.y) / Client.BLOCKSIZE), (int)((e.getX() - Camera.CAMERAPOSITION.x) / Client.BLOCKSIZE));
+					System.out.println("Click location: " + clickLocation);
 					Block b = game.getMap().getBlock(clickLocation);
 					
 					if(game.isPlayersTurn()){
