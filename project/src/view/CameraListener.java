@@ -41,6 +41,10 @@ public class CameraListener implements KeyListener{
 					Camera.getCamera().updateCameraPosition(SOUTH);
 //					System.out.println("Camera coordinates: " + Camera.CAMERAPOSITION);
 					break;
+					
+				case KeyEvent.VK_ESCAPE:
+					Client.GAMESTATE = 2;
+					break;
 				
 				}//End of switch statement.
 			}
