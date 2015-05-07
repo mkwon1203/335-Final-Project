@@ -32,13 +32,12 @@ import controller.Client;
 public class TitleScreenLevelPanel extends JPanel
 {
 	private Image background, mapPreviewImage;
-	private List<Image> mapPreviewImageList;
 	private Image backButtonImage, nextButtonImage;
 	private JButton backButton, nextButton;
-	private JLabel mapPreviewLabel, levelsLabel;
+	private JLabel mapPreviewLabel, levelsLabel, scenarioLabel;
 	private JTextArea mapDescription;
-	private JList<String> mapList;
-	private DefaultListModel<String> mapListModel;
+	private JList<String> mapList, scenarioList;
+	private DefaultListModel<String> mapListModel, scenarioListModel;
 	private MenuListener listener;
 	private ListListener listListener;
 	private TitleScreen title;
@@ -46,6 +45,8 @@ public class TitleScreenLevelPanel extends JPanel
 	private Image preview;
 
 	private String SELECTED;
+	
+	public static int selectedScenario;
 
 	public TitleScreenLevelPanel()
 	{
@@ -105,6 +106,11 @@ public class TitleScreenLevelPanel extends JPanel
 				mapListModel.addElement(fileName);
 			}
 		}
+		
+		scenarioListModel = new DefaultListModel<String>();
+		scenarioListModel.addElement("Normal scenario");
+		scenarioListModel.addElement("Melee only scenario");
+		scenarioListModel.addElement("Ranged only scenario");
 	}
 
 	private void loadButton()
@@ -157,7 +163,6 @@ public class TitleScreenLevelPanel extends JPanel
 
 	private void loadLabel()
 	{
-		mapPreviewImageList = new ArrayList<Image>();
 
 		try
 		{
@@ -184,6 +189,8 @@ public class TitleScreenLevelPanel extends JPanel
 		labelFont = labelFont.deriveFont(24f);
 		levelsLabel = new JLabel("Levels");
 		levelsLabel.setFont(labelFont);
+		scenarioLabel = new JLabel("Scenarios");
+		scenarioLabel.setFont(labelFont);
 
 		// TODO: change defeault description here
 		mapDescription = new JTextArea("DEFAULT DESCRIPTION LABEL");
@@ -198,11 +205,13 @@ public class TitleScreenLevelPanel extends JPanel
 	private void addLabel()
 	{
 		this.add(levelsLabel);
+		this.add(scenarioLabel);
 		this.add(mapPreviewLabel);
 		this.add(mapDescription);
 
 		// TODO; correct the bounds
 		levelsLabel.setBounds(120, 27, 100, 20);
+		scenarioLabel.setBounds(100,350, 140, 20);
 		mapPreviewLabel.setBounds(490, 50, 256, 256);
 		mapDescription.setBounds(518, 390, 210, 80);
 	}
@@ -219,14 +228,27 @@ public class TitleScreenLevelPanel extends JPanel
 		mapList.setForeground(Color.WHITE);
 		mapList.setSelectionBackground(Color.DARK_GRAY);
 		mapList.setSelectionForeground(Color.CYAN);
+		
+		scenarioList = new JList<String>(scenarioListModel);
+		scenarioList.setVisibleRowCount(3);
+		scenarioList.setFont(UIManager.getFont("List.font").deriveFont(16f));
+		scenarioList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scenarioList.setOpaque(false);
+		scenarioList.setBackground(Color.DARK_GRAY);
+		scenarioList.setForeground(Color.WHITE);
+		scenarioList.setSelectionBackground(Color.DARK_GRAY);
+		scenarioList.setSelectionForeground(Color.CYAN);
 
 		mapList.addListSelectionListener(listListener);
+		scenarioList.addListSelectionListener(listListener);
 	}
 
 	private void addList()
 	{
 		this.add(mapList);
-		mapList.setBounds(60, 50, 200, 400);
+		this.add(scenarioList);
+		mapList.setBounds(60, 50, 200, 200);
+		scenarioList.setBounds(60, 380, 200, 100);
 	}
 
 	private synchronized void changeLevelDescription(String fileName)
@@ -325,12 +347,19 @@ public class TitleScreenLevelPanel extends JPanel
 				else if (button.getName() == "next")
 				{
 					// TODO: figure out what to do here
-					if (mapList.isSelectionEmpty())
+					if (mapList.isSelectionEmpty() || scenarioList.isSelectionEmpty())
 					{
 						// TODO: notify player that map must be selected to continue
 					}
 					else
 					{
+						if (scenarioList.getSelectedValue().equals("Normal scenario"))
+							selectedScenario = 1;
+						else if (scenarioList.getSelectedValue().equals("Melee only scenario"))
+							selectedScenario = 2;
+						else if (scenarioList.getSelectedValue().equals("Ranged only scenario"))
+							selectedScenario = 3;
+						
 						MainView.getMainView().getGame().initializeMap(mapList.getSelectedValue());
 						TitleScreen.TITLESTATE = 5;
 						title.draw();

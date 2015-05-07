@@ -52,7 +52,7 @@ public class TitleScreen extends JPanel
 			title = new TitleScreen(800, 612);
 		return title;
 	}
-	
+
 	public void resetGame()
 	{
 		level = null;
@@ -67,15 +67,14 @@ public class TitleScreen extends JPanel
 		if (TITLESTATE == 0)
 		{
 			// very start of title screen
-			if(!SoundEffects.containsSoundClip("res/music/8bitDungeonTitle.wav"))
+			if (!SoundEffects
+					.containsSoundClip("res/music/8bitDungeonTitle.wav"))
 				SoundEffects.addSound("res/music/8bitDungeonTitle.wav");
-			
-			if (main == null)
-			{
-				main = new TitleScreenMainPanel();
-				main.setBounds(0, 0, main.getPreferredSize().width,
-						main.getPreferredSize().height);
-			}
+
+			main = new TitleScreenMainPanel();
+			main.setBounds(0, 0, main.getPreferredSize().width,
+					main.getPreferredSize().height);
+
 			this.add(main);
 			main.setVisible(true);
 			main.repaint();
@@ -83,12 +82,10 @@ public class TitleScreen extends JPanel
 		else if (TITLESTATE == 1)
 		{
 			// start button pressed from main title screen
-			if (start == null)
-			{
-				start = new TitleScreenStartPanel();
-				start.setBounds(0, 0, start.getPreferredSize().width,
-						start.getPreferredSize().height);
-			}
+			start = new TitleScreenStartPanel();
+			start.setBounds(0, 0, start.getPreferredSize().width,
+					start.getPreferredSize().height);
+
 			this.add(start);
 			start.setVisible(true);
 			start.repaint();
@@ -96,12 +93,10 @@ public class TitleScreen extends JPanel
 		else if (TITLESTATE == 2)
 		{
 			// store interface
-			if (shop == null)
-			{
-				shop = new TitleScreenShopPanel();
-				shop.setBounds(0, 0, shop.getPreferredSize().width,
-						shop.getPreferredSize().height);
-			}
+			shop = new TitleScreenShopPanel();
+			shop.setBounds(0, 0, shop.getPreferredSize().width,
+					shop.getPreferredSize().height);
+
 			this.add(shop);
 			shop.setVisible(true);
 			shop.repaint();
@@ -109,48 +104,41 @@ public class TitleScreen extends JPanel
 		else if (TITLESTATE == 3)
 		{
 			// about interface
-			if (about == null)
-			{
-				about = new TitleScreenAboutPanel();
-				about.setBounds(0, 0, about.getPreferredSize().width,
-						about.getPreferredSize().height);
-			}
+
+			about = new TitleScreenAboutPanel();
+			about.setBounds(0, 0, about.getPreferredSize().width,
+					about.getPreferredSize().height);
+
 			this.add(about);
 			about.setVisible(true);
 			about.repaint();
 		}
 		else if (TITLESTATE == 4)
 		{
-			if (level == null)
-			{
-				level = new TitleScreenLevelPanel();
-				level.setBounds(0, 0, level.getPreferredSize().width,
-						level.getPreferredSize().height);
-			}
+			level = new TitleScreenLevelPanel();
+			level.setBounds(0, 0, level.getPreferredSize().width,
+					level.getPreferredSize().height);
+
 			this.add(level);
 			level.setVisible(true);
 			level.repaint();
 		}
 		else if (TITLESTATE == 5)
 		{
-			if (unit == null)
-			{
-				unit = new TitleScreenUnitPanel();
-				unit.setBounds(0, 0, unit.getPreferredSize().width,
-						unit.getPreferredSize().height);
-			}
+			unit = new TitleScreenUnitPanel();
+			unit.setBounds(0, 0, unit.getPreferredSize().width,
+					unit.getPreferredSize().height);
+
 			this.add(unit);
 			unit.setVisible(true);
 			unit.repaint();
 		}
 		else if (TITLESTATE == 6)
 		{
-			if (gameOver == null)
-			{
-				gameOver = new TitleScreenGameOverPanel();
-				gameOver.setBounds(0, 0, gameOver.getPreferredSize().width,
-						gameOver.getPreferredSize().height);
-			}
+			gameOver = new TitleScreenGameOverPanel();
+			gameOver.setBounds(0, 0, gameOver.getPreferredSize().width,
+					gameOver.getPreferredSize().height);
+
 			this.add(gameOver);
 			gameOver.setVisible(true);
 			gameOver.repaint();

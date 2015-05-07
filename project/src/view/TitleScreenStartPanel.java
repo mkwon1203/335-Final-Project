@@ -141,7 +141,6 @@ public class TitleScreenStartPanel extends JPanel
 				if (button.getName() == "newGame")
 				{
 					TitleScreen.TITLESTATE = 4;
-					title.resetGame();
 					title.draw();
 				}
 

@@ -100,11 +100,25 @@ public class TitleScreenUnitPanel extends JPanel
 		teamListModel = new DefaultListModel<String>();
 		team = new ArrayList<Character>();
 
-		unitListModel.addElement("Archer");
-		unitListModel.addElement("Knight");
-		unitListModel.addElement("Mage");
-		unitListModel.addElement("Priest");
-		unitListModel.addElement("Spearman");
+		if (TitleScreenLevelPanel.selectedScenario == 1)
+		{
+			unitListModel.addElement("Archer");
+			unitListModel.addElement("Knight");
+			unitListModel.addElement("Mage");
+			unitListModel.addElement("Priest");
+			unitListModel.addElement("Spearman");
+		}
+		else if (TitleScreenLevelPanel.selectedScenario == 2)
+		{
+			unitListModel.addElement("Knight");
+			unitListModel.addElement("Spearman");
+		}
+		else if (TitleScreenLevelPanel.selectedScenario == 3)
+		{
+			unitListModel.addElement("Archer");
+			unitListModel.addElement("Mage");
+			unitListModel.addElement("Priest");
+		}
 	}
 
 	// This method is just to load in the images for the title screen's buttons
