@@ -3,6 +3,7 @@ package view;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import controller.SoundEffects;
 import model.Block;
 import model.CharacterInterface;
 import model.Game;
@@ -449,6 +450,7 @@ public class LevelStatPanel extends JPanel
 							if (game.attack(game.getSelectedCharacter(), c))
 							{
 								System.out.println("attack successful!");
+								SoundEffects.addSound(game.getSelectedCharacter().getAttackSoundPath());
 								// TODO: maybe uncomment these
 								attackSelected = false;
 								draw();
@@ -473,6 +475,10 @@ public class LevelStatPanel extends JPanel
 										c))
 								{
 									System.out.println("magic successful");
+									if(game.getSelectedCharacter() instanceof Priest){
+										Priest p = (Priest)game.getSelectedCharacter();
+										SoundEffects.addSound(p.getSkillSoundPath());
+									}
 									// TODO: maybe uncomment these
 									attackSelected = false;
 									draw();
