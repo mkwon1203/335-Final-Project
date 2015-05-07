@@ -120,6 +120,8 @@ public class LevelStatPanel extends JPanel
 	private void updateInventory()
 	{
 		itemList.removeAllElements();
+		
+		itemList.addElement("Gold: " + game.getPlayer().getMoney());
 
 		for (Item i : game.getPlayer().getInventory().getItems())
 		{
@@ -420,11 +422,11 @@ public class LevelStatPanel extends JPanel
 				else if (button.getName() == "useItem")
 				{
 					if (!inventoryList.isSelectionEmpty()
-							&& game.isCharacterSelected())
+							&& game.isCharacterSelected() && inventoryList.getSelectedIndex() != 0)
 					{
 						int i = inventoryList.getSelectedIndex();
 						Item toUse = game.getPlayer().getInventory().getItems()
-								.get(i);
+								.get(i - 1);
 
 						game.useItem(game.getSelectedCharacter(), toUse);
 						updateInventory();
