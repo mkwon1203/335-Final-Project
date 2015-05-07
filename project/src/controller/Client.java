@@ -76,6 +76,7 @@ public class Client implements Runnable {
 				GAMESTATE = 0;
 				game.resetGame();
 				TitleScreen.TITLESTATE = 6;
+				TitleScreen.getTitleScreen().repaint();
 				draw();
 				System.out.println("Game Ended");
 			}
@@ -103,7 +104,7 @@ public class Client implements Runnable {
 		while(isRunning){
 			SoundEffects.update();
 			
-			if(GAMESTATE == 1){
+			if(GAMESTATE >= 1){
 				//System.out.println("Game Started");
 				update();
 				draw();

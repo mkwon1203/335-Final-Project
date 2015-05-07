@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -19,7 +20,7 @@ import javax.swing.JPanel;
 
 import controller.Client;
 
-public class PauseMenu extends JPanel{
+public class PauseMenu extends JPanel implements Serializable{
 	private Image saveImage, resumeImage, quitImage;
 	private JButton saveButton, resumeButton, quitButton;
 	private ButtonListener buttonListener;
