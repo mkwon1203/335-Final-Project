@@ -2,29 +2,26 @@ package model;
 
 import java.awt.Image;
 import java.awt.Point;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import controller.Client;
 
 public class Spearman extends Character {
 
-	private static final int SPEARMAN_HEALTH = 100;
+	private static final int SPEARMAN_HEALTH = 75;
 	private static final int SPEARMAN_MANA = 0;
-	private static final int SPEARMAN_STRENGTH = 10;
-	private static final int SPEARMAN_DEFENCE = 10;
-	private static final int SPEARMAN_MOVEDISTANCE = 1;
-	private static final int SPEARMAN_ATTACKDISTANCE = 1;
+	private static final int SPEARMAN_STRENGTH = 8;
+	private static final int SPEARMAN_DEFENCE = 7;
+	private static final int SPEARMAN_MOVEDISTANCE = 2;
+	private static final int SPEARMAN_ATTACKDISTANCE = 2;
 	private static final String SPEARMAN_IMAGEPATH = "res/sprites/units/spearman.png";
 	private static final String SPEARMAN_DESCRIPTION = "Spearman sacrifice defence to allow more mobility and attack power, because of their spear they can also attack from a short distance away.";
-
+	private static final String SPEARMAN_ATTACKSOUND = "res/sounds/sword_sound.wav";
+	
 	public Spearman(Point initialPosition) {
 		super("Spearman", SPEARMAN_DESCRIPTION, SPEARMAN_HEALTH,
 				SPEARMAN_MANA, SPEARMAN_STRENGTH, SPEARMAN_DEFENCE,
 				initialPosition, true, SPEARMAN_MOVEDISTANCE,
-				SPEARMAN_ATTACKDISTANCE, SPEARMAN_IMAGEPATH);
+				SPEARMAN_ATTACKDISTANCE, SPEARMAN_IMAGEPATH, SPEARMAN_ATTACKSOUND);
 	}
 	
 	public static String getUnitDescription()

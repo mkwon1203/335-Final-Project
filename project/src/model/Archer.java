@@ -2,30 +2,27 @@ package model;
 
 import java.awt.Image;
 import java.awt.Point;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import controller.Client;
 
 public class Archer extends Character
 {
 
-	private static final int ARCHER_HEALTH = 100;
+	private static final int ARCHER_HEALTH = 50;
 	private static final int ARCHER_MANA = 0;
-	private static final int ARCHER_STRENGTH = 10;
-	private static final int ARCHER_DEFENCE = 10;
-	private static final int ARCHER_MOVEDISTANCE = 1;
-	private static final int ARCHER_ATTACKDISTANCE = 1;
+	private static final int ARCHER_STRENGTH = 7;
+	private static final int ARCHER_DEFENCE = 5;
+	private static final int ARCHER_MOVEDISTANCE = 3;
+	private static final int ARCHER_ATTACKDISTANCE = 3;
 	private static final String ARCHER_IMAGEPATH = "res/sprites/units/archer.png";
 	private static final String ARCHER_DESCRIPTION = "With medium defence, Archers are nimble and can attack their targets from a distance;";
-
+	private static final String ARCHER_ATTACKSOUND = "res/sounds/bow_fire_sound.wav";
+	
 	public Archer(Point initialPosition)
 	{
 		super("Archer", ARCHER_DESCRIPTION, ARCHER_HEALTH, ARCHER_MANA,
 				ARCHER_STRENGTH, ARCHER_DEFENCE, initialPosition, true,
-				ARCHER_MOVEDISTANCE, ARCHER_ATTACKDISTANCE, ARCHER_IMAGEPATH);
+				ARCHER_MOVEDISTANCE, ARCHER_ATTACKDISTANCE, ARCHER_IMAGEPATH, ARCHER_ATTACKSOUND);
 	}
 	
 	public static String getUnitDescription()

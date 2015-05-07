@@ -1,13 +1,14 @@
 
 package view;
 
+import controller.Camera;
 import controller.Client;
 import controller.SoundEffects;
 import model.Character;
-import model.Knight;
 import model.Game;
 import model.Player;
 
+import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -22,6 +23,7 @@ public class MainView extends JFrame implements Observer{
 	private Game game;
 	private Player player;
 	public static MainView mainview;
+	private Camera camera;
 	
 	//temporary variables
 	private List<Character> playerCharacters;
@@ -95,6 +97,14 @@ public class MainView extends JFrame implements Observer{
 				addLevelToFrame();
 				level.drawMap();
 				level.getStatPanel().draw();
+				level.addKeyListener(new CameraListener());
+				level.setFocusable(true);
+				level.requestFocusInWindow();
+				
+				if(camera == null)
+					camera = Camera.getCamera();
+				camera.setCameraPosition(new Point(0,0));
+				
 				if(SoundEffects.containsSoundClip("res/music/8bitDungeonTitle.wav"))
 					SoundEffects.removeSoundClip("res/music/8bitDungeonTitle.wav");
 				SoundEffects.addSound("res/music/8bitDungeon.wav");
@@ -134,5 +144,6 @@ public class MainView extends JFrame implements Observer{
 		if(Client.GAMESTATE == 1)
 			level.getStatPanel().draw();
 	}
+	
 	
 }
