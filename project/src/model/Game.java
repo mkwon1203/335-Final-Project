@@ -436,7 +436,7 @@ public class Game extends Observable
 		return toReturn;
 	}
 
-	public boolean useMagic(CharacterInterface ch, Point p)
+	public boolean useMagic(CharacterInterface ch, Point p) throws InvalidLocationException
 	{
 		if (!ch.isAlive() || !(ch instanceof Knight)
 				|| !useMagicAdjacentBlock(ch).contains(p))

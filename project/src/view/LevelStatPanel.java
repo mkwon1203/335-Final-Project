@@ -7,6 +7,7 @@ import model.Block;
 import model.CharacterInterface;
 import model.Game;
 import model.HealthPotion;
+import model.InvalidLocationException;
 import model.Item;
 import model.Knight;
 import model.Mage;
@@ -486,12 +487,20 @@ public class LevelStatPanel extends JPanel
 											.getSelectedCharacter());
 							for (Point p : adjacentBlocks)
 							{
-								if (game.useMagic(game.getSelectedCharacter(), p))
+								try
 								{
-									System.out.println("knight magic scuccessful");
-									attackSelected = false;
-									draw();
-									break;
+									if (game.useMagic(
+											game.getSelectedCharacter(), p))
+									{
+										System.out
+												.println("knight magic scuccessful");
+										attackSelected = false;
+										draw();
+										break;
+									}
+								}
+								catch (InvalidLocationException ex)
+								{
 								}
 							}
 						}
