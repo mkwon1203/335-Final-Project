@@ -4,7 +4,6 @@ package view;
 import controller.Camera;
 import controller.Client;
 
-import java.awt.*;
 import java.awt.event.*;
 
 public class CameraListener implements KeyListener{

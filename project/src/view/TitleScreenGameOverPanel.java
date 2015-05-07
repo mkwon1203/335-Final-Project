@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Game;
 import controller.SoundEffects;
 
 public class TitleScreenGameOverPanel extends JPanel
@@ -100,15 +101,36 @@ public class TitleScreenGameOverPanel extends JPanel
 	{
 		// TODO: fill out the label
 		aboutLabel = new JLabel();
-		aboutLabel.setText("GAME OVER");
-		aboutLabel.setForeground(Color.BLACK);
+		aboutLabel.setForeground(Color.WHITE);
+		String reason = "Game Over";
+		switch(Game.GAMEOVER){
+		
+		case 1:
+			reason = "Victory!\nWon by Conquest!";
+			break;
+			
+		case 2:
+			reason = "Defeat!\nYou're team was defeated by the enemy!";
+			break;
+			
+		case 3:
+			reason = "Victory!\nTime ended, and your'e team is the strongest!";
+			break;
+			
+		case 4:
+			reason = "Defeat!\nTime ended, end the enemy has a stronger team than you!";
+			break;
+		}
+		
+		aboutLabel.setText(reason);
+		addLabel();
 	}
 	
 	private void addLabel()
 	{
-		this.add(aboutLabel);
+		add(aboutLabel);
 		
-		aboutLabel.setBounds(0,-100, 300,300);
+		aboutLabel.setBounds(375,275, 300,300);
 	}
 	
 	public void paintComponent(Graphics g)

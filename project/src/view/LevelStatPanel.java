@@ -4,10 +4,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import controller.SoundEffects;
-import model.Block;
 import model.CharacterInterface;
 import model.Game;
-import model.HealthPotion;
 import model.InvalidLocationException;
 import model.Item;
 import model.Knight;
