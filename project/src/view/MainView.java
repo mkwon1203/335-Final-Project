@@ -24,6 +24,7 @@ public class MainView extends JFrame implements Observer{
 	private Player player;
 	public static MainView mainview;
 	private Camera camera;
+	private PauseMenu pause;
 	
 	//temporary variables
 	private List<Character> playerCharacters;
@@ -84,6 +85,15 @@ public class MainView extends JFrame implements Observer{
 		pack();
 	}
 	
+	public void addPauseMenuToFrame()
+	{
+		if (pause == null)
+			pause = new PauseMenu();
+		
+		add(pause);
+		pack();
+	}
+	
 	public void update(){
 		
 		if(Client.GAMESTATE < 1){
@@ -118,6 +128,11 @@ public class MainView extends JFrame implements Observer{
 				SoundEffects.addSound("res/music/8bitDungeon.wav");
 			
 		}
+		else if (Client.GAMESTATE == 2)
+		{
+			if (pause == null)
+				addPauseMenuToFrame();
+		}
 		
 	}
 	
@@ -136,6 +151,14 @@ public class MainView extends JFrame implements Observer{
 			level.requestFocusInWindow();
 			//level.getStatPanel().draw();
 			
+		}
+		else if (Client.GAMESTATE == 2)
+		{
+			if (level != null && level.isDisplayable())
+				remove(level);
+			pause.repaint();
+			add(pause);
+			pack();
 		}
 		
 	}

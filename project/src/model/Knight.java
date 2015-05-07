@@ -8,7 +8,7 @@ import controller.Client;
 public class Knight extends Character {
 	private static final int KNIGHT_HEALTH = 100;
 	private static final int KNIGHT_MANA = 100;
-	private static final int KNIGHT_STRENGTH = 5;
+	private static final int KNIGHT_STRENGTH = 100;
 	private static final int KNIGHT_DEFENCE = 10;
 	private static final int KNIGHT_MOVEDISTANCE = 2;
 	private static final int KNIGHT_ATTACKDISTANCE = 1;

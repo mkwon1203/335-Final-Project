@@ -621,7 +621,7 @@ public class Game extends Observable implements Serializable
 		boolean timeoutPlayerWin = false;
 		boolean timeoutEnemyWin = false;
 
-		if (turnCounter > 2)
+		if (turnCounter > 10)
 		{
 			// determine cumulative health of player units
 			int playerHealth = 0;

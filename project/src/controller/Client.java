@@ -14,6 +14,9 @@ public class Client implements Runnable {
 	public static final int BLOCKSIZE = 32;
 	
 	public static int GAMESTATE = 0;
+	// 0 = title screen
+	// 1 = game is running
+	// 2 = game is paused
 	
 	private boolean isRunning = false;
 	
@@ -64,8 +67,6 @@ public class Client implements Runnable {
 			if(game == null)
 				game = mainFrame.getGame();
 			
-			
-			
 			if(game.isTurnOver())
 				game.advanceTurn();
 			
@@ -79,6 +80,10 @@ public class Client implements Runnable {
 				System.out.println("Game Ended");
 			}
 			
+		}
+		else if (GAMESTATE == 2)
+		{
+			// pause menu
 		}
 		
 	}
@@ -98,7 +103,7 @@ public class Client implements Runnable {
 		while(isRunning){
 			SoundEffects.update();
 			
-			if(GAMESTATE > 0){
+			if(GAMESTATE == 1){
 				//System.out.println("Game Started");
 				update();
 				draw();

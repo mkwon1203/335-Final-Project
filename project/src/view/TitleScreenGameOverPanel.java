@@ -53,7 +53,7 @@ public class TitleScreenGameOverPanel extends JPanel
 		try
 		{
 			background = ImageIO.read(new File(
-					"res/titleScreen/titleBackground.png"));
+					"res/titleScreen/titleBackground2.png"));
 			// backgroundLabel = new JLabel(new ImageIcon(titlePic));
 		}
 		catch (IOException e)
