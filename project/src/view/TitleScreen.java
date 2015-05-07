@@ -52,6 +52,12 @@ public class TitleScreen extends JPanel
 			title = new TitleScreen(800, 612);
 		return title;
 	}
+	
+	public void resetGame()
+	{
+		level = null;
+		unit = null;
+	}
 
 	public void draw()
 	{
