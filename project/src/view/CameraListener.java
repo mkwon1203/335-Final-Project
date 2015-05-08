@@ -22,22 +22,22 @@ public class CameraListener implements KeyListener{
 				switch(key){
 				
 				case KeyEvent.VK_RIGHT:
-					Camera.getCamera().updateCameraPosition(EAST);
-//					System.out.println("Camera coordinates: " + Camera.CAMERAPOSITION);
-					break;
-					
-				case KeyEvent.VK_LEFT:
 					Camera.getCamera().updateCameraPosition(WEST);
 //					System.out.println("Camera coordinates: " + Camera.CAMERAPOSITION);
 					break;
 					
+				case KeyEvent.VK_LEFT:
+					Camera.getCamera().updateCameraPosition(EAST);
+//					System.out.println("Camera coordinates: " + Camera.CAMERAPOSITION);
+					break;
+					
 				case KeyEvent.VK_UP:
-					Camera.getCamera().updateCameraPosition(NORTH);
+					Camera.getCamera().updateCameraPosition(SOUTH);
 //					System.out.println("Camera coordinates: " + Camera.CAMERAPOSITION);
 					break;
 					
 				case KeyEvent.VK_DOWN:
-					Camera.getCamera().updateCameraPosition(SOUTH);
+					Camera.getCamera().updateCameraPosition(NORTH);
 //					System.out.println("Camera coordinates: " + Camera.CAMERAPOSITION);
 					break;
 					

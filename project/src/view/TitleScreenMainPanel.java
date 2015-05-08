@@ -20,8 +20,8 @@ public class TitleScreenMainPanel extends JPanel
 {
 	private Image background;
 	private Image startButtonImage, storeButtonImage, aboutButtonImage,
-			exitButtonImage;
-	private JButton startButton, storeButton, aboutButton, exitButton;
+			exitButtonImage, editImage;
+	private JButton startButton, storeButton, aboutButton, exitButton, editorButton;
 	private MenuListener listener;
 
 	private TitleScreen title;
@@ -75,11 +75,14 @@ public class TitleScreenMainPanel extends JPanel
 					"res/titleScreen/store.png"));
 			aboutButtonImage = ImageIO.read(new File(
 					"res/titleScreen/about.png"));
+			editImage = ImageIO.read(new File(
+					"res/titleScreen/editor.png"));
 
 			startButton = new JButton(new ImageIcon(startButtonImage));
 			exitButton = new JButton(new ImageIcon(exitButtonImage));
 			storeButton = new JButton(new ImageIcon(storeButtonImage));
 			aboutButton = new JButton(new ImageIcon(aboutButtonImage));
+			editorButton = new JButton(new ImageIcon(editImage));
 
 			startButton.setOpaque(false);
 			startButton.setContentAreaFilled(false);
@@ -104,16 +107,24 @@ public class TitleScreenMainPanel extends JPanel
 			aboutButton.setBorderPainted(false);
 			aboutButton.setRolloverIcon(new ImageIcon(ImageIO.read(new File(
 					"res/titleScreen/about2.png"))));
+			
+			editorButton.setOpaque(false);
+			editorButton.setContentAreaFilled(false);
+			editorButton.setBorderPainted(false);
+			editorButton.setRolloverIcon(new ImageIcon(ImageIO.read(new File(
+					"res/titleScreen/editor2.png"))));
 
 			startButton.setName("start");
 			exitButton.setName("quit");
 			storeButton.setName("store");
 			aboutButton.setName("about");
+			editorButton.setName("editor");
 
 			startButton.addActionListener(listener);
 			exitButton.addActionListener(listener);
 			storeButton.addActionListener(listener);
 			aboutButton.addActionListener(listener);
+			editorButton.addActionListener(listener);
 		}
 		catch (IOException e)
 		{
@@ -127,14 +138,17 @@ public class TitleScreenMainPanel extends JPanel
 		this.add(exitButton);
 		this.add(storeButton);
 		this.add(aboutButton);
+		this.add(editorButton);
 
 		startButton.setBounds(500, 100, startButtonImage.getWidth(null),
 				startButtonImage.getHeight(null));
 		storeButton.setBounds(575, 175, storeButtonImage.getWidth(null),
 				storeButtonImage.getHeight(null));
-		aboutButton.setBounds(570, 250, aboutButtonImage.getWidth(null),
+		editorButton.setBounds(567, 250, editImage.getWidth(null),
+				editImage.getHeight(null));
+		aboutButton.setBounds(570, 325, aboutButtonImage.getWidth(null),
 				aboutButtonImage.getHeight(null));
-		exitButton.setBounds(580, 325, exitButtonImage.getWidth(null),
+		exitButton.setBounds(580, 400, exitButtonImage.getWidth(null),
 				exitButtonImage.getHeight(null));
 	}
 
@@ -175,6 +189,16 @@ public class TitleScreenMainPanel extends JPanel
 				{
 					TitleScreen.TITLESTATE = 3;
 					title.draw();
+				}
+				
+				else if (button.getName() == "editor")
+				{
+					 try {
+						Process process = Runtime.getRuntime().exec( "cmd.exe /C start 335Editor.exe" );
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		} // end of ActionPerformed

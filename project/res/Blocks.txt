@@ -1,0 +1,29 @@
+<NOTES>
+	
+	This is a very simple file that tells the program what kind of blocks are in the game.
+		If you wish to add a new block to the game, then simply give it a good name and
+		add it to the bottom of the list.
+
+	- IMPORTANT -
+
+	When you give the block a name, that name will be used in the program. So in the box
+		where you select the block you want to use, the name you gave your block will
+		be portrayed there.
+
+</NOTES>
+
+<BLOCKS>
+	
+	FLOOR
+
+	WALL
+
+</BLOCKS>
+
+<TEXTURES>
+
+	brickFloor.png
+	
+	wall.png
+
+</TEXTURES>
